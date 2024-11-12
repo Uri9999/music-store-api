@@ -2,54 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Services\AuthService;
+use App\Services\ApiResponseService;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    // Đăng ký người dùng mới
-    public function register(Request $request)
+    protected $authService;
+
+    public function __construct(AuthService $authService)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return response()->json(['user' => $user], 201);
+        $this->authService = $authService;
     }
 
-    // Đăng nhập người dùng
-    public function login(Request $request)
+    public function register(RegisterRequest $request): JsonResponse
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
+        $user = $this->authService->register($request->validated());
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+        return ApiResponseService::item($user, 'User registered successfully.', 201);
+    }
+
+    public function login(LoginRequest $request): JsonResponse
+    {
+        $token = $this->authService->login($request->validated());
+
+        if (!$token) {
+            return ApiResponseService::error('Invalid credentials', 401);
         }
 
-        $user = Auth::user();
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['token' => $token, 'user' => $user]);
+        return ApiResponseService::success(['token' => $token], 'User logged in successfully.');
     }
 
-    // Đăng xuất người dùng
-    public function logout(Request $request)
+    public function logout(): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete();
+        $this->authService->logout();
 
-        return response()->json(['message' => 'Logged out']);
+        return ApiResponseService::success(null, 'User logged out successfully.');
     }
 }
