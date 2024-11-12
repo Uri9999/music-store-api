@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\AuthServiceInterface;
 use App\Interfaces\AuthRepositoryInterface;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -31,7 +32,17 @@ class AuthService implements AuthServiceInterface
         }
 
         // Tạo token cho người dùng
-        return $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('auth_token');
+
+        // Lấy thời gian hết hạn từ cấu hình Sanctum
+        $expirationMinutes = (int) config('sanctum.expiration', 60);
+        $expiresAt = Carbon::now()->addMinutes($expirationMinutes);
+
+        return [
+            'token' => $token->plainTextToken,
+            'expires_at' => $expiresAt->toDateTimeString(),
+            'user' => $user,
+        ];
     }
 
     public function logout()

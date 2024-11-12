@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Services\AuthService;
+use App\Interfaces\AuthServiceInterface;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    protected $authService;
+    protected AuthServiceInterface $authService;
 
-    public function __construct(AuthService $authService)
+    public function __construct(AuthServiceInterface $authService)
     {
         $this->authService = $authService;
     }
@@ -27,13 +27,13 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
-        $token = $this->authService->login($request->validated());
+        $result = $this->authService->login($request->validated());
 
-        if (!$token) {
+        if (!$result) {
             return ApiResponseService::error('Invalid credentials', 401);
         }
 
-        return ApiResponseService::success(['token' => $token], 'User logged in successfully.');
+        return ApiResponseService::success($result, 'User logged in successfully.');
     }
 
     public function logout(): JsonResponse
