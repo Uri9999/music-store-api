@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Middleware\CheckRole;
 use App\Services\ApiResponseService;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,15 +18,19 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Đăng ký các middleware ở đây
+        $middleware->alias([
+            'role' => CheckRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Throwable $e) {
             switch (true) {
                 case $e instanceof ValidationException:
                     return ApiResponseService::error($e->getMessage(), 422, $e->errors());
-                case $e instanceof AuthorizationException:
+                case $e instanceof AuthenticationException:
                     return ApiResponseService::error($e->getMessage(), 401);
+                case $e instanceof AuthorizationException:
+                    return ApiResponseService::error($e->getMessage(), 403);
             }
         });
     })
