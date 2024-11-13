@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Tag;
+namespace App\Http\Requests\Tab;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TagRequest extends FormRequest
+class TabRequest extends FormRequest
 {
     public function authorize(): bool
     {

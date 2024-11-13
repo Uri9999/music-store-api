@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\TagController;
+use App\Http\Controllers\TabController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -17,9 +17,9 @@ Route::middleware('api')->group(function () {
     Route::put('categories/{category}', [CategoryController::class, 'update']);
     Route::delete('categories/{category}', [CategoryController::class, 'destroy']);
 
-    // Tag
-    Route::get('tags', [TagController::class, 'index']);
-    Route::get('tags/{id}', [TagController::class, 'show']);
+    // Tab
+    Route::get('tabs', [TabController::class, 'index']);
+    Route::get('tabs/{id}', [TabController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
@@ -28,8 +28,8 @@ Route::middleware('api')->group(function () {
 });
 Route::middleware(['auth:sanctum', 'role:Admin,Affiliate'])->group(function () {
 
-    // Tag
-    Route::post('tags', action: [TagController::class, 'store']);
-    Route::post('tags/{tag}', [TagController::class, 'update']);
-    Route::delete('tags/{tag}', [TagController::class, 'destroy']);
+    // Tab
+    Route::post('tabs', action: [TabController::class, 'store']);
+    Route::post('tabs/{tab}', [TabController::class, 'update']);
+    Route::delete('tabs/{tab}', [TabController::class, 'destroy']);
 });

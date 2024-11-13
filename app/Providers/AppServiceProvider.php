@@ -6,14 +6,14 @@ use App\Interfaces\AuthRepositoryInterface;
 use App\Interfaces\AuthServiceInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\CategoryServiceInterface;
-use App\Interfaces\TagRepositoryInterface;
-use App\Interfaces\TagServiceInterface;
+use App\Interfaces\TabRepositoryInterface;
+use App\Interfaces\TabServiceInterface;
 use App\Repositories\AuthRepository;
 use App\Repositories\CategoryRepository;
-use App\Repositories\TagRepository;
+use App\Repositories\TabRepository;
 use App\Services\AuthService;
 use App\Services\CategoryService;
-use App\Services\TagService;
+use App\Services\TabService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,8 +29,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(CategoryServiceInterface::class, CategoryService::class);
 
-        $this->app->bind(TagRepositoryInterface::class, TagRepository::class);
-        $this->app->bind(TagServiceInterface::class, TagService::class);
+        $this->app->bind(TabRepositoryInterface::class, TabRepository::class);
+        $this->app->bind(TabServiceInterface::class, TabService::class);
     }
 
     /**

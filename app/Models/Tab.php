@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Tag extends Model
+class Tab extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -21,7 +21,7 @@ class Tag extends Model
 
 
     /**
-     * Một tag thuộc về một user.
+     * Một tab thuộc về một user.
      */
     public function user()
     {
@@ -29,7 +29,7 @@ class Tag extends Model
     }
 
     /**
-     * Một tag thuộc về một category.
+     * Một tab thuộc về một category.
      */
     public function category()
     {

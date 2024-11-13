@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\Tag;
+use App\Models\Tab;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TagSeeder extends Seeder
+class TabSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,11 +19,11 @@ class TagSeeder extends Seeder
         $users = User::all();
         $categories = Category::all();
 
-        // Tạo 20 tag mẫu
+        // Tạo 20 tab mẫu
         foreach (range(1, 100) as $index) {
-            Tag::create([
-                'name' => 'Tag ' . $index,
-                'description' => 'Description for Tag ' . $index,
+            Tab::create([
+                'name' => 'Tab ' . $index,
+                'description' => 'Description for Tab ' . $index,
                 'user_id' => $users->random()->id, // Chọn ngẫu nhiên một user
                 'author' => 'Author ' . $index,
                 'price' => rand(10, 100), // Giá ngẫu nhiên từ 10 đến 100

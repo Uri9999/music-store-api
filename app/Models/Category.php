@@ -27,9 +27,9 @@ class Category extends Model
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    public function tags()
+    public function tabs()
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(Tab::class);
     }
 
 }
