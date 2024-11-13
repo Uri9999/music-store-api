@@ -14,7 +14,7 @@ class ApiResponseService
     public static function success($data = null, string $message = 'Success', int $status = 200): JsonResponse
     {
         return response()->json([
-            'status' => 'success',
+            'status' => $status,
             'message' => $message,
             'data' => $data,
         ], $status);
@@ -26,7 +26,7 @@ class ApiResponseService
     public static function error(string $message, int $status = 400, $errors = null): JsonResponse
     {
         return response()->json([
-            'status' => 'error',
+            'status' => $status,
             'message' => $message,
             'errors' => $errors,
         ], $status);
@@ -54,7 +54,7 @@ class ApiResponseService
     public static function paginate(LengthAwarePaginator $paginator, string $message = 'Success', int $status = 200): JsonResponse
     {
         return response()->json([
-            'status' => 'success',
+            'status' => $status,
             'message' => $message,
             'data' => $paginator->items(),
             'meta' => [
