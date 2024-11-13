@@ -63,4 +63,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tab::class);
     }
+
+    /**
+     * Một user gửi nhiều yêu cầu tạo tab.
+     */
+    public function tabRequests()
+    {
+        return $this->hasMany(TabRequest::class);
+    }
+
+    /**
+     * Một user nhận nhiều yêu cầu tab.
+     */
+    public function receiveTabRequests()
+    {
+        return $this->hasMany(TabRequest::class, 'receiver_id');
+    }
 }
