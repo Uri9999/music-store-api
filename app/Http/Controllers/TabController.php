@@ -20,21 +20,21 @@ class TabController extends Controller
 
     public function index(): JsonResponse
     {
-        $tabs = $this->tabService->getAllTabs();
+        $tabs = $this->tabService->index();
 
         return ApiResponseService::collection($tabs);
     }
 
     public function show($id): JsonResponse
     {
-        $Tab = $this->tabService->getTabById($id);
+        $Tab = $this->tabService->show($id);
 
         return ApiResponseService::success($Tab);
     }
 
     public function store(TabRequest $request): JsonResponse
     {
-        $Tab = $this->tabService->createTab($request->validated());
+        $Tab = $this->tabService->create($request->validated());
 
         return ApiResponseService::success($Tab, 'Create success', 201);
 
@@ -42,13 +42,13 @@ class TabController extends Controller
 
     public function update(TabRequest $request, Tab $tab): JsonResponse
     {
-        $updatedTab = $this->tabService->updateTab($tab, $request->validated());
+        $updatedTab = $this->tabService->update($tab, $request->validated());
 
         return ApiResponseService::success($updatedTab);
     }
 
     public function destroy(Tab $tab): JsonResponse
     {
-        return ApiResponseService::success($this->tabService->deleteTab($tab), 'Tab deleted successfully');
+        return ApiResponseService::success($this->tabService->delete($tab), 'Tab deleted successfully');
     }
 }

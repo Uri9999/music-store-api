@@ -15,28 +15,28 @@ class TabService implements TabServiceInterface
         $this->tabRepository = $tabRepository;
     }
 
-    public function getAllTabs()
+    public function index()
     {
-        return $this->tabRepository->getAllTabs();
+        return $this->tabRepository->index();
     }
 
-    public function getTabById($id)
+    public function show($id)
     {
-        return $this->tabRepository->getTabById($id);
+        return $this->tabRepository->show($id);
     }
 
-    public function createTab(array $data)
+    public function create(array $data)
     {
-        return $this->tabRepository->createTab($data);
+        return $this->tabRepository->create($data);
     }
 
-    public function updateTab(Tab $tab, array $data)
+    public function update(Tab $tab, array $data)
     {
-        return $this->tabRepository->updateTab($tab, $data);
+        return $this->tabRepository->update($tab, $data);
     }
 
-    public function deleteTab(Tab $tab)
+    public function delete(Tab $tab)
     {
-        return $this->tabRepository->deleteTab($tab);
+        return $this->tabRepository->delete($tab);
     }
 }

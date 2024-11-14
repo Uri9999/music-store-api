@@ -14,9 +14,6 @@ Route::middleware('api')->group(function () {
     // Category
     Route::get('categories', [CategoryController::class, 'index']);
     Route::get('categories/{id}', [CategoryController::class, 'show']);
-    Route::post('categories', [CategoryController::class, 'store']);
-    Route::put('categories/{category}', [CategoryController::class, 'update']);
-    Route::delete('categories/{category}', [CategoryController::class, 'destroy']);
 
     // Tab
     Route::get('tabs', [TabController::class, 'index']);
@@ -46,6 +43,11 @@ Route::middleware('api')->group(function () {
         Route::prefix('admin')->middleware(['role:Admin'])->group(function() {
             // Request tabs
             Route::get('/request-tabs', [RequestTabController::class, 'index']);
+
+            // Category 
+            Route::post('categories', [CategoryController::class, 'store']);
+            Route::put('categories/{category}', [CategoryController::class, 'update']);
+            Route::delete('categories/{category}', [CategoryController::class, 'destroy']);
 
         });
 

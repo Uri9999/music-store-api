@@ -3,12 +3,13 @@
 namespace App\Interfaces;
 
 use App\Models\Tab;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface TabRepositoryInterface
 {
-    public function getAllTabs();
-    public function getTabById($id);
-    public function createTab(array $data);
-    public function updateTab(Tab $tab, array $data);
-    public function deleteTab(Tab $tab);
+    public function index(): LengthAwarePaginator;
+    public function show($id): Tab;
+    public function create(array $data): Tab;
+    public function update(Tab $tab, array $data): Tab;
+    public function delete(Tab $tab): Bool;
 }
