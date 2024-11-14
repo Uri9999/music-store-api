@@ -17,12 +17,12 @@ class TabService implements TabServiceInterface
 
     public function index()
     {
-        return $this->tabRepository->index();
+        return $this->tabRepository->paginate(config('app.paginate'));
     }
 
     public function show($id)
     {
-        return $this->tabRepository->show($id);
+        return $this->tabRepository->find($id);
     }
 
     public function create(array $data)
@@ -32,11 +32,11 @@ class TabService implements TabServiceInterface
 
     public function update(Tab $tab, array $data)
     {
-        return $this->tabRepository->update($tab, $data);
+        return $this->tabRepository->update($data, $tab->getKey());
     }
 
     public function delete(Tab $tab)
     {
-        return $this->tabRepository->delete($tab);
+        return $this->tabRepository->delete($tab->getKey());
     }
 }

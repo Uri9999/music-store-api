@@ -4,34 +4,12 @@ namespace App\Repositories;
 
 use App\Interfaces\TabRepositoryInterface;
 use App\Models\Tab;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Prettus\Repository\Eloquent\BaseRepository;
 
-class TabRepository implements TabRepositoryInterface
+class TabRepository extends BaseRepository implements TabRepositoryInterface
 {
-    public function index(): LengthAwarePaginator
+    public function model(): string
     {
-        return Tab::paginate(config('app.paginate'));
-    }
-
-    public function show($id): Tab
-    {
-        return Tab::findOrFail($id);
-    }
-
-    public function create(array $data): Tab
-    {
-        return Tab::create($data);
-    }
-
-    public function update(Tab $tab, array $data): Tab
-    {
-        $tab->update($data);
-        return $tab;
-    }
-
-    public function delete(Tab $tab): Bool
-    {
-        $tab->delete();
-        return true;
+        return Tab::class;
     }
 }

@@ -17,12 +17,12 @@ class CategoryService implements CategoryServiceInterface
 
     public function getAllCategories()
     {
-        return $this->categoryRepository->getAll();
+        return $this->categoryRepository->get();
     }
 
     public function getCategoryById($id)
     {
-        return $this->categoryRepository->getById($id);
+        return $this->categoryRepository->find($id);
     }
 
     public function createCategory(array $data)
@@ -32,11 +32,11 @@ class CategoryService implements CategoryServiceInterface
 
     public function updateCategory(Category $category, array $data)
     {
-        return $this->categoryRepository->update($category, $data);
+        return $this->categoryRepository->update($data, $category->getKey());
     }
 
     public function deleteCategory(Category $category)
     {
-        return $this->categoryRepository->delete($category);
+        return $this->categoryRepository->delete($category->getKey());
     }
 }

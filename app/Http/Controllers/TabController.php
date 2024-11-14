@@ -22,7 +22,7 @@ class TabController extends Controller
     {
         $tabs = $this->tabService->index();
 
-        return ApiResponseService::collection($tabs);
+        return ApiResponseService::paginate($tabs);
     }
 
     public function show($id): JsonResponse

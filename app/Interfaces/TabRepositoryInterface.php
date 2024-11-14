@@ -4,12 +4,8 @@ namespace App\Interfaces;
 
 use App\Models\Tab;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Prettus\Repository\Contracts\RepositoryInterface;
 
-interface TabRepositoryInterface
+interface TabRepositoryInterface extends RepositoryInterface
 {
-    public function index(): LengthAwarePaginator;
-    public function show($id): Tab;
-    public function create(array $data): Tab;
-    public function update(Tab $tab, array $data): Tab;
-    public function delete(Tab $tab): Bool;
 }
