@@ -17,7 +17,7 @@ class ApiResponseService
             'status' => $status,
             'message' => $message,
             'data' => $data,
-        ], $status);
+        ]);
     }
 
     /**
@@ -29,7 +29,7 @@ class ApiResponseService
             'status' => $status,
             'message' => $message,
             'errors' => $errors,
-        ], $status);
+        ]);
     }
 
     /**
@@ -63,6 +63,6 @@ class ApiResponseService
                 'per_page' => $paginator->perPage(),
                 'total' => $paginator->total(),
             ],
-        ], $status);
+        ]);
     }
 }
