@@ -42,4 +42,9 @@ class AuthController extends Controller
 
         return ApiResponseService::success(null, 'User logged out successfully.');
     }
+
+    public function registerConfirm(string $token)
+    {
+        
+    }
 }

@@ -10,6 +10,8 @@ use App\Http\Controllers\RequestTabController;
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register/confirm/{token}', [AuthController::class, 'registerConfirm']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
     // Category
     Route::get('categories', [CategoryController::class, 'index']);
@@ -20,7 +22,6 @@ Route::middleware('api')->group(function () {
     Route::get('tabs/{id}', [TabController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/logout', [AuthController::class, 'logout']);
 
         // Request tabs
         Route::get('request-tabs/{id}', [RequestTabController::class, 'show']);

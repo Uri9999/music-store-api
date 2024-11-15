@@ -4,10 +4,13 @@ namespace App\Services;
 
 use App\Interfaces\AuthServiceInterface;
 use App\Interfaces\AuthRepositoryInterface;
+use App\Mail\VerifycationEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AuthService implements AuthServiceInterface
 {
@@ -20,7 +23,15 @@ class AuthService implements AuthServiceInterface
 
     public function register(array $data)
     {
-        return $this->authRepository->createUser($data);
+        $verificationToken = Str::random(64);
+        $data['verification_token'] = $verificationToken;
+        $expiresAt = 10; // unit minute
+        $data['expires_at'] = Carbon::now()->addMinutes($expiresAt); // Thời gian hết hạn là 10 phút
+
+        $user = $this->authRepository->createUser($data);
+        Mail::to($user->email)->send(new VerifycationEmail($verificationToken, $expiresAt));
+
+        return $user;
     }
 
     public function login(array $data)

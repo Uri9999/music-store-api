@@ -24,6 +24,8 @@ class User extends Authenticatable
         'gender',
         'dob',
         'status',
+        'verification_token',
+        'expires_at',
         'role_id',
         'password',
     ];
@@ -50,6 +52,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    const STATUS_DISABLE = 0;
+    const STATUS_ACTIVE = 1;
 
     /**
      * Một user thuộc về một role.

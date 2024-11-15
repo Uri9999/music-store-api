@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -29,6 +30,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'dob' => now(),
+            'status' => User::STATUS_ACTIVE,
             'gender' => Arr::random([1, 0]),
             'role_id' => Arr::random([2, 3]),
             'password' => static::$password ??= Hash::make('password'),
@@ -55,6 +57,7 @@ class UserFactory extends Factory
             'name' => 'admin',
             'email' => 'admin@example.com',
             'dob' => now(),
+            'status' => User::STATUS_ACTIVE,
             'gender' => 1,
             'role_id' => 1,
             'password' => Hash::make('admin123'), // Mật khẩu cho admin
