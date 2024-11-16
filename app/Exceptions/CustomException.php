@@ -32,8 +32,8 @@ class CustomException extends Exception
     {
         // Trả về một response JSON với thông điệp và mã trạng thái
         return response()->json([
-            'error' => $this->message,
-            'code' => $this->code
-        ], $this->code);
+            'message' => $this->message,
+            'status' => $this->code
+        ]);
     }
 }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Interfaces\AuthServiceInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 
@@ -43,8 +45,13 @@ class AuthController extends Controller
         return ApiResponseService::success(null, 'User logged out successfully.');
     }
 
-    public function registerConfirm(string $token)
+    public function forgotPassword(ForgotPasswordRequest $request)
     {
-        
+        /** @var UserRepositoryInterface $userRepository */
+        $userRepository = app(UserRepositoryInterface::class);
+        $user = $userRepository->where('email', $request->get('email'))->first();
+        $this->authService->forgotPassword($user);
+
+        return ApiResponseService::success(null, 'Chúng tôi đã gửi email xác nhận quên mật khẩu đến bạn. Vui lòng kiểm tra !');
     }
 }

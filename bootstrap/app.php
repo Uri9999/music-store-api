@@ -9,6 +9,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use App\Exceptions\CustomException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -31,6 +32,8 @@ return Application::configure(basePath: dirname(__DIR__))
                     return ApiResponseService::error($e->getMessage(), 401);
                 case $e instanceof AuthorizationException:
                     return ApiResponseService::error($e->getMessage(), 403);
+                case $e instanceof CustomException:
+                    return ApiResponseService::error($e->getMessage(), 400);
             }
         });
     })

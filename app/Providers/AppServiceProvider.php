@@ -19,6 +19,8 @@ use App\Services\CategoryService;
 use App\Services\RequestTabService;
 use App\Services\TabService;
 use Illuminate\Support\ServiceProvider;
+use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(RequestTabRepositoryInterface::class, RequestTabRepository::class);
         $this->app->bind(RequestTabServiceInterface::class, RequestTabService::class);
+
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**
