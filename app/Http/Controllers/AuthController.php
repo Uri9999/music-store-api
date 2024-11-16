@@ -10,6 +10,7 @@ use App\Interfaces\AuthServiceInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -51,6 +52,16 @@ class AuthController extends Controller
         $userRepository = app(UserRepositoryInterface::class);
         $user = $userRepository->where('email', $request->get('email'))->first();
         $this->authService->forgotPassword($user);
+
+        return ApiResponseService::success(null, 'Chúng tôi đã gửi email xác nhận quên mật khẩu đến bạn. Vui lòng kiểm tra !');
+    }
+
+    public function resetPassword(Request $request) 
+    {
+        /** @var UserRepositoryInterface $userRepository */
+        $userRepository = app(UserRepositoryInterface::class);
+        $user = $userRepository->where('email', $request->get('email'))->first();
+        $this->authService->resetPassword($user, $request->get('token'));
 
         return ApiResponseService::success(null, 'Chúng tôi đã gửi email xác nhận quên mật khẩu đến bạn. Vui lòng kiểm tra !');
     }

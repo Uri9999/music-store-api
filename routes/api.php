@@ -12,6 +12,7 @@ Route::middleware('api')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+    Route::get('/reset-password', [AuthController::class, 'resetPassword']);
 
     // Category
     Route::get('categories', [CategoryController::class, 'index']);

@@ -56,8 +56,8 @@ class User extends Authenticatable
     const STATUS_DISABLE = 0;
     const STATUS_ACTIVE = 1;
 
-    const REGISTER_VERIFY_EXPIRES = 10; // unit minute
-    const TOKEN_FORGOT_PASSWORD_EXPIRES = 10; // unit minute
+    const REGISTER_VERIFY_EXPIRED = 10; // unit minute
+    const TOKEN_FORGOT_PASSWORD_EXPIRED = 10; // unit minute
 
     /**
      * Một user thuộc về một role.

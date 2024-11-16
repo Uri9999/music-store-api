@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\CustomException;
 use App\Exceptions\SpamForgotPasswordException;
 use App\Interfaces\AuthServiceInterface;
 use App\Interfaces\AuthRepositoryInterface;
@@ -16,6 +17,8 @@ use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Mail\ForgotPasswordEmail;
+use Illuminate\Support\Arr;
+use App\Mail\ResetPasswordEmail;
 
 class AuthService implements AuthServiceInterface
 {
@@ -30,7 +33,7 @@ class AuthService implements AuthServiceInterface
     {
         $verificationToken = Str::random(64);
         $data['verification_token'] = $verificationToken;
-        $expiresAt = User::REGISTER_VERIFY_EXPIRES;
+        $expiresAt = User::REGISTER_VERIFY_EXPIRED;
         $data['expires_at'] = Carbon::now()->addMinutes($expiresAt); // Thời gian hết hạn là 10 phút
 
         $user = $this->authRepository->createUser($data);
@@ -46,13 +49,14 @@ class AuthService implements AuthServiceInterface
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return null;
         }
+        $user->tokens()->delete();
         $token = $user->createToken('auth_token');
         // Lấy thời gian hết hạn từ cấu hình Sanctum
         $expirationMinutes = (int) config('sanctum.expiration', 60);
         $expiresAt = Carbon::now()->addMinutes($expirationMinutes);
 
         return [
-            'token' => $token->plainTextToken,
+            'access_token' => $token->plainTextToken,
             'expires_at' => $expiresAt->toDateTimeString(),
             'user' => $user,
         ];
@@ -105,9 +109,31 @@ class AuthService implements AuthServiceInterface
         return !Carbon::parse($passwordReset->updated_at)->addMinutes(10)->isPast();
     }
 
-    public function resetPassword()
+    public function resetPassword(User $user, string $token)
     {
+        $passwordReset = PasswordResetToken::where(['email' => $user->email, 'token' => $token])->first();
+        $expired = Carbon::parse($passwordReset->updated_at)->addMinutes(User::TOKEN_FORGOT_PASSWORD_EXPIRED);
+        if ($expired < Carbon::now()) {
+            throw new CustomException('Không còn hiệu lực, vui lòng tạo lại yêu cầu mới.');
+        }
+        $newPassword = $this->makeRandPassword();
+        $user->update([
+            'password' => Hash::make($newPassword)
+        ]);
+        $user->tokens()->delete();
 
+        Mail::to($user->email)->send(new ResetPasswordEmail($user->email, $newPassword));
+    }
+
+    protected function makeRandPassword(int $length = 8): string
+    {
+        $randomString = Str::random($length - 4);
+        $lowercase = Arr::random(range('a', 'z'));
+        $digits = Arr::random(range('0', '9'));
+        $uppercase = Arr::random(range('A', 'Z'));
+        $special = Arr::random(['#', '?', '!', '@', '$', '%', '^', '&', '*', '-']);
+
+        return $randomString . $lowercase . $digits . $uppercase . $special;
     }
 
 }
