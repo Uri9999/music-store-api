@@ -31,18 +31,18 @@ class AuthService implements AuthServiceInterface
 
     public function register(array $data)
     {
-        $verificationToken = Str::random(64);
-        $data['verification_token'] = $verificationToken;
-        $expiresAt = User::REGISTER_VERIFY_EXPIRED;
-        $data['expires_at'] = Carbon::now()->addMinutes($expiresAt); // Thời gian hết hạn là 10 phút
+        $token = Str::random(64);
+        $data['verification_token'] = $token;
+        $expiresAt = Carbon::now()->addMinutes(User::REGISTER_VERIFY_EXPIRED);
+        $data['expires_at'] = $expiresAt;
 
         $user = $this->authRepository->createUser($data);
-        Mail::to($user->email)->send(new VerifycationEmail($user->email, $verificationToken, $expiresAt));
+        Mail::to($user->email)->send(new VerifycationEmail($user->email, $token, $expiresAt));
 
         return $user;
     }
 
-    public function verifyUser($email, $token): User | CustomException
+    public function verifyUser($email, $token): User|CustomException
     {
         /** @var UserRepositoryInterface $userRepository */
         $userRepository = app(UserRepositoryInterface::class);
@@ -50,7 +50,12 @@ class AuthService implements AuthServiceInterface
         if (Carbon::parse($user->expires_at)->isPast()) {
             throw new CustomException('Hết hạn.');
         }
-        $user->update(['status' => User::STATUS_ACTIVE]);
+        $user->update([
+            'status' => User::STATUS_ACTIVE,
+            'expires_at' => null,
+            'verification_token' => null,
+
+        ]);
 
         return $user;
     }
@@ -85,18 +90,18 @@ class AuthService implements AuthServiceInterface
         $token = Str::random(64);
         $email = $user->email;
         $passwordReset = $this->updatePasswordReset($email, $token);
+        $expired = Carbon::parse($passwordReset->updated_at)->addMinutes(User::TOKEN_FORGOT_PASSWORD_EXPIRED);
 
-        Mail::to($user->email)->send(new ForgotPasswordEmail($email, $token, $passwordReset->updated_at));
+        Mail::to($user->email)->send(new ForgotPasswordEmail($email, $token, $expired));
     }
 
     protected function updatePasswordReset(string $email, string $token): PasswordResetToken
     {
         $passwordReset = PasswordResetToken::where('email', $email)->first();
         if (!$passwordReset) {
-            $verificationToken = Str::random(64);
             $passwordReset = PasswordResetToken::create([
                 'email' => $email,
-                'token' => $verificationToken,
+                'token' => $token,
             ]);
 
             return $passwordReset;

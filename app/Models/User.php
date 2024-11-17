@@ -77,7 +77,7 @@ class User extends Authenticatable
      */
     public function tabRequests()
     {
-        return $this->hasMany(TabRequest::class);
+        return $this->hasMany(RequestTab::class);
     }
 
     /**
@@ -85,6 +85,16 @@ class User extends Authenticatable
      */
     public function receiveTabRequests()
     {
-        return $this->hasMany(TabRequest::class, 'receiver_id');
+        return $this->hasMany(RequestTab::class, 'receiver_id');
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status == self::STATUS_ACTIVE;
+    }
+
+    public function isDisable(): bool
+    {
+        return $this->status == self::STATUS_DISABLE;
     }
 }

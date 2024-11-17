@@ -14,13 +14,13 @@ class VerifycationEmail extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     public $email;
-    public $verificationToken;
+    public $token;
     public $expiresAt;
 
-    public function __construct($email, $verificationToken, $expiresAt)
+    public function __construct($email, $token, $expiresAt)
     {
         $this->email = $email;
-        $this->verificationToken = $verificationToken;
+        $this->token = $token;
         $this->expiresAt = $expiresAt;
     }
 
@@ -30,7 +30,7 @@ class VerifycationEmail extends Mailable implements ShouldQueue
             ->view('emails.verify_user')
             ->with([
                 'email' => $this->email,
-                'verificationToken' => $this->verificationToken,
+                'token' => $this->token,
                 'expiresAt' => $this->expiresAt
             ]);
     }

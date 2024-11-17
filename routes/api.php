@@ -9,11 +9,11 @@ use App\Http\Controllers\RequestTabController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
-    Route::get('/verify-user', [AuthController::class, 'verifyUser']);
+    Route::post('/verify-user', [AuthController::class, 'verifyUser']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
-    Route::get('/reset-password', [AuthController::class, 'resetPassword']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
     // Category
     Route::get('categories', [CategoryController::class, 'index']);

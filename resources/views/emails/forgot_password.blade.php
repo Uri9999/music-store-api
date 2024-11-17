@@ -10,8 +10,8 @@
     <div>
         Chào bạn, <br>
         Đây là email xác nhận quên mật khẩu Zumi Shope.<br>
-        Để nhận mật khẩu mới, vui lòng click vào đường dẫn sau: <a href="{{ config('app.front_end_url') . "/auth/forgot-password/confirm?token=$token&email=$email" }}">{{ config('app.front_end_url') . "/auth/forgot-password/confirm?token=$token&email=$email" }}</a> <br>
-        (Đường dẫn có hiệu lực đến {{ $expiresAt }} phút)
+        Để nhận mật khẩu mới, vui lòng click vào đường dẫn sau: <a href="{{ config('app.front_end_url') . "/auth/reset-password?token=$token&email=$email" }}">{{ config('app.front_end_url') . "/auth/reset-password?token=$token&email=$email" }}</a> <br>
+        (Đường dẫn có hiệu lực đến {{ $expiresAt }})
     </div>
 </body>
 </html>

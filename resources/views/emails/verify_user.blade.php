@@ -10,7 +10,7 @@
     <div>
         Chào bạn, <br>
         Đây là email xác nhận đăng ký tài khoản Zumi Shop. Nếu bạn không phải là người đăng ký, vui lòng bỏ qua email này. <br>
-        Để xác thực tài khoản hãy click vào đường dẫn sau: <a href="{{ config('app.front_end_url') . "/auth/register/confirmation?verification_token=$verificationToken&email=$email" }}">{{ config('app.front_end_url') . "/auth/register/confirmation?verification_token=$verificationToken&email=$email" }}</a> <br>
+        Để xác thực tài khoản hãy click vào đường dẫn sau: <a href="{{ config('app.front_end_url') . "/auth/confirm-register?token=$token&email=$email" }}">{{ config('app.front_end_url') . "/auth/confirm-register?token=$token&email=$email" }}</a> <br>
         (Đường dẫn có hiệu lực đến {{ $expiresAt }})
     </div>
 </body>
