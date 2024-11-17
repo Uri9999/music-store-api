@@ -9,10 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ForgotPasswordEmail extends Mailable
+class ForgotPasswordEmail extends Mailable implements ShouldQueue
 {
-    use SerializesModels;
-    // use Queueable, SerializesModels;
+    use Queueable, SerializesModels;
 
     public $email;
     public $token;

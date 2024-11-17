@@ -2,10 +2,10 @@
 
 namespace App\Interfaces;
 
-use App\Models\Tab;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Models\User;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 interface UserRepositoryInterface extends RepositoryInterface
 {
+    public function findByEmailAndToken(string $email, string $token): ?User;
 }

@@ -12,4 +12,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return User::class;
     }
+
+    public function findByEmailAndToken(string $email, string $token): ?User
+    {
+        $user = $this->model->where('email', $email)->where('verification_token', $token)->first();
+
+        return $user;
+    }
 }

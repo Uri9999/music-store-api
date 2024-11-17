@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Interfaces\UserRepositoryInterface;
 use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Mail\ForgotPasswordEmail;
@@ -37,7 +37,20 @@ class AuthService implements AuthServiceInterface
         $data['expires_at'] = Carbon::now()->addMinutes($expiresAt); // Thời gian hết hạn là 10 phút
 
         $user = $this->authRepository->createUser($data);
-        Mail::to($user->email)->send(new VerifycationEmail($verificationToken, $expiresAt));
+        Mail::to($user->email)->send(new VerifycationEmail($user->email, $verificationToken, $expiresAt));
+
+        return $user;
+    }
+
+    public function verifyUser($email, $token): User | CustomException
+    {
+        /** @var UserRepositoryInterface $userRepository */
+        $userRepository = app(UserRepositoryInterface::class);
+        $user = $userRepository->findByEmailAndToken($email, $token);
+        if (Carbon::parse($user->expires_at)->isPast()) {
+            throw new CustomException('Hết hạn.');
+        }
+        $user->update(['status' => User::STATUS_ACTIVE]);
 
         return $user;
     }
