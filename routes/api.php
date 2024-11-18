@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Customer\TabController;
 use App\Http\Controllers\RequestTabController;
+use App\Http\Controllers\SelectionController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -14,6 +15,8 @@ Route::middleware('api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
+    Route::get('selections', [SelectionController::class, 'index']);
 
     // Category
     Route::get('categories', [CategoryController::class, 'index']);
