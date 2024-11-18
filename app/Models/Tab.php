@@ -16,7 +16,8 @@ class Tab extends Model
         'user_id',
         'author',
         'price',
-        'category_id'
+        'category_id',
+        'youtobe_url',
     ];
 
 
