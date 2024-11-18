@@ -58,9 +58,9 @@ class ApiResponseService
             'message' => $message,
             'data' => $paginator->items(),
             'meta' => [
-                'current_page' => $paginator->currentPage(),
-                'last_page' => $paginator->lastPage(),
-                'per_page' => $paginator->perPage(),
+                'currentPage' => $paginator->currentPage(),
+                'lastPage' => $paginator->lastPage(),
+                'perPage' => $paginator->perPage(),
                 'total' => $paginator->total(),
             ],
         ]);

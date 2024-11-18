@@ -124,6 +124,6 @@ return [
     ],
 
 
-    'paginate' => 10,
+    'paginate' => 12,
     'front_end_url' => env('APP_FRONT_END_URL', 'http://localhost:3000'),
 ];

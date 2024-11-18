@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tab\TabRequest;
@@ -8,6 +8,8 @@ use App\Interfaces\TabServiceInterface;
 use App\Models\Tab;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use App\Http\Requests\Tab\TabIndexRequest;
 
 class TabController extends Controller
 {
@@ -18,25 +20,39 @@ class TabController extends Controller
         $this->tabService = $tabService;
     }
 
-    public function index(): JsonResponse
+    public function index(TabIndexRequest $request): JsonResponse
     {
-        $tabs = $this->tabService->index();
+        $tabs = $this->tabService->index($request);
 
         return ApiResponseService::paginate($tabs);
     }
 
+    public function getNewTab(): JsonResponse
+    {
+        $tabs = $this->tabService->getNewTab();
+
+        return ApiResponseService::success($tabs);
+    }
+
+    public function getRandomTab(): JsonResponse
+    {
+        $tabs = $this->tabService->getRandomTab();
+
+        return ApiResponseService::success($tabs); 
+    }
+
     public function show($id): JsonResponse
     {
-        $Tab = $this->tabService->show($id);
+        $tab = $this->tabService->show($id);
 
-        return ApiResponseService::success($Tab);
+        return ApiResponseService::success($tab);
     }
 
     public function store(TabRequest $request): JsonResponse
     {
-        $Tab = $this->tabService->create($request->validated());
+        $tab = $this->tabService->create($request->validated());
 
-        return ApiResponseService::success($Tab, 'Create success', 201);
+        return ApiResponseService::success($tab, 'Create success', 201);
 
     }
 

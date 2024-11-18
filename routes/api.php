@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\TabController;
+use App\Http\Controllers\Customer\TabController;
 use App\Http\Controllers\RequestTabController;
 
 Route::middleware('api')->group(function () {
@@ -21,6 +21,8 @@ Route::middleware('api')->group(function () {
 
     // Tab
     Route::get('tabs', [TabController::class, 'index']);
+    Route::get('new-tab', [TabController::class, 'getNewTab']);
+    Route::get('random-tab', [TabController::class, 'getRandomTab']);
     Route::get('tabs/{id}', [TabController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {

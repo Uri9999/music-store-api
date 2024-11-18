@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Interfaces\TabServiceInterface;
 use App\Interfaces\TabRepositoryInterface;
 use App\Models\Tab;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 class TabService implements TabServiceInterface
 {
@@ -15,9 +17,25 @@ class TabService implements TabServiceInterface
         $this->tabRepository = $tabRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->tabRepository->paginate(config('app.paginate'));
+        $query = $this->tabRepository;
+        if ($orderPrice = $request->get('orderPrice')) {
+            $query->orderBy('price', $orderPrice);
+        }
+
+        return $query->paginate(config('app.paginate'));
+    }
+
+    public function getNewTab(): Collection
+    {
+        return $this->tabRepository->with(['user:id,name'])->orderBy('created_at', 'DESC')->take(12)->get();
+    }
+
+    public function getRandomTab(): Collection
+    {
+        return $this->tabRepository->with(['user:id,name'])->inRandomOrder()->take(12)->get();
+
     }
 
     public function show($id)
