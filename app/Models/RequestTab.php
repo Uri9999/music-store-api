@@ -12,6 +12,7 @@ class RequestTab extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'author',
         'status',
         'receiver_id',
     ];

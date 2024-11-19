@@ -20,6 +20,7 @@ class RequestTabSeeder extends Seeder
             RequestTab::create([
                 'user_id' => $users->random()->id,
                 'name' => 'Request ' . $index,
+                'author' => 'nhat ',
                 'status' => rand(0, 1),
                 'receiver_id' => $users->random()->id,
             ]);
