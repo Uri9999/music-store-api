@@ -11,6 +11,10 @@ class Cart extends Model
 
     protected $fillable = ['user_id', 'tab_id', 'meta'];
 
+    protected $casts = [
+        'meta' => 'json',
+    ];
+
     public function tab()
     {
         return $this->belongsTo(Tab::class);
