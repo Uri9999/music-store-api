@@ -16,9 +16,14 @@ class CartService implements CartServiceInterface
         $this->repository = $repository;
     }
 
-    public function index(): Collection
+    public function getByUserId(int $userId): Collection
     {
-        return $this->repository->with(['user:id,name', 'tab'])->get();
+        return $this->repository->where('user_id', $userId)->with(['user:id,name', 'tab', 'tab.category:id,name'])->get();
+    }
+
+    public function getCountByUserId(int $userId): int
+    {
+        return $this->repository->where('user_id', $userId)->count();
     }
 
     public function store(array $attrs): Cart

@@ -17,11 +17,18 @@ class CartController extends Controller
         $this->service = $service;
     }
 
-    public function index(): JsonResponse
+    public function getByUserId(Request $request): JsonResponse
     {
-        $carts = $this->service->index();
+        $carts = $this->service->getByUserId($request->user()->getKey());
 
         return ApiResponseService::success($carts);
+    }
+
+    public function getCountByUserId(Request $request): JsonResponse
+    {
+        $count = $this->service->getCountByUserId($request->user()->getKey());
+
+        return ApiResponseService::success($count);
     }
 
     public function store(CartRequest $request): JsonResponse

@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface CartServiceInterface
 {
-    public function index(): Collection;
+    public function getByUserId(int $userId): Collection;
+    public function getCountByUserId(int $userId): int;
     public function store(array $attrs): Cart;
     public function delete(int $id): void;
 }
