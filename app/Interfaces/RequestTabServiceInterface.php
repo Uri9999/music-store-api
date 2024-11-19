@@ -11,7 +11,7 @@ interface RequestTabServiceInterface
 
     public function getById(int $id): RequestTab;
 
-    public function getCreatedByMy(int $userId): LengthAwarePaginator;
+    public function getCreatedByMy(int $userId);
 
     public function getByReceiverId(int $receiverId): LengthAwarePaginator;
 

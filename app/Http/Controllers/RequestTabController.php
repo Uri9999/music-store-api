@@ -35,9 +35,9 @@ class RequestTabController extends Controller
 
     public function getCreatedByMy(Request $request): JsonResponse
     {
-        $paginator = $this->requestTabService->getCreatedByMy($request->user()->getKey());
+        $tabs = $this->requestTabService->getCreatedByMy($request->user()->getKey());
 
-        return ApiResponseService::paginate($paginator);
+        return ApiResponseService::success($tabs);
     }
 
     public function show(int $id): JsonResponse
@@ -74,6 +74,6 @@ class RequestTabController extends Controller
     {
         $result = $this->requestTabService->delete($requestTab);
 
-        return ApiResponseService::success($result, 'Request tag deleted successfully');
+        return ApiResponseService::success($result, 'Xóa thành công.');
     }
 }

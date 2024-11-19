@@ -25,9 +25,9 @@ class RequestTabService implements RequestTabServiceInterface
         return $this->requestTabRepository->find($id);
     }
 
-    public function getCreatedByMy(int $userId): LengthAwarePaginator
+    public function getCreatedByMy(int $userId)
     {
-        return $this->requestTabRepository->where('user_id', $userId)->paginate(config('app.paginate'));
+        return $this->requestTabRepository->with('receiver:id,name')->where('user_id', $userId)->get();
     }
 
     public function getByReceiverId(int $receiverId): LengthAwarePaginator

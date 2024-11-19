@@ -38,6 +38,7 @@ Route::middleware('api')->group(function () {
         Route::put('request-tabs/{requestTab}', [RequestTabController::class, 'update']);
         Route::delete('request-tabs/{requestTab}', [RequestTabController::class, 'destroy']);
 
+        // Api quản lý
         Route::prefix('manage')->middleware(['role:Admin,Affiliate'])->group(function () {
             // Request tabs
             Route::get('request-tabs/by-receiver/{id}', [RequestTabController::class, 'getByReceiverId']);

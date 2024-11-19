@@ -23,10 +23,7 @@ class StoreTabRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            // 'user_id' => 'nullable|required|exists:users,id',
             'author' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
         ];
     }
 }
