@@ -21,6 +21,11 @@ use App\Services\TabService;
 use Illuminate\Support\ServiceProvider;
 use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\UserRepository;
+use App\Services\CartService;
+use App\Interfaces\CartServiceInterface;
+use App\Interfaces\CartRepositoryInterface;
+use App\Repositories\CartRepository;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,6 +45,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(RequestTabRepositoryInterface::class, RequestTabRepository::class);
         $this->app->bind(RequestTabServiceInterface::class, RequestTabService::class);
+
+        $this->app->bind(CartRepositoryInterface::class, CartRepository::class);
+        $this->app->bind(CartServiceInterface::class, CartService::class);
 
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
