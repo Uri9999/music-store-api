@@ -10,10 +10,10 @@ class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['order_id', 'tab_id', 'price', 'meta'];
+    protected $fillable = ['order_id', 'user_id', 'tab_id', 'price', 'meta'];
 
     protected $casts = [
-        'meta' => 'json',
+        'meta' => 'array',
     ];
 
     public function order(): BelongsTo

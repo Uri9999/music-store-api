@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->integer('tab_id');
+            $table->integer('user_id');
             $table->integer('price');
-            $table->json('meta');
+            $table->json('meta')->nullable();
             $table->timestamps();
         });
     }

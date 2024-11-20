@@ -26,6 +26,7 @@ Route::middleware('api')->group(function () {
     // Cart
     Route::get('carts/get-by-me', [CartController::class, 'getByUserId'])->middleware('auth:sanctum');
     Route::get('carts/get-count-by-me', [CartController::class, 'getCountByUserId'])->middleware('auth:sanctum');
+    Route::post('carts/checkout', [CartController::class, 'checkout'])->middleware('auth:sanctum');
     
     // need permission only delete my cart
     Route::delete('carts/{id}', [CartController::class, 'destroy']);

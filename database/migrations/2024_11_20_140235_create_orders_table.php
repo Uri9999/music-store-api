@@ -18,7 +18,7 @@ return new class extends Migration
             $table->tinyInteger('type')->default(1);
             $table->integer('total_price');
             $table->text('note')->nullable();
-            $table->json('meta');
+            $table->json('meta')->nullable();
             $table->timestamps();
         });
     }

@@ -15,6 +15,13 @@ class Order extends Model
     protected $casts = [
         'meta' => 'json',
     ];
+
+    const STATUS_CREATED = 1;
+    const STATUS_PENDING = 2;
+    const STATUS_PAYMENT_SUCCESS = 3;
+
+    const TYPE_TAB = 1;
+    const TYPE_SUBSCRIPTION = 2;
     
     public function user(): BelongsTo
     {
