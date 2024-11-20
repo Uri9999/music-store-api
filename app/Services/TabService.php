@@ -40,7 +40,7 @@ class TabService implements TabServiceInterface
 
     public function show($id)
     {
-        return $this->tabRepository->find($id);
+        return $this->tabRepository->with(['user', 'category:id,name'])->find($id);
     }
 
     public function create(array $data)
