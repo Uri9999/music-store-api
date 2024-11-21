@@ -12,4 +12,9 @@ class CartRepository extends BaseRepository implements CartRepositoryInterface
     {
         return Cart::class;
     }
+
+    public function deleteByIds(array $ids): void
+    {
+        $this->model->whereIn('id', $ids)->delete();
+    }
 }

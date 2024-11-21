@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Customer\TabController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RequestTabController;
 use App\Http\Controllers\SelectionController;
 
@@ -26,7 +27,7 @@ Route::middleware('api')->group(function () {
     // Cart
     Route::get('carts/get-by-me', [CartController::class, 'getByUserId'])->middleware('auth:sanctum');
     Route::get('carts/get-count-by-me', [CartController::class, 'getCountByUserId'])->middleware('auth:sanctum');
-    Route::post('carts/checkout', [CartController::class, 'checkout'])->middleware('auth:sanctum');
+    Route::post('orders', [OrderController::class, 'store'])->middleware('auth:sanctum');
     
     // need permission only delete my cart
     Route::delete('carts/{id}', [CartController::class, 'destroy']);

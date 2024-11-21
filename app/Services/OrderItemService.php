@@ -2,16 +2,15 @@
 
 namespace App\Services;
 
-use App\Interfaces\CartRepositoryInterface;
 use App\Interfaces\OrderItemServiceInterface;
-use App\Models\Cart;
+use App\Interfaces\OrderRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class OrderItemService implements OrderItemServiceInterface
 {
-    protected $repository;
+    protected OrderRepositoryInterface $repository;
 
-    public function __construct(OrderItemServiceInterface $repository)
+    public function __construct(OrderRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Cart;
+namespace App\Http\Requests\Order;
 
 use App\Interfaces\OrderItemRepositoryInterface;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class CheckoutRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -32,6 +32,7 @@ class CheckoutRequest extends FormRequest
                 },
             ],
             'note' => 'nullable|string',
+            'bill' => 'bail|nullable|max:2048',
         ];
     }
 }

@@ -7,7 +7,6 @@ use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\Cart\CartRequest;
-use App\Http\Requests\Cart\CheckoutRequest;
 
 class CartController extends Controller
 {
@@ -46,10 +45,5 @@ class CartController extends Controller
         $this->service->delete($id);
 
         return ApiResponseService::success();
-    }
-
-    public function checkout(CheckoutRequest $request)
-    {
-        $this->service->checkout($request);
     }
 }

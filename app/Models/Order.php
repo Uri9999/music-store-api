@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Order extends Model
+class Order extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
@@ -20,8 +21,8 @@ class Order extends Model
     const MEDIA_BILL = 'order-bill';
 
     const STATUS_CREATED = 1;
-    const STATUS_PENDING = 2;
-    const STATUS_PAYMENT_SUCCESS = 3;
+    const STATUS_PAYMENT_SUCCESS = 2;
+    const STATUS_PAYMENT_FAIL = 3;
 
     const TYPE_TAB = 1;
     const TYPE_SUBSCRIPTION = 2;

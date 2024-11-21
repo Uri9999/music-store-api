@@ -12,5 +12,4 @@ interface CartServiceInterface
     public function getCountByUserId(int $userId): int;
     public function store(array $attrs): Cart;
     public function delete(int $id): void;
-    public function checkout(Request $request): void;
 }

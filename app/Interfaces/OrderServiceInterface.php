@@ -7,5 +7,5 @@ use Illuminate\Http\Request;
 
 interface OrderServiceInterface
 {
-
+    public function store(Request $request): void;
 }
