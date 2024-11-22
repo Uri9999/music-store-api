@@ -57,4 +57,9 @@ class TabService implements TabServiceInterface
     {
         return $this->tabRepository->delete($tab->getKey());
     }
+
+    public function getTabByIds(array $ids)
+    {
+        return $this->tabRepository->whereIn('id', $ids)->get();
+    }
 }

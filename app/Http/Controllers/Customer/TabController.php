@@ -67,4 +67,11 @@ class TabController extends Controller
     {
         return ApiResponseService::success($this->tabService->delete($tab), 'Tab deleted successfully');
     }
+
+    public function getTabByIds(Request $request): JsonResponse
+    {
+        $tabs = $this->tabService->getTabByIds($request->get('ids'));
+
+        return ApiResponseService::success($tabs);
+    }
 }

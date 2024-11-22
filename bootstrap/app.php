@@ -10,6 +10,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use App\Exceptions\CustomException;
+use App\Http\Middleware\CheckIsMyOrder;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => CheckRole::class,
+            'checkIsMyOrder' => CheckIsMyOrder::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

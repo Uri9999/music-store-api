@@ -28,17 +28,21 @@ Route::middleware('api')->group(function () {
     Route::get('carts/get-by-me', [CartController::class, 'getByUserId'])->middleware('auth:sanctum');
     Route::get('carts/get-count-by-me', [CartController::class, 'getCountByUserId'])->middleware('auth:sanctum');
     Route::post('orders', [OrderController::class, 'store'])->middleware('auth:sanctum');
+    // middleware
+    Route::get('orders/created-by-me', [OrderController::class, 'getMyOrder'])->middleware('auth:sanctum');
+    Route::get('orders/{id}', [OrderController::class, 'show'])->middleware(['auth:sanctum', 'checkIsMyOrder']);
     
     // need permission only delete my cart
-    Route::delete('carts/{id}', [CartController::class, 'destroy']);
-    Route::post('carts', [CartController::class, 'store']);
+    Route::delete('carts/{id}', [CartController::class, 'destroy'])->middleware('auth:sanctum');
+    Route::post('carts', [CartController::class, 'store'])->middleware('auth:sanctum');
 
     // Tab
+    Route::get('tabs/get/by-ids', [TabController::class, 'getTabByIds'])->middleware('auth:sanctum');
     Route::get('tabs', [TabController::class, 'index']);
     Route::get('new-tab', [TabController::class, 'getNewTab']);
     Route::get('random-tab', [TabController::class, 'getRandomTab']);
     Route::get('tabs/{id}', [TabController::class, 'show']);
-
+    
     Route::middleware('auth:sanctum')->group(function () {
 
         // Request tabs

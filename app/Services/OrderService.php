@@ -72,4 +72,18 @@ class OrderService implements OrderServiceInterface
             throw new OrderException();
         }
     }
+
+    public function show(int $id): ?Order
+    {
+        $order = $this->repository->find($id)->load('media');
+
+        return $order;
+    }
+
+    public function getMyOrder(Request $request)
+    {
+        $orders = $this->repository->with('orderItems')->where('user_id', $request->user()->getKey())->orderBy('created_at', 'DESC')->get();
+
+        return $orders;
+    }
 }

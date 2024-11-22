@@ -18,20 +18,22 @@ class StoreRequest extends FormRequest
         return [
             'tab_ids' => 'array',
             'tab_ids.*' => [
+                'bail',
+                'distinct',
                 'required',
                 'exists:tabs,id',
                 function ($attribute, $value, $fail) {
                     /** @var OrderItemRepositoryInterface $orderItemRepository */
                     $orderItemRepository = app(OrderItemRepositoryInterface::class);
                     $userId = Auth::user()->id;
-                    $tab = $orderItemRepository->where('user_id', $userId)->where('tab_id', $value)->first();
-
-                    if ($tab) {
-                        return $fail("Bài tab '$tab->name' đã được mua rồi");
+                    $orderItem = $orderItemRepository->where('user_id', $userId)->where('tab_id', $value)->first();
+                    $tabName = $orderItem->meta['name'];
+                    if ($orderItem) {
+                        return $fail("Bài tab '$tabName' đã được mua hoặc đang trong quá trình xét duyệt thanh toán");
                     }
                 },
             ],
-            'note' => 'nullable|string',
+            'note' => 'bail|required|string',
             'bill' => 'bail|nullable|max:2048',
         ];
     }
