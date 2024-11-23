@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\FullTextSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, FullTextSearch;
 
     /**
      * The attributes that are mass assignable.
@@ -53,8 +55,20 @@ class User extends Authenticatable
         ];
     }
 
+    protected $fullTextColumns = ['name', 'email'];
+
     const STATUS_DISABLE = 0;
     const STATUS_ACTIVE = 1;
+    const STATUS_LOCKED = 2;
+
+    const LIST_STATUS = [
+        self::STATUS_DISABLE,
+        self::STATUS_ACTIVE,
+        self::STATUS_LOCKED,
+    ];
+
+    const GENDER_MALE = 1;
+    const GENDER_FEMALE = 0;
 
     const REGISTER_VERIFY_EXPIRED = 1440; // unit minute
     const TOKEN_FORGOT_PASSWORD_EXPIRED = 10; // unit minute

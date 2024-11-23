@@ -29,10 +29,12 @@ use App\Interfaces\OrderServiceInterface;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Interfaces\OrderItemRepositoryInterface;
 use App\Interfaces\OrderItemServiceInterface;
+use App\Interfaces\UserServiceInterface;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 use App\Services\OrderItemService;
 use App\Services\OrderService;
+use App\Services\UserService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -63,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderItemServiceInterface::class, OrderItemService::class);
 
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(UserServiceInterface::class, UserService::class);
     }
 
     /**

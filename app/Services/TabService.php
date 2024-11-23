@@ -21,7 +21,7 @@ class TabService implements TabServiceInterface
     {
         $query = $this->tabRepository;
         if ($orderPrice = $request->get('orderPrice')) {
-            $query->orderBy('price', $orderPrice);
+            $query = $query->orderBy('price', $orderPrice);
         }
 
         return $query->paginate(config('app.paginate'));

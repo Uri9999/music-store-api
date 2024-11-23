@@ -9,6 +9,7 @@ use App\Http\Controllers\Customer\TabController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RequestTabController;
 use App\Http\Controllers\SelectionController;
+use App\Http\Controllers\UserController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -64,6 +65,7 @@ Route::middleware('api')->group(function () {
             Route::put('categories/{category}', [CategoryController::class, 'update']);
             Route::delete('categories/{category}', [CategoryController::class, 'destroy']);
 
+            Route::get('/user', [UserController::class, 'index']);
         });
 
     });
