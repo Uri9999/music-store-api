@@ -10,6 +10,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use App\Exceptions\CustomException;
+use App\Http\Middleware\CanLockUser;
 use App\Http\Middleware\CheckIsMyOrder;
 use App\Http\Middleware\CheckIsMyCart;
 use App\Http\Middleware\CheckIsMyRequestTab;
@@ -27,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'checkIsMyOrder' => CheckIsMyOrder::class,
             'checkIsMyCart' => CheckIsMyCart::class,
             'checkIsMyRequestTab' => CheckIsMyRequestTab::class,
+            'canLockUser' => CanLockUser::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

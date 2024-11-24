@@ -111,4 +111,9 @@ class User extends Authenticatable
     {
         return $this->status == self::STATUS_DISABLE;
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role_id == Role::ROLE_ADMIN;
+    }
 }
