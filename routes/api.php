@@ -66,6 +66,10 @@ Route::middleware('api')->group(function () {
             Route::delete('categories/{category}', [CategoryController::class, 'destroy']);
 
             Route::get('/user', [UserController::class, 'index']);
+
+            // only admin
+            Route::post('/user/{id}/lock', [UserController::class, 'lock']);
+            Route::post('/user/{id}/unlock', [UserController::class, 'unlock']);
         });
 
     });

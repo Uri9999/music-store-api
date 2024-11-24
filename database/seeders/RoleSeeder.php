@@ -9,7 +9,7 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        $roles = ['Admin', 'Affiliate', 'User'];
+        $roles = ['Admin', 'Staff', 'Affiliate', 'User'];
         foreach ($roles as $roleName) {
             // Kiểm tra và tạo role nếu chưa tồn tại
             Role::firstOrCreate(

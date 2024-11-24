@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\UserServiceInterface;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -33,7 +34,17 @@ class UserService implements UserServiceInterface
             $query =$query->where('gender', $gender);
         }
 
-        return $query->paginate(15);
+        return $query->paginate(10);
+    }
+
+    public function lock($id): void
+    {
+        $this->repository->update(['status' => User::STATUS_LOCKED], $id);
+    }
+
+    public function unlock($id): void
+    {
+        $this->repository->update(['status' => User::STATUS_ACTIVE], $id);
     }
 
 }
