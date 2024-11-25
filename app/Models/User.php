@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens, FullTextSearch;
+    use HasFactory, Notifiable, HasApiTokens, FullTextSearch, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -72,6 +74,8 @@ class User extends Authenticatable
 
     const REGISTER_VERIFY_EXPIRED = 1440; // unit minute
     const TOKEN_FORGOT_PASSWORD_EXPIRED = 10; // unit minute
+
+    const MEDIA_AVATAR = 'avatar';
 
     /**
      * Một user thuộc về một role.

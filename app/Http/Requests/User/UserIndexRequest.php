@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Tab;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use App\Models\User;
 
 class UserIndexRequest extends FormRequest
 {
@@ -17,9 +15,9 @@ class UserIndexRequest extends FormRequest
     {
         return [
             'search_name' => 'bail|string',
-            'status' => [Rule::in(User::LIST_STATUS)],
-            'role_id' => '',
-            'gender' => '',
+            'status' => ['nullable'],
+            'roles' => ['nullable', 'array'],
+            'genders' => ['nullable', 'array'],
         ];
     }
 }

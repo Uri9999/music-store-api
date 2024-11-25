@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Interfaces\UserServiceInterface;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\User\UserIndexRequest;
+use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -16,7 +19,7 @@ class UserController extends Controller
         $this->service = $service;
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(UserIndexRequest $request): JsonResponse
     {
         $paginator = $this->service->index($request);
 
@@ -35,5 +38,20 @@ class UserController extends Controller
         $this->service->unlock($id);
 
         return ApiResponseService::success(null, 'Mở khóa hóa tài khoản thành công.');
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        $user = $this->service->show($id);
+        $resource = new UserResource($user);
+
+        return ApiResponseService::success($resource, 'Chi tiết user.');
+    }
+
+    public function update(UserUpdateRequest $request, int $id): JsonResponse
+    {
+        $this->service->update($id, $request);
+
+        return ApiResponseService::success(null, 'Cập nhật thông tin thành công.');
     }
 }

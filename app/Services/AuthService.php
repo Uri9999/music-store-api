@@ -67,7 +67,7 @@ class AuthService implements AuthServiceInterface
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return null;
         }
-        $user->tokens()->delete();
+        // $user->tokens()->delete();
         $token = $user->createToken('auth_token');
         // Lấy thời gian hết hạn từ cấu hình Sanctum
         $expirationMinutes = (int) config('sanctum.expiration', 60);

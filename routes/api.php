@@ -70,6 +70,8 @@ Route::middleware('api')->group(function () {
             // only admin
             Route::post('/user/{id}/lock', [UserController::class, 'lock'])->middleware('canLockUser');
             Route::post('/user/{id}/unlock', [UserController::class, 'unlock']);
+            Route::get('/user/{id}', [UserController::class, 'show']);
+            Route::post('/user/{id}', [UserController::class, 'update']);
         });
 
     });
