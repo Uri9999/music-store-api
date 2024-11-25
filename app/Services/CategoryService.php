@@ -17,7 +17,7 @@ class CategoryService implements CategoryServiceInterface
 
     public function getAllCategories()
     {
-        return $this->categoryRepository->get();
+        return $this->categoryRepository->with('parent:id,name')->paginate(10);
     }
 
     public function getCategoryById($id)

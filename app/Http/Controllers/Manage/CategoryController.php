@@ -20,7 +20,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return ApiResponseService::collection($this->categoryService->getAllCategories());
+        return ApiResponseService::paginate($this->categoryService->getAllCategories());
     }
 
     public function show($id)
