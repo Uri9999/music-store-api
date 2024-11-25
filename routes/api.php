@@ -4,12 +4,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Manage\CategoryController;
 use App\Http\Controllers\Customer\TabController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RequestTabController;
 use App\Http\Controllers\SelectionController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Manage\UserController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);

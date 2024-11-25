@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Manage;
 
 use App\Interfaces\UserServiceInterface;
 use App\Services\ApiResponseService;
@@ -9,6 +9,7 @@ use App\Http\Requests\User\UserIndexRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
