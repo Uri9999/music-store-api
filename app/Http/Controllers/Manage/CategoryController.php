@@ -18,9 +18,10 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return ApiResponseService::paginate($this->categoryService->getAllCategories());
+        $paginator = $this->categoryService->getAllCategories($request);
+        return ApiResponseService::paginate($paginator);
     }
 
     public function show($id)

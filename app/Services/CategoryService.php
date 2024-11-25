@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Interfaces\CategoryServiceInterface;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class CategoryService implements CategoryServiceInterface
 {
@@ -15,9 +16,15 @@ class CategoryService implements CategoryServiceInterface
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function getAllCategories()
+    public function getAllCategories(Request $request)
     {
-        return $this->categoryRepository->with('parent:id,name')->paginate(10);
+        $query = $this->categoryRepository->with('parent:id,name');
+        if ($name = $request->get('name')) {
+            $query = $query->fullTextSearch($name);
+        }
+        $categories = $query->paginate(10);
+
+        return $categories;
     }
 
     public function getCategoryById($id)
