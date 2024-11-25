@@ -62,6 +62,7 @@ Route::middleware('api')->group(function () {
             Route::get('/request-tabs', [RequestTabController::class, 'index']);
 
             Route::get('categories', [CategoryController::class, 'index']);
+            Route::get('categories/{id}', [CategoryController::class, 'show']);
             Route::post('categories', [CategoryController::class, 'store']);
             Route::put('categories/{category}', [CategoryController::class, 'update']);
             Route::delete('categories/{category}', [CategoryController::class, 'destroy']);

@@ -73,6 +73,7 @@ class SelectionController extends Controller
             $data[] = [
                 'label' => $item->name,
                 'value' => $item->getKey(),
+                'key' => $item->getKey(),
                 'description' => null,
                 'children' => count($item->children) > 0 ? $this->format($item->children) : null,
             ];
