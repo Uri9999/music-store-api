@@ -4,10 +4,11 @@ namespace App\Interfaces;
 
 use App\Models\RequestTab;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 
 interface RequestTabServiceInterface
 {
-    public function index(): LengthAwarePaginator;
+    public function index(Request $request): LengthAwarePaginator;
 
     public function getById(int $id): RequestTab;
 

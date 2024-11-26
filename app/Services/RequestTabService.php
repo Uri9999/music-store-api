@@ -6,6 +6,7 @@ use App\Interfaces\RequestTabServiceInterface;
 use App\Interfaces\RequestTabRepositoryInterface;
 use App\Models\RequestTab;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 
 class RequestTabService implements RequestTabServiceInterface
 {
@@ -15,9 +16,15 @@ class RequestTabService implements RequestTabServiceInterface
     {
         $this->requestTabRepository = $requestTabRepository;
     }
-    public function index(): LengthAwarePaginator
+    public function index(Request $request): LengthAwarePaginator
     {
-        return $this->requestTabRepository->paginate(config('app.paginate'));
+        $query = $this->requestTabRepository->with(['user:id,name', 'receiver:id,name']);
+        if ($search = $request->get('search')) {
+            $query = $query->fullTextSearch($search);
+        }
+        $requestTabs = $query->paginate(10);
+
+        return $requestTabs;
     }
 
     public function getById(int $id): RequestTab

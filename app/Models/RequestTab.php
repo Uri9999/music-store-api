@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\FullTextSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class RequestTab extends Model
 {
-    use HasFactory;
+    use HasFactory, FullTextSearch;
 
     protected $fillable = [
         'user_id',
@@ -20,6 +21,8 @@ class RequestTab extends Model
     const STATUS_DEFAULT = 0;
     const STATUS_PROCESSING = 1;
     const STATUS_COMPLETED = 2;
+
+    protected $fullTextColumns = ['name'];
 
     /**
      * Yêu cầu thuộc về người tạo.

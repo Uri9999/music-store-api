@@ -10,6 +10,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RequestTabController;
 use App\Http\Controllers\SelectionController;
 use App\Http\Controllers\Manage\UserController;
+use App\Http\Controllers\Manage\RequestTabController as AdminRequestTabController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -74,6 +75,8 @@ Route::middleware('api')->group(function () {
             Route::post('/user/{id}/unlock', [UserController::class, 'unlock']);
             Route::get('/user/{id}', [UserController::class, 'show']);
             Route::post('/user/{id}', [UserController::class, 'update']);
+
+            Route::get('request-tabs', [AdminRequestTabController::class, 'index']);
         });
 
     });

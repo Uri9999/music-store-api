@@ -28,6 +28,9 @@ class CheckIsMyRequestTab
         if ($requestTab->status !== RequestTab::STATUS_DEFAULT) {
             throw new CustomException('Yêu cầu tab đang được thực hiện, không thể thao tác.');
         }
+        if ($requestTab->receiver_id) {
+            throw new CustomException('Yêu cầu tab đang có người nhận làm, không thể thao tác.');
+        }
 
         return $next($request);
     }

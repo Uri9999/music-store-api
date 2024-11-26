@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('request_tabs', function (Blueprint $table) {
             $table->fullText(['name']);
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
+        Schema::table('request_tabs', function (Blueprint $table) {
             $table->dropFullText(['name']);
         });
     }
