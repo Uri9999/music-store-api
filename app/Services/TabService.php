@@ -19,9 +19,12 @@ class TabService implements TabServiceInterface
 
     public function index(Request $request)
     {
-        $query = $this->tabRepository;
+        $query = $this->tabRepository->with(['user:id,name', 'category:id,name']);
         if ($orderPrice = $request->get('orderPrice')) {
             $query = $query->orderBy('price', $orderPrice);
+        }
+        if ($search = $request->get('search')) {
+            $query = $query->fullTextSearch($search);
         }
 
         return $query->paginate(config('app.paginate'));

@@ -11,6 +11,7 @@ use App\Http\Controllers\RequestTabController;
 use App\Http\Controllers\SelectionController;
 use App\Http\Controllers\Manage\UserController;
 use App\Http\Controllers\Manage\RequestTabController as AdminRequestTabController;
+use App\Http\Controllers\Manage\TabController as AdminTabController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -79,6 +80,8 @@ Route::middleware('api')->group(function () {
             
             Route::get('request-tabs', [AdminRequestTabController::class, 'index']);
             Route::post('/request-tabs/update-receiver/{requestTab}', [AdminRequestTabController::class, 'updateReceiver'])->middleware('canUpdateRequestTabReceiver');
+
+            Route::get('tabs', [AdminTabController::class, 'index']);
         });
 
     });
