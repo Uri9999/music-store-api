@@ -6,9 +6,9 @@ use App\Interfaces\RequestTabServiceInterface;
 use App\Models\RequestTab;
 use Illuminate\Http\JsonResponse;
 use App\Services\ApiResponseService;
-use App\Http\Requests\RequestTab\StoreTabRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\RequestTab\UpdateReceiverRequest;
 
 class RequestTabController extends Controller
 {
@@ -26,4 +26,10 @@ class RequestTabController extends Controller
         return ApiResponseService::paginate($paginator);
     }
 
+    public function updateReceiver(UpdateReceiverRequest $request, RequestTab $requestTab): JsonResponse
+    {
+        $this->requestTabService->update($requestTab, $request->validated());
+
+        return ApiResponseService::success(null, 'Cập nhật thành công.');
+    }
 }

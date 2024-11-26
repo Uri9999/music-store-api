@@ -76,8 +76,9 @@ Route::middleware('api')->group(function () {
             Route::post('/user/{id}/unlock', [UserController::class, 'unlock']);
             Route::get('/user/{id}', [UserController::class, 'show']);
             Route::post('/user/{id}', [UserController::class, 'update']);
-
+            
             Route::get('request-tabs', [AdminRequestTabController::class, 'index']);
+            Route::post('/request-tabs/update-receiver/{requestTab}', [AdminRequestTabController::class, 'updateReceiver'])->middleware('canUpdateRequestTabReceiver');
         });
 
     });

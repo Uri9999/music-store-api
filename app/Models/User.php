@@ -120,4 +120,14 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->role_id == Role::ROLE_ADMIN;
     }
+
+    public function isAffiliate(): bool
+    {
+        return $this->role_id == Role::ROLE_AFFILIATE;
+    }
+
+    public function isStatusActive(): bool
+    {
+        return $this->status == self::STATUS_ACTIVE;
+    }
 }
