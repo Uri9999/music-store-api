@@ -69,6 +69,7 @@ Route::middleware('api')->group(function () {
             Route::delete('categories/{category}', [CategoryController::class, 'destroy']);
 
             Route::get('/user', [UserController::class, 'index']);
+            Route::get('/user/affiliate', [UserController::class, 'getAllAffiliate']);
 
             // only admin
             Route::post('/user/{id}/lock', [UserController::class, 'lock'])->middleware('canLockUser');

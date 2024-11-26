@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\UserServiceInterface;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -68,4 +69,14 @@ class UserService implements UserServiceInterface
         }
     }
 
+    public function getAllAffiliate(Request $request): Collection
+    {
+        $query = $this->repository->where('role_id', Role::ROLE_AFFILIATE);
+        if ($search = $request->get('search')) {
+            $query = $query->fullTextSearch($search);
+        }
+        $users = $query->get(['id', 'name']);
+
+        return $users;
+    }
 }
