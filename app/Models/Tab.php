@@ -20,7 +20,7 @@ class Tab extends Model  implements HasMedia
         'author',
         'price',
         'category_id',
-        'youtobe_url',
+        'youtube_url',
     ];
     protected $fullTextColumns = ['name', 'author'];
 

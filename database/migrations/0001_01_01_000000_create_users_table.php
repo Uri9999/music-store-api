@@ -26,6 +26,8 @@ return new class extends Migration
             $table->integer('role_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->fullText(['name', 'email']);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

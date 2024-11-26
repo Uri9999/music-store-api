@@ -28,7 +28,7 @@ class TabSeeder extends Seeder
                 'author' => 'Author ' . $index,
                 'price' => rand(10, 100), // Giá ngẫu nhiên từ 10 đến 100
                 'category_id' => $categories->random()->id, // Chọn ngẫu nhiên một category
-                'youtobe_url' => 'https://www.youtube.com/watch?v=4qy8dM3lLqc',
+                'youtube_url' => 'https://www.youtube.com/watch?v=4qy8dM3lLqc',
             ]);
         }
     }

@@ -18,6 +18,8 @@ return new class extends Migration {
                 ->constrained('categories')
                 ->nullOnDelete();  // Quan hệ tự tham chiếu
             $table->timestamps();
+
+            $table->fullText(['name']);
         });
     }
 

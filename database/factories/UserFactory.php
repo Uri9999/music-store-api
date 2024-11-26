@@ -60,7 +60,7 @@ class UserFactory extends Factory
             'status' => User::STATUS_ACTIVE,
             'gender' => 1,
             'role_id' => 1,
-            'password' => Hash::make('admin123'), // Mật khẩu cho admin
+            'password' => Hash::make('password'), // Mật khẩu cho admin
         ]);
     }
 }

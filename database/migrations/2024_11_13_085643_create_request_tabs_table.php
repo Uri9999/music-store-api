@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->tinyInteger('status')->default(RequestTab::STATUS_DEFAULT);
             $table->foreignId('receiver_id')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
+
+            $table->fullText(['name']);
         });
     }
 

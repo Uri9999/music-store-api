@@ -18,9 +18,11 @@ return new class extends Migration {
             $table->string('author');
             $table->integer('price')->nullable();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // Liên kết với bảng categories
-            $table->string('youtobe_url')->nullable();
+            $table->string('youtube_url')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->fullText(['name', 'author']);
         });
     }
 
