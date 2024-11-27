@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\RequestTab;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\ApiResponseService;
@@ -29,6 +30,21 @@ class SelectionController extends Controller
             [
                 'label' => 'Khóa',
                 'value' => User::STATUS_LOCKED,
+            ],
+        ];
+
+        $selections['request_tab_status'] = [
+            [
+                'label' => 'Khởi tạo',
+                'value' => RequestTab::STATUS_DEFAULT,
+            ],
+            [
+                'label' => 'Đang thực hiện',
+                'value' => RequestTab::STATUS_PROCESSING,
+            ],
+            [
+                'label' => 'Hoàn thành',
+                'value' => RequestTab::STATUS_COMPLETED,
             ],
         ];
 
@@ -69,7 +85,6 @@ class SelectionController extends Controller
     {
         $data = null;
         foreach ($items as $item) {
-            // dd($category->children);
             $data[] = [
                 'label' => $item->name,
                 'value' => $item->getKey(),

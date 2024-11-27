@@ -22,6 +22,9 @@ class RequestTabService implements RequestTabServiceInterface
         if ($search = $request->get('search')) {
             $query = $query->fullTextSearch($search);
         }
+        if ($status = $request->get('status')) {
+            $query = $query->whereIn('status', $status);
+        }
         $requestTabs = $query->paginate(10);
 
         return $requestTabs;
