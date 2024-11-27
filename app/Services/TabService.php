@@ -44,7 +44,13 @@ class TabService implements TabServiceInterface
 
     public function show($id)
     {
-        return $this->tabRepository->with(['user', 'category:id,name'])->find($id);
+        return $this->tabRepository->with([
+            'user:id,name',
+            'category:id,name',
+            'media' => function ($query) {
+                $query->whereIn('collection_name', [Tab::MEDIA_TAB_IMAGE, Tab::MEDIA_TAB_PDF]);
+            }
+        ])->find($id);
     }
 
     public function create(Request $request): Tab

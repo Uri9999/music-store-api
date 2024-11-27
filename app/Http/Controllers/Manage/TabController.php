@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Requests\Tab\TabRequest;
+use App\Http\Resources\TabResource;
 use Illuminate\Http\JsonResponse;
 use App\Services\ApiResponseService;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,14 @@ class TabController extends Controller
     {
         $tab = $this->service->create($request);
 
-        return ApiResponseService::success($tab, 'Create success', 201);
+        return ApiResponseService::success($tab, 'Tạo thành công.', 201);
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        $tab = $this->service->show($id);
+        $resource = new TabResource($tab);
+
+        return ApiResponseService::success($resource);
     }
 }
