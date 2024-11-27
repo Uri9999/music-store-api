@@ -20,6 +20,10 @@ class TabRequest extends FormRequest
             'author' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
+            'youtube_url' => 'nullable|string',
+            'images' => 'required|array|max:5',
+            'images.*' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:4096',
+            'pdf' => 'required|mimes:pdf|max:2048'
         ];
     }
 }

@@ -48,14 +48,6 @@ class TabController extends Controller
         return ApiResponseService::success($tab);
     }
 
-    public function store(TabRequest $request): JsonResponse
-    {
-        $tab = $this->tabService->create($request->validated());
-
-        return ApiResponseService::success($tab, 'Create success', 201);
-
-    }
-
     public function update(TabRequest $request, Tab $tab): JsonResponse
     {
         $updatedTab = $this->tabService->update($tab, $request->validated());

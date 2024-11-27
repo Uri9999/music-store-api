@@ -7,6 +7,7 @@ use App\Interfaces\TabRepositoryInterface;
 use App\Models\Tab;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TabService implements TabServiceInterface
 {
@@ -46,9 +47,21 @@ class TabService implements TabServiceInterface
         return $this->tabRepository->with(['user', 'category:id,name'])->find($id);
     }
 
-    public function create(array $data)
+    public function create(Request $request): Tab
     {
-        return $this->tabRepository->create($data);
+        $tab = $this->tabRepository->create(attributes: $request->only(['name', 'description', 'user_id', 'author', 'price', 'category_id', 'youtube_url']));
+        if ($images = $request->file('images')) {
+            foreach ($images as $img) {
+                $tab->addMedia($img)
+                    ->toMediaCollection(Tab::MEDIA_TAB_IMAGE);
+            }
+        }
+        if ($pdf = $request->file('pdf')) {
+            $tab->addMedia($pdf)
+                ->toMediaCollection(Tab::MEDIA_TAB_PDF);
+        }
+
+        return $tab;
     }
 
     public function update(Tab $tab, array $data)

@@ -24,6 +24,9 @@ class Tab extends Model  implements HasMedia
     ];
     protected $fullTextColumns = ['name', 'author'];
 
+    const MEDIA_TAB_PDF = 'tab_pdf';
+    const MEDIA_TAB_IMAGE = 'tab_image';
+
     /**
      * Người sở hữu tab.
      */

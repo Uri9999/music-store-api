@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Manage;
 
+use App\Http\Requests\Tab\TabRequest;
 use Illuminate\Http\JsonResponse;
 use App\Services\ApiResponseService;
 use App\Http\Controllers\Controller;
@@ -24,4 +25,10 @@ class TabController extends Controller
         return ApiResponseService::paginate($paginator);
     }
 
+    public function store(TabRequest $request): JsonResponse
+    {
+        $tab = $this->service->create($request);
+
+        return ApiResponseService::success($tab, 'Create success', 201);
+    }
 }

@@ -55,9 +55,8 @@ Route::middleware('api')->group(function () {
         Route::prefix('manage')->middleware(['role:Admin,Affiliate'])->group(function () {
             Route::get('request-tabs/by-receiver/{id}', [RequestTabController::class, 'getByReceiverId']);
 
-            Route::post('tabs', action: [TabController::class, 'store']);
-            Route::post('tabs/{tab}', [TabController::class, 'update']);
-            Route::delete('tabs/{tab}', [TabController::class, 'destroy']);
+            // Route::post('tabs/{tab}', [TabController::class, 'update']);
+            // Route::delete('tabs/{tab}', [TabController::class, 'destroy']);
         });
 
         Route::prefix('admin')->middleware(['role:Admin'])->group(function () {
@@ -82,6 +81,7 @@ Route::middleware('api')->group(function () {
             Route::post('/request-tabs/update-receiver/{requestTab}', [AdminRequestTabController::class, 'updateReceiver'])->middleware('canUpdateRequestTabReceiver');
 
             Route::get('tabs', [AdminTabController::class, 'index']);
+            Route::post('tabs', [AdminTabController::class, 'store']);
         });
 
     });
