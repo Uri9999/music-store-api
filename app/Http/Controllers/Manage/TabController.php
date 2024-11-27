@@ -40,4 +40,11 @@ class TabController extends Controller
 
         return ApiResponseService::success($resource);
     }
+
+    public function destroy(int $id)
+    {
+        $this->service->delete($id);
+
+        return ApiResponseService::success(null, 'Xóa thành công.'); 
+    }
 }

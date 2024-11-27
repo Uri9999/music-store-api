@@ -83,6 +83,7 @@ Route::middleware('api')->group(function () {
             Route::get('tabs', [AdminTabController::class, 'index']);
             Route::post('tabs', [AdminTabController::class, 'store']);
             Route::get('tabs/{id}', [AdminTabController::class, 'show']);
+            Route::delete('tabs/{id}', [AdminTabController::class, 'destroy']);
         });
 
     });

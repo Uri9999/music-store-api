@@ -48,18 +48,6 @@ class TabController extends Controller
         return ApiResponseService::success($tab);
     }
 
-    public function update(TabRequest $request, Tab $tab): JsonResponse
-    {
-        $updatedTab = $this->tabService->update($tab, $request->validated());
-
-        return ApiResponseService::success($updatedTab);
-    }
-
-    public function destroy(Tab $tab): JsonResponse
-    {
-        return ApiResponseService::success($this->tabService->delete($tab), 'Tab deleted successfully');
-    }
-
     public function getTabByIds(Request $request): JsonResponse
     {
         $tabs = $this->tabService->getTabByIds($request->get('ids'));

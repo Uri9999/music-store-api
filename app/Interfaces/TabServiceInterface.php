@@ -14,6 +14,6 @@ interface TabServiceInterface
     public function show($id);
     public function create(Request $request): Tab;
     public function update(Tab $tab, array $data);
-    public function delete(Tab $tab);
+    public function delete(int $id);
     public function getTabByIds(array $ids);
 }

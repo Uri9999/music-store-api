@@ -75,9 +75,9 @@ class TabService implements TabServiceInterface
         return $this->tabRepository->update($data, $tab->getKey());
     }
 
-    public function delete(Tab $tab)
+    public function delete(int $id)
     {
-        return $this->tabRepository->delete($tab->getKey());
+        return $this->tabRepository->delete($id);
     }
 
     public function getTabByIds(array $ids)
