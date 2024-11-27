@@ -70,10 +70,10 @@ class RequestTabController extends Controller
         return ApiResponseService::success($requestTab);
     }
 
-    public function destroy(RequestTab $requestTab): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        $result = $this->requestTabService->delete($requestTab);
+        $this->requestTabService->delete($id);
 
-        return ApiResponseService::success($result, 'Xóa thành công.');
+        return ApiResponseService::success(null, 'Xóa thành công.');
     }
 }

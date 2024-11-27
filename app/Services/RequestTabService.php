@@ -60,8 +60,8 @@ class RequestTabService implements RequestTabServiceInterface
         return $this->requestTabRepository->update(['status', $status], $requestTab);
     }
 
-    public function delete(RequestTab $requestTab): bool
+    public function delete(int $id): void
     {
-        return $this->requestTabRepository->delete($requestTab->getKey());
+        $this->requestTabRepository->delete($id);
     }
 }

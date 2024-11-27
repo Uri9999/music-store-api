@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Traits\FullTextSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RequestTab extends Model
 {
-    use HasFactory, FullTextSearch;
+    use HasFactory, SoftDeletes, FullTextSearch;
 
     protected $fillable = [
         'user_id',

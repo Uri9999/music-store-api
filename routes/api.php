@@ -50,13 +50,10 @@ Route::middleware('api')->group(function () {
         Route::post('request-tabs', [RequestTabController::class, 'store']);
         Route::get('request-tabs/created/by-me', [RequestTabController::class, 'getCreatedByMy']);
         Route::put('request-tabs/{requestTab}', [RequestTabController::class, 'update'])->middleware('checkIsMyRequestTab');
-        Route::delete('request-tabs/{requestTab}', [RequestTabController::class, 'destroy'])->middleware('checkIsMyRequestTab');
+        Route::delete('request-tabs/{id}', [RequestTabController::class, 'destroy'])->middleware('checkIsMyRequestTab');
 
         Route::prefix('manage')->middleware(['role:Admin,Affiliate'])->group(function () {
             Route::get('request-tabs/by-receiver/{id}', [RequestTabController::class, 'getByReceiverId']);
-
-            // Route::post('tabs/{tab}', [TabController::class, 'update']);
-            // Route::delete('tabs/{tab}', [TabController::class, 'destroy']);
         });
 
         Route::prefix('admin')->middleware(['role:Admin'])->group(function () {
@@ -78,6 +75,7 @@ Route::middleware('api')->group(function () {
             Route::post('/user/{id}', [UserController::class, 'update']);
             
             Route::get('request-tabs', [AdminRequestTabController::class, 'index']);
+            Route::delete('request-tabs/{id}', [AdminRequestTabController::class, 'destroy']);
             Route::post('/request-tabs/update-receiver/{requestTab}', [AdminRequestTabController::class, 'updateReceiver'])->middleware('canUpdateRequestTabReceiver');
 
             Route::get('tabs', [AdminTabController::class, 'index']);

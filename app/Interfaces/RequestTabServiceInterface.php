@@ -22,5 +22,5 @@ interface RequestTabServiceInterface
 
     public function statusUpdate(RequestTab $requestTab, int $status): RequestTab;
 
-    public function delete(RequestTab $requestTab): bool;
+    public function delete(int $id): void;
 }
