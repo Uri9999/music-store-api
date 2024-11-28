@@ -81,7 +81,9 @@ Route::middleware('api')->group(function () {
             Route::get('tabs', [AdminTabController::class, 'index']);
             Route::post('tabs', [AdminTabController::class, 'store']);
             Route::get('tabs/{id}', [AdminTabController::class, 'show']);
+            Route::post('tabs/{id}', [AdminTabController::class, 'update']);
             Route::delete('tabs/{id}', [AdminTabController::class, 'destroy']);
+            Route::delete('tabs/{tabId}/images/{mediaId}', [AdminTabController::class, 'removeTabImage']);
         });
 
     });

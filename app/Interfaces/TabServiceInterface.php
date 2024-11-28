@@ -13,7 +13,8 @@ interface TabServiceInterface
     public function getRandomTab(): Collection;
     public function show($id);
     public function create(Request $request): Tab;
-    public function update(Tab $tab, array $data);
+    public function update(int $id, Request $request);
     public function delete(int $id);
     public function getTabByIds(array $ids);
+    public function removeTabImage(int $tabId, int $mediaId): void;
 }

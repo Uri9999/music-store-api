@@ -70,9 +70,29 @@ class TabService implements TabServiceInterface
         return $tab;
     }
 
-    public function update(Tab $tab, array $data)
+    public function update(int $id, Request $request)
     {
-        return $this->tabRepository->update($data, $tab->getKey());
+        $tab = $this->tabRepository->update($request->only([
+            'name',
+            'description',
+            'user_id',
+            'author',
+            'price',
+            'category_id',
+            'youtube_url',
+        ]), $id);
+
+        if ($pdf = $request->file('pdf')) {
+            $tab->clearMediaCollection(Tab::MEDIA_TAB_PDF);
+            $tab->addMedia($pdf)
+                ->toMediaCollection(Tab::MEDIA_TAB_PDF);
+        }
+        if ($images = $request->file('images')) {
+            foreach ($images as $img) {
+                $tab->addMedia($img)
+                    ->toMediaCollection(Tab::MEDIA_TAB_IMAGE);
+            }
+        }
     }
 
     public function delete(int $id)
@@ -83,5 +103,14 @@ class TabService implements TabServiceInterface
     public function getTabByIds(array $ids)
     {
         return $this->tabRepository->whereIn('id', $ids)->get();
+    }
+
+    public function removeTabImage(int $tabId, int $mediaId): void
+    {
+        $tab = $this->tabRepository->find($tabId);
+        $media = $tab->getMedia(Tab::MEDIA_TAB_IMAGE)->where('id', $mediaId)->first();
+        if ($media) {
+            $media->delete();
+        }
     }
 }
