@@ -28,6 +28,8 @@ class TabResource extends JsonResource
             'price' => $tab->price,
             'category' => $tab?->category,
             'youtube_url' => $tab->youtube_url,
+            'user_id' => $tab->user_id,
+            'category_id' => $tab->category_id,
 
         ];
         if ($tab->relationLoaded('media')) {
