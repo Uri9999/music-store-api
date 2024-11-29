@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -73,7 +74,7 @@ Route::middleware('api')->group(function () {
             Route::post('/user/{id}/unlock', [UserController::class, 'unlock']);
             Route::get('/user/{id}', [UserController::class, 'show']);
             Route::post('/user/{id}', [UserController::class, 'update']);
-            
+
             Route::get('request-tabs', [AdminRequestTabController::class, 'index']);
             Route::delete('request-tabs/{id}', [AdminRequestTabController::class, 'destroy']);
             Route::post('/request-tabs/update-receiver/{requestTab}', [AdminRequestTabController::class, 'updateReceiver'])->middleware('canUpdateRequestTabReceiver');
@@ -84,6 +85,12 @@ Route::middleware('api')->group(function () {
             Route::post('tabs/{id}', [AdminTabController::class, 'update']);
             Route::delete('tabs/{id}', [AdminTabController::class, 'destroy']);
             Route::delete('tabs/{tabId}/images/{mediaId}', [AdminTabController::class, 'removeTabImage']);
+
+            Route::get('banners', [BannerController::class, 'index']);
+            Route::get('banners/{id}', [BannerController::class, 'show']);
+            Route::post('banners', [BannerController::class, 'store']);
+            Route::post('banners/{id}', [BannerController::class, 'update']);
+            Route::delete('banners/{id}', [BannerController::class, 'destroy']);
         });
 
     });

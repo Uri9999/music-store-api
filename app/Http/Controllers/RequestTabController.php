@@ -19,9 +19,9 @@ class RequestTabController extends Controller
         $this->requestTabService = $requestTabService;
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $paginator = $this->requestTabService->index();
+        $paginator = $this->requestTabService->index($request);
 
         return ApiResponseService::paginate($paginator);
     }

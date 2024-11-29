@@ -51,12 +51,12 @@ class ApiResponseService
     /**
      * Trả về response cho dữ liệu phân trang.
      */
-    public static function paginate(LengthAwarePaginator $paginator, string $message = 'Success', int $status = 200): JsonResponse
+    public static function paginate(LengthAwarePaginator $paginator, string $message = 'Success', int $status = 200, ?string $classResource = null): JsonResponse
     {
         return response()->json([
             'status' => $status,
             'message' => $message,
-            'data' => $paginator->items(),
+            'data' => $classResource ? $classResource::collection($paginator->items()) : $paginator->items(),
             'meta' => [
                 'currentPage' => $paginator->currentPage(),
                 'lastPage' => $paginator->lastPage(),
