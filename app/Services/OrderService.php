@@ -91,12 +91,12 @@ class OrderService implements OrderServiceInterface
 
     public function index(Request $request): LengthAwarePaginator
     {
-
         $query = $this->repository->with([
             'user:id,name',
             'media' => function ($query) {
                 $query->whereIn('collection_name', [Order::MEDIA_BILL]);
-            }
+            },
+            'orderItems',
         ]);
         if ($search = $request->get('search')) {
             $query = $query->whereHas('user', function (Builder $q) use ($search) {

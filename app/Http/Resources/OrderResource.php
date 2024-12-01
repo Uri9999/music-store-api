@@ -35,6 +35,10 @@ class OrderResource extends JsonResource
             $array['user']['name'] = $order->user->name;
         }
 
+        if ($order->relationLoaded('orderItems')) {
+            $array['order_items'] = $order->orderItems;
+        }
+
         return $array;
     }
 }
