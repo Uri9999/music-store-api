@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Article;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,8 +17,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->integer('user_id');
-            $table->tinyInteger('status');
-            $table->tinyInteger('type');
+            $table->tinyInteger('status')->default(Article::STATUS_DRAFT);
+            $table->tinyInteger('type')->nullable();
             $table->timestamps();
 
             $table->fullText(['title']);
