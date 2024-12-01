@@ -6,6 +6,8 @@ namespace App\Models;
 
 use App\Traits\FullTextSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -77,23 +79,25 @@ class User extends Authenticatable implements HasMedia
 
     const MEDIA_AVATAR = 'avatar';
 
-    /**
-     * Một user thuộc về một role.
-     */
-    public function role()
+    public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    public function tabs()
+    public function tabs(): HasMany
     {
         return $this->hasMany(Tab::class);
+    }
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
     }
 
     /**
      * Một user gửi nhiều yêu cầu tạo tab.
      */
-    public function tabRequests()
+    public function tabRequests(): HasMany
     {
         return $this->hasMany(RequestTab::class);
     }
@@ -101,7 +105,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * Một user nhận nhiều yêu cầu tab.
      */
-    public function receiveTabRequests()
+    public function receiveTabRequests(): HasMany
     {
         return $this->hasMany(RequestTab::class, 'receiver_id');
     }
