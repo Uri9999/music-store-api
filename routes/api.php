@@ -14,6 +14,7 @@ use App\Http\Controllers\Manage\UserController;
 use App\Http\Controllers\Manage\RequestTabController as AdminRequestTabController;
 use App\Http\Controllers\Manage\TabController as AdminTabController;
 use App\Http\Controllers\Manage\OrderController as AdminOrderController;
+use App\Http\Controllers\Manage\ArticleController as AdminArticleController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -94,6 +95,12 @@ Route::middleware('api')->group(function () {
             Route::delete('banners/{id}', [BannerController::class, 'destroy']);
 
             Route::get('orders', [AdminOrderController::class, 'index']);
+
+            Route::get('articles', [AdminArticleController::class, 'index']);
+            Route::get('articles/{id}', [AdminArticleController::class, 'show']);
+            Route::post('articles', [AdminArticleController::class, 'store']);
+            Route::put('articles/{id}', [AdminArticleController::class, 'update']);
+            Route::delete('articles/{id}', [AdminArticleController::class, 'destroy']);
         });
 
     });

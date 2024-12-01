@@ -15,6 +15,7 @@ use App\Http\Middleware\CanUpdateRequestTabReceiver;
 use App\Http\Middleware\CheckIsMyOrder;
 use App\Http\Middleware\CheckIsMyCart;
 use App\Http\Middleware\CheckIsMyRequestTab;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -42,6 +43,8 @@ return Application::configure(basePath: dirname(__DIR__))
                     return ApiResponseService::error($e->getMessage(), 401);
                 case $e instanceof AuthorizationException:
                     return ApiResponseService::error($e->getMessage(), 403);
+                case $e instanceof NotFoundHttpException:
+                    return ApiResponseService::error($e->getMessage(), 404);
                 case $e instanceof CustomException:
                     return ApiResponseService::error($e->getMessage(), 400);
             }

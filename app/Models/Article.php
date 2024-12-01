@@ -21,14 +21,15 @@ class Article extends Model
 
     protected $fullTextColumns = ['title'];
 
-    const TYPE_TUTORIAL = 1;
-    const TYPE_POLICY = 2;
+    const TYPE_ARTICLE = 1;
+    const TYPE_TUTORIAL = 2;
+    const TYPE_POLICY = 3;
 
     const STATUS_DRAFT = 1;
     const STATUS_PUBLIC = 2;
     const STATUS_LOCK = 3;
 
-    public function role(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

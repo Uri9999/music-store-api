@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('content');
             $table->integer('user_id');
             $table->tinyInteger('status')->default(Article::STATUS_DRAFT);
-            $table->tinyInteger('type')->nullable();
+            $table->tinyInteger('type')->default(Article::TYPE_ARTICLE);
             $table->timestamps();
 
             $table->fullText(['title']);
