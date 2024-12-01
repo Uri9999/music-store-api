@@ -13,6 +13,7 @@ use App\Http\Controllers\SelectionController;
 use App\Http\Controllers\Manage\UserController;
 use App\Http\Controllers\Manage\RequestTabController as AdminRequestTabController;
 use App\Http\Controllers\Manage\TabController as AdminTabController;
+use App\Http\Controllers\Manage\OrderController as AdminOrderController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -91,6 +92,8 @@ Route::middleware('api')->group(function () {
             Route::post('banners', [BannerController::class, 'store']);
             Route::post('banners/{id}', [BannerController::class, 'update']);
             Route::delete('banners/{id}', [BannerController::class, 'destroy']);
+
+            Route::get('orders', [AdminOrderController::class, 'index']);
         });
 
     });

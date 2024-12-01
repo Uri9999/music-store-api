@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\RequestTab;
 use App\Models\Role;
 use App\Models\User;
@@ -75,6 +76,25 @@ class SelectionController extends Controller
             [
                 'label' => 'Nữ',
                 'value' => User::GENDER_FEMALE,
+            ],
+        ];
+
+        $selections['order_status'] = [
+            [
+                'label' => 'Khởi tạo',
+                'value' => Order::STATUS_CREATED,
+            ],
+            [
+                'label' => 'Thanh toán thành công',
+                'value' => Order::STATUS_PAYMENT_SUCCESS,
+            ],
+            [
+                'label' => 'Hoàn thành',
+                'value' => Order::STATUS_COMPLETED,
+            ],
+            [
+                'label' => 'Thanh toán thất bại',
+                'value' => Order::STATUS_PAYMENT_FAIL,
             ],
         ];
 

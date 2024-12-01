@@ -10,9 +10,11 @@ use App\Interfaces\OrderServiceInterface;
 use App\Interfaces\TabRepositoryInterface;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Models\Order;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class OrderService implements OrderServiceInterface
 {
@@ -83,6 +85,28 @@ class OrderService implements OrderServiceInterface
     public function getMyOrder(Request $request)
     {
         $orders = $this->repository->with('orderItems')->where('user_id', $request->user()->getKey())->orderBy('created_at', 'DESC')->get();
+
+        return $orders;
+    }
+
+    public function index(Request $request): LengthAwarePaginator
+    {
+
+        $query = $this->repository->with([
+            'user:id,name',
+            'media' => function ($query) {
+                $query->whereIn('collection_name', [Order::MEDIA_BILL]);
+            }
+        ]);
+        if ($search = $request->get('search')) {
+            $query = $query->whereHas('user', function (Builder $q) use ($search) {
+                $q->fullTextSearch($search);
+            });
+        }
+        if ($status = $request->get('status')) {
+            $query = $query->whereIn('status', $status);
+        }
+        $orders = $query->paginate(10);
 
         return $orders;
     }

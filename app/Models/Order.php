@@ -23,7 +23,8 @@ class Order extends Model implements HasMedia
 
     const STATUS_CREATED = 1;
     const STATUS_PAYMENT_SUCCESS = 2;
-    const STATUS_PAYMENT_FAIL = 3;
+    const STATUS_COMPLETED = 3;
+    const STATUS_PAYMENT_FAIL = 4;
 
     const TYPE_TAB = 1;
     const TYPE_SUBSCRIPTION = 2;
