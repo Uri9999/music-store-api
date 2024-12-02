@@ -8,7 +8,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CanDeleteArticle
+class CanUpdateArticle
 {
     /**
      * Handle an incoming request.
@@ -22,8 +22,8 @@ class CanDeleteArticle
         $articleRepository = app(ArticleRepositoryInterface::class);
         $article = $articleRepository->find($id);
         $user = $request->user();
-        if (!$article->isTypeArticle()) {
-            throw new CustomException('Không thể xóa bài viết.');
+        if (!$article->isTypeArticle() && !$user->isAdmin()) {
+            throw new CustomException('Chỉ Admin mới có quyền thực hiện.');
         }
 
         return $next($request);
