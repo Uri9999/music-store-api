@@ -10,6 +10,7 @@ use App\Interfaces\OrderServiceInterface;
 use App\Interfaces\TabRepositoryInterface;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -77,7 +78,16 @@ class OrderService implements OrderServiceInterface
 
     public function show(int $id): ?Order
     {
-        $order = $this->repository->find($id)->load('media');
+        $order = $this->repository->find($id)->load([
+            'media' => function ($query) {
+                $query->whereIn('collection_name', [Order::MEDIA_BILL]);
+            },
+            'orderItems',
+            'user:id,name',
+            'user.media' => function ($query) {
+                $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
+            },
+        ]);
 
         return $order;
     }

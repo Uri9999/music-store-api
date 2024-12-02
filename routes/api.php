@@ -96,6 +96,7 @@ Route::middleware('api')->group(function () {
             Route::delete('banners/{id}', [BannerController::class, 'destroy']);
 
             Route::get('orders', [AdminOrderController::class, 'index']);
+            Route::get('orders/{id}', [AdminOrderController::class, 'show']);
 
             Route::get('articles', [AdminArticleController::class, 'index']);
             Route::get('articles/{id}', [AdminArticleController::class, 'show']);

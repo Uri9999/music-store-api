@@ -26,4 +26,12 @@ class OrderController extends Controller
 
         return ApiResponseService::paginate($paginator, '', 200, OrderResource::class);
     }
+
+    public function show(int $id): JsonResponse
+    {
+        $order = $this->service->show($id);
+        $resource = new OrderResource($order);
+
+        return ApiResponseService::success($resource);
+    }
 }
