@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\RequestTab;
@@ -95,6 +96,36 @@ class SelectionController extends Controller
             [
                 'label' => 'Thanh toán thất bại',
                 'value' => Order::STATUS_PAYMENT_FAIL,
+            ],
+        ];
+
+        $selections['article_status'] = [
+            [
+                'label' => 'Nháp',
+                'value' => Article::STATUS_DRAFT,
+            ],
+            [
+                'label' => 'Công khai',
+                'value' => Article::STATUS_PUBLIC,
+            ],
+            [
+                'label' => 'Khóa',
+                'value' => Article::STATUS_LOCK,
+            ],
+        ];
+
+        $selections['article_types'] = [
+            [
+                'label' => 'Bài viết',
+                'value' => Article::TYPE_ARTICLE,
+            ],
+            [
+                'label' => 'Hướng dẫn',
+                'value' => Article::TYPE_TUTORIAL,
+            ],
+            [
+                'label' => 'Terms',
+                'value' => Article::TYPE_POLICY,
             ],
         ];
 

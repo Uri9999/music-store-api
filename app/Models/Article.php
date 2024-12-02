@@ -33,4 +33,9 @@ class Article extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function isTypeArticle(): bool
+    {
+        return $this->type == self::TYPE_ARTICLE;
+    }
 }

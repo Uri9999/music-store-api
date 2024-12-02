@@ -99,8 +99,8 @@ Route::middleware('api')->group(function () {
             Route::get('articles', [AdminArticleController::class, 'index']);
             Route::get('articles/{id}', [AdminArticleController::class, 'show']);
             Route::post('articles', [AdminArticleController::class, 'store']);
-            Route::put('articles/{id}', [AdminArticleController::class, 'update']);
-            Route::delete('articles/{id}', [AdminArticleController::class, 'destroy']);
+            Route::put('articles/{id}', [AdminArticleController::class, 'update'])->middleware('canDeleteArticle');
+            Route::delete('articles/{id}', [AdminArticleController::class, 'destroy'])->middleware('canDeleteArticle');
         });
 
     });

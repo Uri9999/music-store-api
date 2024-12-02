@@ -10,6 +10,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use App\Exceptions\CustomException;
+use App\Http\Middleware\CanDeleteArticle;
 use App\Http\Middleware\CanLockUser;
 use App\Http\Middleware\CanUpdateRequestTabReceiver;
 use App\Http\Middleware\CheckIsMyOrder;
@@ -32,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'checkIsMyRequestTab' => CheckIsMyRequestTab::class,
             'canLockUser' => CanLockUser::class,
             'canUpdateRequestTabReceiver' => CanUpdateRequestTabReceiver::class,
+            'canDeleteArticle' => CanDeleteArticle::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
