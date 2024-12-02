@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\MediaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Manage\CategoryController;
@@ -101,6 +102,8 @@ Route::middleware('api')->group(function () {
             Route::post('articles', [AdminArticleController::class, 'store']);
             Route::put('articles/{id}', [AdminArticleController::class, 'update'])->middleware('canUpdateArticle');
             Route::delete('articles/{id}', [AdminArticleController::class, 'destroy'])->middleware('canDeleteArticle');
+
+            Route::post('media/upload', [MediaController::class, 'upload']);
         });
 
     });

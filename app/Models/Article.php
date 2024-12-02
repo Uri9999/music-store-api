@@ -29,6 +29,8 @@ class Article extends Model
     const STATUS_PUBLIC = 2;
     const STATUS_LOCK = 3;
 
+    const MEDIA_ARTICLE = 'article';
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
