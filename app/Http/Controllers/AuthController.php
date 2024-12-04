@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\VerifyUserRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Http\Resources\LoginResource;
 
 class AuthController extends Controller
 {
@@ -44,8 +45,9 @@ class AuthController extends Controller
         if (!$result) {
             return ApiResponseService::error('Invalid credentials', 401);
         }
+        $resource = new LoginResource($result);
 
-        return ApiResponseService::success($result, 'Đăng nhập thành công.');
+        return ApiResponseService::success($resource, 'Đăng nhập thành công.');
     }
 
     public function logout(): JsonResponse

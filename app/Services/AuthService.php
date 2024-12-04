@@ -62,7 +62,9 @@ class AuthService implements AuthServiceInterface
 
     public function login(array $data)
     {
-        $user = $this->authRepository->getUserByEmail($data['email']);
+        $user = $this->authRepository->getUserByEmail($data['email'])->load(['media' => function ($q) {
+            $q->where('collection_name', User::MEDIA_AVATAR);
+        }]);
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return null;
