@@ -13,7 +13,7 @@ class Order extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = ['user_id', 'status', 'type', 'total_price', 'note', 'meta', 'approver_id', 'approval_date'];
+    protected $fillable = ['user_id', 'status', 'type', 'total_price', 'note', 'meta', 'approver_id', 'approval_date', 'canceller_id'];
 
     protected $casts = [
         'meta' => 'json',
@@ -24,7 +24,7 @@ class Order extends Model implements HasMedia
     const STATUS_CREATED = 1;
     const STATUS_PAYMENT_SUCCESS = 2;
     const STATUS_COMPLETED = 3;
-    const STATUS_PAYMENT_FAIL = 4;
+    const STATUS_CANCEL = 4;
 
     const TYPE_TAB = 1;
     const TYPE_SUBSCRIPTION = 2;
@@ -37,6 +37,11 @@ class Order extends Model implements HasMedia
     public function approver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approver_id');
+    }
+
+    public function canceller(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'canceller_id');
     }
 
     public function orderItems(): HasMany

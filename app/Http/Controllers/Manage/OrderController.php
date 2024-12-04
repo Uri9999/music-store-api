@@ -34,4 +34,18 @@ class OrderController extends Controller
 
         return ApiResponseService::success($resource);
     }
+
+    public function approval(Request $request, int $id): JsonResponse
+    {
+        $this->service->approval($id, $request);
+
+        return ApiResponseService::success(null, 'Đơn hàng đã hoàn thành.');
+    }
+
+    public function cancel(Request $request, int $id): JsonResponse
+    {
+        $this->service->cancel($id, $request);
+
+        return ApiResponseService::success(null, 'Đã hủy đơn hàng.');
+    }
 }

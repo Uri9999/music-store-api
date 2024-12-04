@@ -45,6 +45,11 @@ class OrderResource extends JsonResource
             $array['approver']['name'] = $order->approver->name;
         }
 
+        if ($order->relationLoaded('canceller') && $order->canceller) {
+            $array['canceller']['id'] = $order->canceller->id;
+            $array['canceller']['name'] = $order->canceller->name;
+        }
+
         if ($order->relationLoaded('orderItems')) {
             $array['order_items'] = $order->orderItems;
         }

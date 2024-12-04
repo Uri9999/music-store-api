@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
 
 class OrderService implements OrderServiceInterface
 {
@@ -38,6 +39,13 @@ class OrderService implements OrderServiceInterface
             $user = $request->user();
             $tabIds = $request->get('tab_ids');
             $tabs = $this->tabRepository->whereIn('id', $tabIds)->get();
+            $metaOrder = $tabs->map(function ($tab) {
+                return [
+                    'id' => $tab->id,
+                    'name' => $tab->name,
+                    'price' => $tab->price,
+                ];
+            })->toArray();
             $totalPrice = $tabs->sum(fn($item) => $item->price);
             $userId = $user->getKey();
             $order = $this->repository->create([
@@ -46,9 +54,7 @@ class OrderService implements OrderServiceInterface
                 'type' => Order::TYPE_TAB,
                 'total_price' => $totalPrice,
                 'note' => $request->get('note'),
-                'meta' => [
-                    'test' => 'ok'
-                ]
+                'meta' => $metaOrder
             ]);
             if ($request->file('bill')) {
                 $media = $order->addMediaFromRequest('bill')->toMediaCollection(Order::MEDIA_BILL);
@@ -104,6 +110,7 @@ class OrderService implements OrderServiceInterface
         $query = $this->repository->with([
             'user:id,name',
             'approver:id,name',
+            'canceller:id,name',
             'media' => function ($query) {
                 $query->whereIn('collection_name', [Order::MEDIA_BILL]);
             },
@@ -117,8 +124,18 @@ class OrderService implements OrderServiceInterface
         if ($status = $request->get('status')) {
             $query = $query->whereIn('status', $status);
         }
-        $orders = $query->paginate(10);
+        $orders = $query->orderBy('created_at', 'DESC')->paginate(10);
 
         return $orders;
+    }
+
+    public function approval(int $id, Request $request): void
+    {
+        $this->repository->update(['status' => Order::STATUS_COMPLETED, 'approver_id' => $request->user()->getKey(), 'approval_date' => Carbon::today()], $id);
+    }
+
+    public function cancel(int $id, Request $request): void
+    {
+        $this->repository->update(['status' => Order::STATUS_CANCEL, 'canceller_id' => $request->user()->getKey()], $id);
     }
 }

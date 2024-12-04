@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::table('orders', function (Blueprint $table) {
             $table->date('approval_date')->after('status')->nullable();
             $table->integer('approver_id')->after('approval_date')->nullable();
+            $table->integer('canceller_id')->after('approver_id')->nullable();
         });
     }
 
@@ -22,7 +23,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn(['approval_date', 'approver_id']);
+            $table->dropColumn(['approval_date', 'approver_id', 'canceller_id']);
         });
     }
 };

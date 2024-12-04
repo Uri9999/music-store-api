@@ -94,8 +94,8 @@ class SelectionController extends Controller
                 'value' => Order::STATUS_COMPLETED,
             ],
             [
-                'label' => 'Thanh toán thất bại',
-                'value' => Order::STATUS_PAYMENT_FAIL,
+                'label' => 'Đã hủy',
+                'value' => Order::STATUS_CANCEL,
             ],
         ];
 

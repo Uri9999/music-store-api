@@ -97,6 +97,8 @@ Route::middleware('api')->group(function () {
 
             Route::get('orders', [AdminOrderController::class, 'index']);
             Route::get('orders/{id}', [AdminOrderController::class, 'show']);
+            Route::post('orders/approval/{id}', [AdminOrderController::class, 'approval']);
+            Route::post('orders/cancel/{id}', [AdminOrderController::class, 'cancel']);
 
             Route::get('articles', [AdminArticleController::class, 'index']);
             Route::get('articles/{id}', [AdminArticleController::class, 'show']);

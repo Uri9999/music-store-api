@@ -13,4 +13,6 @@ interface OrderServiceInterface
     public function show(int $id): ?Order;
     public function getMyOrder(Request $request);
     public function index(Request $request): LengthAwarePaginator;
+    public function approval(int $id, Request $request): void;
+    public function cancel(int $id, Request $request): void;
 }
