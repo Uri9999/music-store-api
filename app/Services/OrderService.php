@@ -103,6 +103,7 @@ class OrderService implements OrderServiceInterface
     {
         $query = $this->repository->with([
             'user:id,name',
+            'approver:id,name',
             'media' => function ($query) {
                 $query->whereIn('collection_name', [Order::MEDIA_BILL]);
             },

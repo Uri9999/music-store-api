@@ -26,6 +26,9 @@ class OrderResource extends JsonResource
             'type' => $order->type,
             'total_price' => $order->total_price,
             'note' => $order->note,
+            'approval_date' => $order->approval_date,
+            'approver_id' => $order->approver_id,
+            'created_at' => $order->created_at->format('d/m/Y'),
         ];
         if ($order->relationLoaded('media')) {
             $array['media_bill'] = new MediaResource($order->getMedia(Order::MEDIA_BILL)->last());
@@ -35,6 +38,11 @@ class OrderResource extends JsonResource
             $array['user']['id'] = $order->user->id;
             $array['user']['name'] = $order->user->name;
             $array['user']['avatar_url'] = new MediaResource($order->user->getMedia(User::MEDIA_AVATAR)->last());
+        }
+
+        if ($order->relationLoaded('approver') && $order->approver) {
+            $array['approver']['id'] = $order->approver->id;
+            $array['approver']['name'] = $order->approver->name;
         }
 
         if ($order->relationLoaded('orderItems')) {
