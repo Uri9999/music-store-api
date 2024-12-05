@@ -10,7 +10,11 @@ class UserSubscription extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['status', 'duration_in_days', 'user_id', 'meta', 'start_date', 'end_date'];
+    protected $fillable = ['status', 'subscription_id', 'user_id', 'meta', 'start_date', 'end_date'];
+
+    protected $casts = [
+        'meta' => 'json',
+    ];
 
     const MEDIA_SUBSCRIPTION_BILL = 'subscription-bill';
 

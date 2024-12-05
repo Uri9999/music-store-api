@@ -16,6 +16,7 @@ use App\Http\Controllers\Manage\RequestTabController as AdminRequestTabControlle
 use App\Http\Controllers\Manage\TabController as AdminTabController;
 use App\Http\Controllers\Manage\OrderController as AdminOrderController;
 use App\Http\Controllers\Manage\ArticleController as AdminArticleController;
+use App\Http\Controllers\Customer\UserSubscriptionController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -55,6 +56,8 @@ Route::middleware('api')->group(function () {
         Route::get('request-tabs/created/by-me', [RequestTabController::class, 'getCreatedByMy']);
         Route::put('request-tabs/{requestTab}', [RequestTabController::class, 'update'])->middleware('checkIsMyRequestTab');
         Route::delete('request-tabs/{id}', [RequestTabController::class, 'destroy'])->middleware('checkIsMyRequestTab');
+
+        Route::post('subscription/register', [UserSubscriptionController::class, 'register']);
 
         Route::prefix('manage')->middleware(['role:Admin,Affiliate'])->group(function () {
             Route::get('request-tabs/by-receiver/{id}', [RequestTabController::class, 'getByReceiverId']);
