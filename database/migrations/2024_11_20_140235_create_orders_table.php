@@ -19,6 +19,9 @@ return new class extends Migration
             $table->integer('total_price');
             $table->text('note')->nullable();
             $table->json('meta')->nullable();
+            $table->date('approval_date')->nullable();
+            $table->integer('approver_id')->nullable();
+            $table->integer('canceller_id')->nullable();
             $table->timestamps();
         });
     }

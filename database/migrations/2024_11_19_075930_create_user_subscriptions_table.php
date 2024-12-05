@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\UserSubscription;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,9 +16,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('subscription_id')->constrained('subscriptions')->onDelete('cascade');
+            $table->tinyInteger('status')->default(UserSubscription::STATUS_PENDING);
+            $table->json('meta')->nullable();
             $table->date('start_date');
             $table->date('end_date');
-            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

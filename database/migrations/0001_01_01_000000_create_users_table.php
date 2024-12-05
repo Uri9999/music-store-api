@@ -24,6 +24,8 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->tinyInteger('gender')->nullable();
             $table->integer('role_id')->nullable();
+            $table->string('referral_code')->nullable();
+            $table->tinyInteger('commission_rate')->nullable()->default(value: 10);
             $table->rememberToken();
             $table->timestamps();
 
