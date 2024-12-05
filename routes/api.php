@@ -17,6 +17,7 @@ use App\Http\Controllers\Manage\TabController as AdminTabController;
 use App\Http\Controllers\Manage\OrderController as AdminOrderController;
 use App\Http\Controllers\Manage\ArticleController as AdminArticleController;
 use App\Http\Controllers\Customer\UserSubscriptionController;
+use App\Http\Controllers\Manage\UserSubscriptionController as AdminUserSubscriptionController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -110,6 +111,10 @@ Route::middleware('api')->group(function () {
             Route::delete('articles/{id}', [AdminArticleController::class, 'destroy'])->middleware('canDeleteArticle');
 
             Route::post('media/upload', [MediaController::class, 'upload']);
+
+            Route::get('/user-subscriptions', [AdminUserSubscriptionController::class, 'index']);
+            Route::post('/user-subscriptions/approve/{id}', [AdminUserSubscriptionController::class, 'approve']);
+            Route::post('/user-subscriptions/reject/{id}', [AdminUserSubscriptionController::class, 'reject']);
         });
 
     });

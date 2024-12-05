@@ -10,7 +10,7 @@ class UserSubscription extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['status', 'subscription_id', 'user_id', 'meta', 'start_date', 'end_date'];
+    protected $fillable = ['status', 'subscription_id', 'user_id', 'meta', 'start_date', 'end_date', 'approver_id', 'approval_date', 'rejector_id'];
 
     protected $casts = [
         'meta' => 'json',

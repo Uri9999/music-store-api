@@ -8,6 +8,8 @@ use App\Interfaces\UserSubscriptionServiceInterface;
 use App\Models\UserSubscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserSubscriptionService implements UserSubscriptionServiceInterface
 {
@@ -22,7 +24,7 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
     {
         $userId = $request->user()->getKey();
         $subscriptionId = $request->get('subscription_id');
-        $lastestSub = $this->repository->where('user_id', $userId)->max('end_date');
+        $lastestSub = $this->repository->where('user_id', $userId)->where('status', UserSubscription::STATUS_APPROVED)->max('end_date');
         $startDate = Carbon::today();
         if ($lastestSub && Carbon::parse($lastestSub) > Carbon::today()) {
             $startDate = Carbon::parse($lastestSub)->addDay();
@@ -43,5 +45,41 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
         ]);
 
         return $userSubscription;
+    }
+
+    public function index(Request $request): LengthAwarePaginator
+    {
+        $query = $this->repository->with(['user:id,name']);
+
+        if ($status = $request->get('status')) {
+            $query = $query->whereIn('status', $status);
+        }
+
+        if ($search = $request->get('search')) {
+            $query = $query->whereHas('user', function (Builder $q) use ($search) {
+                $q->fullTextSearch($search);
+            });
+        }
+
+        $items = $query->orderBy('created_at', 'DESC')->paginate(10);
+
+        return $items;
+    }
+
+    public function approve(int $id, int $approverId): void
+    {
+        $this->repository->update([
+            'status' => UserSubscription::STATUS_APPROVED,
+            'approver_id' => $approverId,
+            'approval_date' => Carbon::today(),
+        ], $id);
+    }
+
+    public function reject(int $id, int $rejectorId): void
+    {
+        $this->repository->update([
+            'status' => UserSubscription::STATUS_REJECTED,
+            'rejector_id' => $rejectorId,
+        ], $id);
     }
 }
