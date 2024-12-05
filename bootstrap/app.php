@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use App\Exceptions\CustomException;
 use App\Http\Middleware\CanDeleteArticle;
 use App\Http\Middleware\CanLockUser;
+use App\Http\Middleware\CanRegisterSubscription;
 use App\Http\Middleware\CanUpdateArticle;
 use App\Http\Middleware\CanUpdateRequestTabReceiver;
 use App\Http\Middleware\CheckIsMyOrder;
@@ -36,6 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'canUpdateRequestTabReceiver' => CanUpdateRequestTabReceiver::class,
             'canDeleteArticle' => CanDeleteArticle::class,
             'canUpdateArticle' => CanUpdateArticle::class,
+            'canRegisterSubscription' => CanRegisterSubscription::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
