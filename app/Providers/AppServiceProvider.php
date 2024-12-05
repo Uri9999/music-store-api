@@ -32,13 +32,17 @@ use App\Interfaces\OrderRepositoryInterface;
 use App\Interfaces\OrderItemRepositoryInterface;
 use App\Interfaces\OrderItemServiceInterface;
 use App\Interfaces\UserServiceInterface;
+use App\Interfaces\UserSubscriptionRepositoryInterface;
+use App\Interfaces\UserSubscriptionServiceInterface;
 use App\Repositories\ArticleRepository;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\UserSubscriptionRepository;
 use App\Services\ArticleService;
 use App\Services\OrderItemService;
 use App\Services\OrderService;
 use App\Services\UserService;
+use App\Services\UserSubscriptionService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -73,6 +77,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ArticleRepositoryInterface::class, ArticleRepository::class);
         $this->app->bind(ArticleServiceInterface::class, ArticleService::class);
+
+        $this->app->bind(UserSubscriptionRepositoryInterface::class, UserSubscriptionRepository::class);
+        $this->app->bind(UserSubscriptionServiceInterface::class, UserSubscriptionService::class);
     }
 
     /**
