@@ -34,6 +34,7 @@ class User extends Authenticatable implements HasMedia
         'expires_at',
         'role_id',
         'password',
+        'commission_rate',
     ];
 
     /**
