@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Interfaces\UserSubscriptionServiceInterface;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
+use App\Http\Resources\UserSubscriptionResource;
 
 class UserSubscriptionController extends Controller
 {
@@ -21,7 +22,7 @@ class UserSubscriptionController extends Controller
     {
         $paginator = $this->service->index($request);
 
-        return ApiResponseService::paginate($paginator);
+        return ApiResponseService::paginate($paginator, '', 200, UserSubscriptionResource::class);
     }
 
     public function approve(Request $request, int $id): JsonResponse

@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\RequestTab;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserSubscription;
 use App\Services\ApiResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -126,6 +127,21 @@ class SelectionController extends Controller
             [
                 'label' => 'Terms',
                 'value' => Article::TYPE_POLICY,
+            ],
+        ];
+
+        $selections['user_subscription_status'] = [
+            [
+                'label' => 'Chờ phê duyệt',
+                'value' => UserSubscription::STATUS_PENDING,
+            ],
+            [
+                'label' => 'Đã phê duyệt',
+                'value' => UserSubscription::STATUS_APPROVED,
+            ],
+            [
+                'label' => 'Đã hủy',
+                'value' => UserSubscription::STATUS_REJECTED,
             ],
         ];
 

@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->integer('approver_id')->nullable();
             $table->date('approval_date')->nullable();
             $table->integer('rejector_id')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

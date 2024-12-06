@@ -15,6 +15,8 @@ class RegisterRequest extends FormRequest
     {
         return [
             'subscription_id' => 'bail|exists:subscriptions,id',
+            'note' => 'nullable|string',
+            'bill' => 'bail|nullable|max:2048',
         ];
     }
 }

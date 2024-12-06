@@ -41,15 +41,27 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
             'end_date' => (clone $startDate)->addDays($subscription->duration_in_days),
             'meta' => [
                 'price' => $subscription->price
-            ]
+            ],
+            'note' => $request->get('note'),
         ]);
+        if ($request->file('bill')) {
+            $userSubscription->addMediaFromRequest('bill')->toMediaCollection(UserSubscription::MEDIA_SUBSCRIPTION_BILL);
+        }
 
         return $userSubscription;
     }
 
     public function index(Request $request): LengthAwarePaginator
     {
-        $query = $this->repository->with(['user:id,name']);
+        $query = $this->repository->with([
+            'user:id,name',
+            'approver:id,name',
+            'rejector:id,name',
+            'subscription:id,name',
+            'media' => function ($query) {
+                $query->whereIn('collection_name', [UserSubscription::MEDIA_SUBSCRIPTION_BILL]);
+            }
+        ]);
 
         if ($status = $request->get('status')) {
             $query = $query->whereIn('status', $status);
