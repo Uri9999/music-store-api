@@ -65,7 +65,7 @@ class OrderService implements OrderServiceInterface
                 $orderItems[] = [
                     'order_id' => $order->getKey(),
                     'tab_id' => $tab->getKey(),
-                    'user_id' => $userId,
+                    'user_id' => $tab->user_id,
                     'price' => $tab->price,
                     'meta' => json_encode([
                         'name' => $tab->name,

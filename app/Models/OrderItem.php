@@ -25,4 +25,10 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Tab::class);
     }
+
+    // Thời điểm mua thì tab thuộc về chủ sở hữu là user_id
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
