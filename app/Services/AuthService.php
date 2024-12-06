@@ -35,6 +35,8 @@ class AuthService implements AuthServiceInterface
         $data['verification_token'] = $token;
         $expiresAt = Carbon::now()->addMinutes(User::REGISTER_VERIFY_EXPIRED);
         $data['expires_at'] = $expiresAt;
+        $data['commission_rate'] = 10;
+        $data['referral_code'] = strtoupper(Str::random(8));
 
         $user = $this->authRepository->createUser($data);
         Mail::to($user->email)->send(new VerifycationEmail($user->email, $token, $expiresAt));
@@ -62,9 +64,11 @@ class AuthService implements AuthServiceInterface
 
     public function login(array $data)
     {
-        $user = $this->authRepository->getUserByEmail($data['email'])->load(['media' => function ($q) {
-            $q->where('collection_name', User::MEDIA_AVATAR);
-        }]);
+        $user = $this->authRepository->getUserByEmail($data['email'])->load([
+            'media' => function ($q) {
+                $q->where('collection_name', User::MEDIA_AVATAR);
+            }
+        ]);
 
         if (!$user || !Hash::check($data['password'], $user->password)) {
             return null;

@@ -62,7 +62,7 @@ class UserService implements UserServiceInterface
     public function update(int $id, Request $request): void
     {
         $user = $this->repository->find($id);
-        $user = $this->repository->update($request->only(['name', 'gender', 'role_id', 'dob', 'status']), $id);
+        $user = $this->repository->update($request->only(['name', 'gender', 'role_id', 'dob', 'status', 'commission_rate']), $id);
         if ($request->file('media_avatar')) {
             $user->clearMediaCollection(User::MEDIA_AVATAR);
             $user->addMediaFromRequest('media_avatar')->toMediaCollection(User::MEDIA_AVATAR);

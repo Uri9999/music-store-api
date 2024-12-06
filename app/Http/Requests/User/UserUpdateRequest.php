@@ -22,7 +22,8 @@ class UserUpdateRequest extends FormRequest
             'role_id' => [Rule::in([Role::ROLE_STAFF, Role::ROLE_AFFILIATE, Role::ROLE_USER])],
             'status' => [Rule::in([User::STATUS_ACTIVE, User::STATUS_DISABLE, User::STATUS_LOCKED])],
             'dob' => 'date_format:Y-m-d',
-            'media_avatar' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+            'media_avatar' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'commission_rate' => 'min:0|max:100',
         ];
     }
 }
