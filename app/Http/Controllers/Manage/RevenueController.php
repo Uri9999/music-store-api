@@ -3,8 +3,8 @@ namespace App\Http\Controllers\Manage;
 
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\User\UserIndexRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Revenue\RevenueIndexRequest;
 use App\Interfaces\RevenueServiceInterface;
 
 class RevenueController extends Controller
@@ -16,7 +16,7 @@ class RevenueController extends Controller
         $this->service = $service;
     }
 
-    public function index(UserIndexRequest $request): JsonResponse
+    public function index(RevenueIndexRequest $request): JsonResponse
     {
         $paginator = $this->service->index($request);
 
