@@ -17,6 +17,7 @@ use App\Http\Controllers\Manage\TabController as AdminTabController;
 use App\Http\Controllers\Manage\OrderController as AdminOrderController;
 use App\Http\Controllers\Manage\ArticleController as AdminArticleController;
 use App\Http\Controllers\Customer\UserSubscriptionController;
+use App\Http\Controllers\Manage\RevenueController;
 use App\Http\Controllers\Manage\UserSubscriptionController as AdminUserSubscriptionController;
 
 Route::middleware('api')->group(function () {
@@ -115,6 +116,8 @@ Route::middleware('api')->group(function () {
             Route::get('/user-subscriptions', [AdminUserSubscriptionController::class, 'index']);
             Route::post('/user-subscriptions/approve/{id}', [AdminUserSubscriptionController::class, 'approve']);
             Route::post('/user-subscriptions/reject/{id}', [AdminUserSubscriptionController::class, 'reject']);
+
+            Route::get('/revenue', [RevenueController::class, 'index']);
         });
 
     });

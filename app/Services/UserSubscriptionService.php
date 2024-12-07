@@ -43,6 +43,7 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
                 'price' => $subscription->price
             ],
             'note' => $request->get('note'),
+            'price' => $subscription->price,
         ]);
         if ($request->file('bill')) {
             $userSubscription->addMediaFromRequest('bill')->toMediaCollection(UserSubscription::MEDIA_SUBSCRIPTION_BILL);

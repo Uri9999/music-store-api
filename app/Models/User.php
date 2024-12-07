@@ -112,6 +112,16 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(RequestTab::class, 'receiver_id');
     }
 
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function userSubscriptions(): HasMany
+    {
+        return $this->hasMany(UserSubscription::class);
+    }
+
     public function isActive(): bool
     {
         return $this->status == self::STATUS_ACTIVE;
