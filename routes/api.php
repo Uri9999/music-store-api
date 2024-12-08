@@ -118,6 +118,7 @@ Route::middleware('api')->group(function () {
             Route::post('/user-subscriptions/reject/{id}', [AdminUserSubscriptionController::class, 'reject']);
 
             Route::get('/revenue', [RevenueController::class, 'index']);
+            Route::get('/revenue/{id}', [RevenueController::class, 'show']);
         });
 
     });

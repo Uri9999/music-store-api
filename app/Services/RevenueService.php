@@ -6,8 +6,8 @@ use App\Interfaces\RevenueServiceInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\Order;
 use App\Models\Role;
+use App\Models\User;
 use App\Models\UserSubscription;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 
@@ -63,5 +63,44 @@ class RevenueService implements RevenueServiceInterface
         $users = $query->paginate(10);
 
         return $users;
+    }
+
+    public function show(int $id, Request $request): User
+    {
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+
+        $query = $this->userRepository;
+        $query = $query
+            ->with([
+                'role:id,name',
+            ])
+            ->with([
+                'orderItems' => function ($q) use ($startDate, $endDate) {
+                    $q->whereHas('order', function ($subQuery) use ($startDate, $endDate) {
+                        $subQuery->where('status', Order::STATUS_COMPLETED)
+                            ->when($startDate, function ($query, string $startDate) {
+                                $query->where('approval_date', '>=', $startDate);
+                            })
+                            ->when($endDate, function ($query, string $endDate) {
+                                $query->where('approval_date', '<=', $endDate);
+                            });
+                    });
+                }
+            ])
+            ->with([
+                'userSubscriptions' => function ($q) use ($startDate, $endDate) {
+                    $q->where('status', UserSubscription::STATUS_APPROVED)
+                        ->when($startDate, function ($query, string $startDate) {
+                            $query->where('approval_date', '>=', $startDate);
+                        })
+                        ->when($endDate, function ($query, string $endDate) {
+                            $query->where('approval_date', '<=', $endDate);
+                        });
+                }
+            ]);
+        $user = $query->find($id);
+
+        return $user;
     }
 }
