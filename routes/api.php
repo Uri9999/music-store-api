@@ -122,7 +122,9 @@ Route::middleware('api')->group(function () {
             Route::get('/revenue/{id}', [RevenueController::class, 'show']);
 
             Route::get('/dashboard/count', [DashboardController::class, 'getCount']);
-
+            Route::get('/dashboard/user-stats', [DashboardController::class, 'getUserStats']);
+            Route::get('/dashboard/order-stats', [DashboardController::class, 'getOrderStats']);
+            Route::get('/dashboard/tab-stats', [DashboardController::class, 'getTabStats']);
         });
 
     });

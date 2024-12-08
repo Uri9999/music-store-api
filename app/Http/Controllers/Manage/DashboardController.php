@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manage;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\StatsRequest;
 use App\Interfaces\DashboardServiceInterface;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
@@ -28,5 +29,59 @@ class DashboardController extends Controller
         ];
 
         return ApiResponseService::success($data);
+    }
+
+    public function getUserStats(StatsRequest $request): JsonResponse
+    {
+        $resource = $this->service->getUserStats($request);
+        $months = range(1, 12);
+        $data = [];
+        foreach ($months as $month) {
+            $existingData = $resource->firstWhere('month', $month);
+            $data[] = $existingData ? $existingData->count : 0;
+        }
+        $response = [
+            'year' => $request->get('year'),
+            'months' => $months,
+            'data' => $data
+        ];
+
+        return ApiResponseService::success($response);
+    }
+
+    public function getOrderStats(StatsRequest $request): JsonResponse
+    {
+        $resource = $this->service->getOrderStats($request);
+        $months = range(1, 12);
+        $data = [];
+        foreach ($months as $month) {
+            $existingData = $resource->firstWhere('month', $month);
+            $data[] = $existingData ? $existingData->count : 0;
+        }
+        $response = [
+            'year' => $request->get('year'),
+            'months' => $months,
+            'data' => $data
+        ];
+
+        return ApiResponseService::success($response);
+    }
+
+    public function getTabStats(StatsRequest $request): JsonResponse
+    {
+        $resource = $this->service->getTabStats($request);
+        $months = range(1, 12);
+        $data = [];
+        foreach ($months as $month) {
+            $existingData = $resource->firstWhere('month', $month);
+            $data[] = $existingData ? $existingData->count : 0;
+        }
+        $response = [
+            'year' => $request->get('year'),
+            'months' => $months,
+            'data' => $data
+        ];
+
+        return ApiResponseService::success($response);
     }
 }

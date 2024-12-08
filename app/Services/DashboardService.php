@@ -10,6 +10,9 @@ use App\Interfaces\UserSubscriptionRepositoryInterface;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\UserSubscription;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardService implements DashboardServiceInterface
 {
@@ -50,15 +53,6 @@ class DashboardService implements DashboardServiceInterface
         })->sum('price');
 
         return $sum;
-        // $q->whereHas('order', function ($subQuery) use ($startDate, $endDate) {
-        //     $subQuery->where('status', Order::STATUS_COMPLETED)
-        //         ->when($startDate, function ($query, string $startDate) {
-        //             $query->where('approval_date', '>=', $startDate);
-        //         })
-        //         ->when($endDate, function ($query, string $endDate) {
-        //             $query->where('approval_date', '<=', $endDate);
-        //         });
-        // });
     }
 
     public function getSubscriptionRevenue(): int
@@ -66,5 +60,44 @@ class DashboardService implements DashboardServiceInterface
         $sum = $this->userSubscriptionRepository->where('status', UserSubscription::STATUS_APPROVED)->sum('price');
 
         return $sum;
+    }
+
+    public function getUserStats(Request $request): Collection
+    {
+        $year = $request->get('year');
+        $userStats = $this->userRepository->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+            ->whereYear('created_at', $year)
+            ->where('created_at', '>=', now()->subYear()) // Lấy dữ liệu trong 12 tháng
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy('month', 'asc')
+            ->get();
+
+        return $userStats;
+    }
+
+    public function getOrderStats(Request $request): Collection
+    {
+        $year = $request->get('year');
+        $userStats = $this->orderRepository->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+            ->whereYear('created_at', $year)
+            ->where('created_at', '>=', now()->subYear()) // Lấy dữ liệu trong 12 tháng
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy('month', 'asc')
+            ->get();
+
+        return $userStats;
+    }
+
+    public function getTabStats(Request $request): Collection
+    {
+        $year = $request->get('year');
+        $userStats = $this->tabRepository->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+            ->whereYear('created_at', $year)
+            ->where('created_at', '>=', now()->subYear()) // Lấy dữ liệu trong 12 tháng
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->orderBy('month', 'asc')
+            ->get();
+
+        return $userStats;
     }
 }
