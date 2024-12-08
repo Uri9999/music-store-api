@@ -21,11 +21,11 @@ class DashboardController extends Controller
     public function getCount(Request $request): JsonResponse
     {
         $data = [
-            'user_count' => $this->service->getCountUser(),
-            'order_count' => $this->service->getCountOrder(),
-            'tab_count' => $this->service->getCountTab(),
-            'tab_revenue' => $this->service->getTabRevenue(),
-            'subscription_revenue' => $this->service->getSubscriptionRevenue(),
+            'user_count' => $this->service->getCountUser($request),
+            'order_count' => $this->service->getCountOrder($request),
+            'tab_count' => $this->service->getCountTab($request),
+            'tab_revenue' => $this->service->getTabRevenue($request),
+            'subscription_revenue' => $this->service->getSubscriptionRevenue($request),
         ];
 
         return ApiResponseService::success($data);

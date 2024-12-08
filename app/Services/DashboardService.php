@@ -31,33 +31,75 @@ class DashboardService implements DashboardServiceInterface
         $this->userSubscriptionRepository = $userSubscriptionRepository;
     }
 
-    public function getCountUser(): int
+    public function getCountUser(Request $request): int
     {
-        return $this->userRepository->count();
+        $query = $this->userRepository;
+        if ($startDate = $request->get('start_date')) {
+            $query = $query->whereDate('created_at', '>=', $startDate);
+        }
+        if ($endDate = $request->get('end_date')) {
+            $query = $query->whereDate('created_at', '<=', $endDate);
+        }
+
+        return $query->count();
     }
 
-    public function getCountOrder(): int
+    public function getCountOrder(Request $request): int
     {
-        return $this->orderRepository->count();
+        $query = $this->orderRepository;
+        if ($startDate = $request->get('start_date')) {
+            $query = $query->whereDate('created_at', '>=', $startDate);
+        }
+        if ($endDate = $request->get('end_date')) {
+            $query = $query->whereDate('created_at', '<=', $endDate);
+        }
+
+        return $query->count();
     }
 
-    public function getCountTab(): int
+    public function getCountTab(Request $request): int
     {
-        return $this->tabRepository->count();
+        $query = $this->tabRepository;
+        if ($startDate = $request->get('start_date')) {
+            $query = $query->whereDate('created_at', '>=', $startDate);
+        }
+        if ($endDate = $request->get('end_date')) {
+            $query = $query->whereDate('created_at', '<=', $endDate);
+        }
+
+        return $query->count();
     }
 
-    public function getTabRevenue(): int
+    public function getTabRevenue(Request $request): int
     {
-        $sum = $this->orderItemRepository->whereHas('order', function ($query) {
-            $query->where('status', Order::STATUS_COMPLETED);
+        $query = $this->orderItemRepository;
+        $startDate = $request->get('start_date') ?? null;
+        $endDate = $request->get('end_date') ?? null;
+        $sum = $query->whereHas('order', function ($query) use ($startDate, $endDate) {
+            $query->where('status', Order::STATUS_COMPLETED)
+                ->when($startDate, function ($q, string $startDate) {
+                    $q->whereDate('created_at', '>=', $startDate);
+                })
+                ->when($endDate, function ($q, string $endDate) {
+                    $q->whereDate('created_at', '<=', $endDate);
+                });
+            ;
         })->sum('price');
 
         return $sum;
     }
 
-    public function getSubscriptionRevenue(): int
+    public function getSubscriptionRevenue(Request $request): int
     {
-        $sum = $this->userSubscriptionRepository->where('status', UserSubscription::STATUS_APPROVED)->sum('price');
+        $query = $this->userSubscriptionRepository;
+        if ($startDate = $request->get('start_date')) {
+            $query = $query->whereDate('created_at', '>=', $startDate);
+        }
+        if ($endDate = $request->get('end_date')) {
+            $query = $query->whereDate('created_at', '<=', $endDate);
+        }
+
+        $sum = $query->where('status', UserSubscription::STATUS_APPROVED)->sum('price');
 
         return $sum;
     }
