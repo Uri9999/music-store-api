@@ -26,6 +26,7 @@ use App\Repositories\UserRepository;
 use App\Services\CartService;
 use App\Interfaces\CartServiceInterface;
 use App\Interfaces\CartRepositoryInterface;
+use App\Interfaces\DashboardServiceInterface;
 use App\Repositories\CartRepository;
 use App\Interfaces\OrderServiceInterface;
 use App\Interfaces\OrderRepositoryInterface;
@@ -42,6 +43,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\SubscriptionRepository;
 use App\Repositories\UserSubscriptionRepository;
 use App\Services\ArticleService;
+use App\Services\DashboardService;
 use App\Services\OrderItemService;
 use App\Services\OrderService;
 use App\Services\RevenueService;
@@ -85,6 +87,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SubscriptionRepositoryInterface::class, SubscriptionRepository::class);
 
         $this->app->bind(RevenueServiceInterface::class, RevenueService::class);
+        $this->app->bind(DashboardServiceInterface::class, DashboardService::class);
 
         $this->app->bind(UserSubscriptionRepositoryInterface::class, UserSubscriptionRepository::class);
         $this->app->bind(UserSubscriptionServiceInterface::class, UserSubscriptionService::class);

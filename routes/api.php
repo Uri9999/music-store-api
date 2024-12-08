@@ -17,6 +17,7 @@ use App\Http\Controllers\Manage\TabController as AdminTabController;
 use App\Http\Controllers\Manage\OrderController as AdminOrderController;
 use App\Http\Controllers\Manage\ArticleController as AdminArticleController;
 use App\Http\Controllers\Customer\UserSubscriptionController;
+use App\Http\Controllers\Manage\DashboardController;
 use App\Http\Controllers\Manage\RevenueController;
 use App\Http\Controllers\Manage\UserSubscriptionController as AdminUserSubscriptionController;
 
@@ -119,6 +120,9 @@ Route::middleware('api')->group(function () {
 
             Route::get('/revenue', [RevenueController::class, 'index']);
             Route::get('/revenue/{id}', [RevenueController::class, 'show']);
+
+            Route::get('/dashboard/count', [DashboardController::class, 'getCount']);
+
         });
 
     });
