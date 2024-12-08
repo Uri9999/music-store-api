@@ -17,6 +17,7 @@ class RegisterRequest extends FormRequest
             'subscription_id' => 'bail|exists:subscriptions,id',
             'note' => 'nullable|string',
             'bill' => 'bail|nullable|max:2048',
+            'referral_code' => 'nullable|string|exists:users,referral_code',
         ];
     }
 }

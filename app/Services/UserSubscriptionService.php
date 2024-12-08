@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Interfaces\SubscriptionRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\UserSubscriptionRepositoryInterface;
 use App\Interfaces\UserSubscriptionServiceInterface;
 use App\Models\UserSubscription;
@@ -22,6 +23,13 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
 
     public function register(Request $request): UserSubscription
     {
+        $introducerId = null;
+        if ($referralCode = $request->get('referral_code')) {
+            /** @var UserRepositoryInterface $userRepository */
+            $userRepository = app(UserRepositoryInterface::class);
+            $introducer = $userRepository->where('referral_code', $referralCode)->first();
+            $introducerId = $introducer->getKey();
+        }
         $userId = $request->user()->getKey();
         $subscriptionId = $request->get('subscription_id');
         $lastestSub = $this->repository->where('user_id', $userId)->where('status', UserSubscription::STATUS_APPROVED)->max('end_date');
@@ -44,6 +52,7 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
             ],
             'note' => $request->get('note'),
             'price' => $subscription->price,
+            'introducer_id' => $introducerId,
         ]);
         if ($request->file('bill')) {
             $userSubscription->addMediaFromRequest('bill')->toMediaCollection(UserSubscription::MEDIA_SUBSCRIPTION_BILL);

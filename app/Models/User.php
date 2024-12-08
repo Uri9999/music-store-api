@@ -122,6 +122,11 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(UserSubscription::class);
     }
 
+    public function referralCommissions(): HasMany
+    {
+        return $this->hasMany(UserSubscription::class, 'introducer_id');
+    }
+
     public function isActive(): bool
     {
         return $this->status == self::STATUS_ACTIVE;

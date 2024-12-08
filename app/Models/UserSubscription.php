@@ -12,7 +12,7 @@ class UserSubscription extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = ['status', 'subscription_id', 'user_id', 'price', 'meta', 'start_date', 'end_date', 'approver_id', 'approval_date', 'rejector_id', 'note'];
+    protected $fillable = ['status', 'subscription_id', 'user_id', 'introducer_id', 'price', 'meta', 'start_date', 'end_date', 'approver_id', 'approval_date', 'rejector_id', 'note'];
 
     protected $casts = [
         'meta' => 'json',
@@ -28,6 +28,12 @@ class UserSubscription extends Model implements HasMedia
     {
         return $this->belongsTo(User::class);
     }
+
+    public function introducer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'introducer_id');
+    }
+    
 
     public function subscription(): BelongsTo
     {

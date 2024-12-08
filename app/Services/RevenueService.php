@@ -49,7 +49,7 @@ class RevenueService implements RevenueServiceInterface
                 }
             ], 'price')
             ->withSum([
-                'userSubscriptions' => function ($q) use ($startDate, $endDate) {
+                'referralCommissions' => function ($q) use ($startDate, $endDate) {
                     $q->where('status', UserSubscription::STATUS_APPROVED)
                         ->when($startDate, function ($query, string $startDate) {
                             $query->where('approval_date', '>=', $startDate);
@@ -85,18 +85,18 @@ class RevenueService implements RevenueServiceInterface
                             ->when($endDate, function ($query, string $endDate) {
                                 $query->where('approval_date', '<=', $endDate);
                             });
-                    });
+                    })->with('order:id,approval_date');
                 }
             ])
             ->with([
-                'userSubscriptions' => function ($q) use ($startDate, $endDate) {
+                'referralCommissions' => function ($q) use ($startDate, $endDate) {
                     $q->where('status', UserSubscription::STATUS_APPROVED)
                         ->when($startDate, function ($query, string $startDate) {
                             $query->where('approval_date', '>=', $startDate);
                         })
                         ->when($endDate, function ($query, string $endDate) {
                             $query->where('approval_date', '<=', $endDate);
-                        });
+                        })->with('user:id,name');
                 }
             ]);
         $user = $query->find($id);
