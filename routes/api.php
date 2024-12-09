@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BannerController;
+use App\Http\Controllers\Manage\BannerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\MediaController;
 use Illuminate\Http\Request;
@@ -34,6 +34,7 @@ Route::middleware('api')->group(function () {
     Route::get('policy', [AdminArticleController::class, 'getPolicy']);
     Route::get('tutorial', [AdminArticleController::class, 'getTutorial']);
     Route::get('subscriptions', [SubscriptionController::class, 'index']);
+    Route::get('banners/list', [BannerController::class, 'getList']);
     // Category
     // Route::get('categories', [CategoryController::class, 'index']);
     // Route::get('categories/{id}', [CategoryController::class, 'show']);
