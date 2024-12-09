@@ -24,21 +24,23 @@ class TabController extends Controller
     {
         $tabs = $this->tabService->index($request);
 
-        return ApiResponseService::paginate($tabs);
+        return ApiResponseService::paginate($tabs, 'Success', 200, TabResource::class);
     }
 
     public function getNewTab(): JsonResponse
     {
         $tabs = $this->tabService->getNewTab();
+        $resource = TabResource::collection($tabs);
 
-        return ApiResponseService::success($tabs);
+        return ApiResponseService::success($resource);
     }
 
     public function getRandomTab(): JsonResponse
     {
         $tabs = $this->tabService->getRandomTab();
+        $resource = TabResource::collection($tabs);
 
-        return ApiResponseService::success($tabs); 
+        return ApiResponseService::success($resource); 
     }
 
     public function show(Request $request, $id): JsonResponse

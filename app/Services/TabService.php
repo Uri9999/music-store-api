@@ -21,7 +21,13 @@ class TabService implements TabServiceInterface
 
     public function index(Request $request)
     {
-        $query = $this->tabRepository->with(['user:id,name', 'category:id,name']);
+        $query = $this->tabRepository->with([
+            'user:id,name',
+            'category:id,name',
+            'media' => function ($q) {
+                $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
+            }
+        ]);
         if ($orderPrice = $request->get('orderPrice')) {
             $query = $query->orderBy('price', $orderPrice);
         }
@@ -29,17 +35,27 @@ class TabService implements TabServiceInterface
             $query = $query->fullTextSearch($search);
         }
 
-        return $query->paginate(config('app.paginate'));
+        return $query->orderBy('created_at', 'DESC')->paginate(config('app.paginate'));
     }
 
     public function getNewTab(): Collection
     {
-        return $this->tabRepository->with(['user:id,name'])->orderBy('created_at', 'DESC')->take(12)->get();
+        return $this->tabRepository->with([
+            'user:id,name',
+            'media' => function ($q) {
+                $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
+            }
+        ])->orderBy('created_at', 'DESC')->take(12)->get();
     }
 
     public function getRandomTab(): Collection
     {
-        return $this->tabRepository->with(['user:id,name'])->inRandomOrder()->take(12)->get();
+        return $this->tabRepository->with([
+            'user:id,name',
+            'media' => function ($q) {
+                $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
+            }
+        ])->inRandomOrder()->take(12)->get();
 
     }
 
