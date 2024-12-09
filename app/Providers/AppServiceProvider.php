@@ -34,6 +34,7 @@ use App\Interfaces\OrderItemRepositoryInterface;
 use App\Interfaces\OrderItemServiceInterface;
 use App\Interfaces\RevenueServiceInterface;
 use App\Interfaces\SubscriptionRepositoryInterface;
+use App\Interfaces\SubscriptionServiceInterface;
 use App\Interfaces\UserServiceInterface;
 use App\Interfaces\UserSubscriptionRepositoryInterface;
 use App\Interfaces\UserSubscriptionServiceInterface;
@@ -47,6 +48,7 @@ use App\Services\DashboardService;
 use App\Services\OrderItemService;
 use App\Services\OrderService;
 use App\Services\RevenueService;
+use App\Services\SubscriptionService;
 use App\Services\UserService;
 use App\Services\UserSubscriptionService;
 
@@ -85,6 +87,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ArticleServiceInterface::class, ArticleService::class);
 
         $this->app->bind(SubscriptionRepositoryInterface::class, SubscriptionRepository::class);
+        $this->app->bind(SubscriptionServiceInterface::class, SubscriptionService::class);
 
         $this->app->bind(RevenueServiceInterface::class, RevenueService::class);
         $this->app->bind(DashboardServiceInterface::class, DashboardService::class);

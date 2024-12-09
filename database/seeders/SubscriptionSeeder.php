@@ -25,7 +25,7 @@ class SubscriptionSeeder extends Seeder
         Subscription::updateOrCreate(
             ['name' => '3 tháng'],
             [
-                'duration_in_days' => 60,
+                'duration_in_days' => 90,
                 'price' => 30000,
             ]
         );
@@ -33,7 +33,7 @@ class SubscriptionSeeder extends Seeder
         Subscription::updateOrCreate(
             ['name' => '6 tháng'],
             [
-                'duration_in_days' => 90,
+                'duration_in_days' => 180,
                 'price' => 50000,
             ]
         );

@@ -20,6 +20,7 @@ use App\Http\Controllers\Customer\UserSubscriptionController;
 use App\Http\Controllers\Manage\DashboardController;
 use App\Http\Controllers\Manage\RevenueController;
 use App\Http\Controllers\Manage\UserSubscriptionController as AdminUserSubscriptionController;
+use App\Http\Controllers\SubscriptionController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -32,6 +33,7 @@ Route::middleware('api')->group(function () {
     Route::get('selections', [SelectionController::class, 'index']);
     Route::get('policy', [AdminArticleController::class, 'getPolicy']);
     Route::get('tutorial', [AdminArticleController::class, 'getTutorial']);
+    Route::get('subscriptions', [SubscriptionController::class, 'index']);
     // Category
     // Route::get('categories', [CategoryController::class, 'index']);
     // Route::get('categories/{id}', [CategoryController::class, 'show']);
