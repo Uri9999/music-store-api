@@ -30,7 +30,8 @@ Route::middleware('api')->group(function () {
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
     Route::get('selections', [SelectionController::class, 'index']);
-
+    Route::get('policy', [AdminArticleController::class, 'getPolicy']);
+    Route::get('tutorial', [AdminArticleController::class, 'getTutorial']);
     // Category
     // Route::get('categories', [CategoryController::class, 'index']);
     // Route::get('categories/{id}', [CategoryController::class, 'show']);

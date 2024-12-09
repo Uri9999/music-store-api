@@ -59,4 +59,18 @@ class ArticleService implements ArticleServiceInterface
     {
         $this->repository->delete($id);
     }
+
+    public function getPolicy(): ?Article
+    {
+        $article = $this->repository->where('type', Article::TYPE_POLICY)->first();
+
+        return $article;
+    }
+
+    public function getTutorial(): ?Article
+    {
+        $article = $this->repository->where('type', Article::TYPE_TUTORIAL)->first();
+
+        return $article;
+    }
 }

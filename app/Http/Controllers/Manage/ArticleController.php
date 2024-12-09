@@ -56,4 +56,14 @@ class ArticleController extends Controller
 
         return ApiResponseService::success(null, 'Xóa thành công.');
     }
+
+    public function getPolicy(): JsonResponse
+    {
+        return ApiResponseService::success($this->service->getPolicy());
+    }
+
+    public function getTutorial(): JsonResponse
+    {
+        return ApiResponseService::success($this->service->getTutorial());
+    }
 }

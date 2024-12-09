@@ -13,4 +13,6 @@ interface ArticleServiceInterface
     public function update(int $id, array $attrs): Article;
     public function show(int $id): Article;
     public function delete(int $id): void;
+    public function getPolicy(): ?Article;
+    public function getTutorial(): ?Article;
 }
