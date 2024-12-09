@@ -7,5 +7,5 @@ use Illuminate\Http\Request;
 
 interface OrderItemServiceInterface
 {
-
+    public function checkBoughtTab(int $tabId, int $userId): bool;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Interfaces\OrderItemServiceInterface;
 use App\Interfaces\TabServiceInterface;
 use App\Interfaces\TabRepositoryInterface;
 use App\Models\Tab;
@@ -51,6 +52,31 @@ class TabService implements TabServiceInterface
                 $query->whereIn('collection_name', [Tab::MEDIA_TAB_IMAGE, Tab::MEDIA_TAB_PDF]);
             }
         ])->find($id);
+    }
+
+    public function showForUser($id, Request $request): ?Tab
+    {
+        $collectFile = [Tab::MEDIA_TAB_IMAGE];
+        $boughtStatus = false;
+        /** @var OrderItemServiceInterface $orderItemSerice */
+        $orderItemSerice = app(OrderItemServiceInterface::class);
+        $user = $request->user();
+        if ($user) {
+            $boughtStatus = $orderItemSerice->checkBoughtTab($id, $user->getKey());
+        }
+        if ($boughtStatus) {
+            $collectFile = [Tab::MEDIA_TAB_IMAGE, Tab::MEDIA_TAB_PDF];
+        }
+
+        $tab = $this->tabRepository->with([
+            'user:id,name',
+            'category:id,name',
+            'media' => function ($query) use ($collectFile) {
+                $query->whereIn('collection_name', $collectFile);
+            }
+        ])->find($id);
+
+        return $tab;
     }
 
     public function create(Request $request): Tab

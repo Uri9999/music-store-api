@@ -12,6 +12,7 @@ interface TabServiceInterface
     public function getNewTab(): Collection;
     public function getRandomTab(): Collection;
     public function show($id);
+    public function showForUser($id, Request $request): ?Tab;
     public function create(Request $request): Tab;
     public function update(int $id, Request $request);
     public function delete(int $id);

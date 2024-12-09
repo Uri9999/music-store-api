@@ -2,16 +2,28 @@
 
 namespace App\Services;
 
+use App\Interfaces\OrderItemRepositoryInterface;
 use App\Interfaces\OrderItemServiceInterface;
-use App\Interfaces\OrderRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
 
 class OrderItemService implements OrderItemServiceInterface
 {
-    protected OrderRepositoryInterface $repository;
+    protected OrderItemRepositoryInterface $repository;
 
-    public function __construct(OrderRepositoryInterface $repository)
+    public function __construct(OrderItemRepositoryInterface $repository)
     {
         $this->repository = $repository;
+    }
+
+    public function checkBoughtTab(int $tabId, int $userId): bool
+    {
+        $boughtStatus = false;
+        $orderItem = $this->repository->where('tab_id', $tabId)->whereHas('order', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->first();
+        if ($orderItem) {
+            $boughtStatus = true;
+        }
+
+        return $boughtStatus;
     }
 }

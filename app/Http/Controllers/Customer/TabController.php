@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tab\TabRequest;
 use App\Interfaces\TabServiceInterface;
-use App\Models\Tab;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\Tab\TabIndexRequest;
+use App\Http\Resources\TabResource;
 
 class TabController extends Controller
 {
@@ -41,11 +41,12 @@ class TabController extends Controller
         return ApiResponseService::success($tabs); 
     }
 
-    public function show($id): JsonResponse
+    public function show(Request $request, $id): JsonResponse
     {
-        $tab = $this->tabService->show($id);
-
-        return ApiResponseService::success($tab);
+        $tab = $this->tabService->showForUser($id, $request);
+        $resource = new TabResource($tab);
+        
+        return ApiResponseService::success($resource);
     }
 
     public function getTabByIds(Request $request): JsonResponse
