@@ -21,6 +21,7 @@ use App\Http\Controllers\Manage\DashboardController;
 use App\Http\Controllers\Manage\RevenueController;
 use App\Http\Controllers\Manage\UserSubscriptionController as AdminUserSubscriptionController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\Manage\ReviewTabController as AdminReviewTabController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -129,6 +130,10 @@ Route::middleware('api')->group(function () {
             Route::get('/dashboard/user-stats', [DashboardController::class, 'getUserStats']);
             Route::get('/dashboard/order-stats', [DashboardController::class, 'getOrderStats']);
             Route::get('/dashboard/tab-stats', [DashboardController::class, 'getTabStats']);
+
+            Route::get('/review-tab', [AdminReviewTabController::class, 'index']);
+            Route::get('/review-tab/disable/{id}', [AdminReviewTabController::class, 'disable']);
+            Route::get('/review-tab/enable/{id}', [AdminReviewTabController::class, 'enable']);
         });
 
     });
