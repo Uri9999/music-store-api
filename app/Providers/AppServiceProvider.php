@@ -33,6 +33,8 @@ use App\Interfaces\OrderRepositoryInterface;
 use App\Interfaces\OrderItemRepositoryInterface;
 use App\Interfaces\OrderItemServiceInterface;
 use App\Interfaces\RevenueServiceInterface;
+use App\Interfaces\ReviewTabRepositoryInterface;
+use App\Interfaces\ReviewTabServiceInterface;
 use App\Interfaces\SubscriptionRepositoryInterface;
 use App\Interfaces\SubscriptionServiceInterface;
 use App\Interfaces\UserServiceInterface;
@@ -41,6 +43,7 @@ use App\Interfaces\UserSubscriptionServiceInterface;
 use App\Repositories\ArticleRepository;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\ReviewTabRepository;
 use App\Repositories\SubscriptionRepository;
 use App\Repositories\UserSubscriptionRepository;
 use App\Services\ArticleService;
@@ -48,6 +51,7 @@ use App\Services\DashboardService;
 use App\Services\OrderItemService;
 use App\Services\OrderService;
 use App\Services\RevenueService;
+use App\Services\ReviewTabService;
 use App\Services\SubscriptionService;
 use App\Services\UserService;
 use App\Services\UserSubscriptionService;
@@ -94,6 +98,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(UserSubscriptionRepositoryInterface::class, UserSubscriptionRepository::class);
         $this->app->bind(UserSubscriptionServiceInterface::class, UserSubscriptionService::class);
+
+        $this->app->bind(ReviewTabRepositoryInterface::class, ReviewTabRepository::class);
+        $this->app->bind(ReviewTabServiceInterface::class, ReviewTabService::class);
     }
 
     /**
