@@ -31,6 +31,9 @@ class TabService implements TabServiceInterface
         if ($orderPrice = $request->get('orderPrice')) {
             $query = $query->orderBy('price', $orderPrice);
         }
+        if ($orderCreatedAt = $request->get('orderCreatedAt')) {
+            $query = $query->orderBy('price', $orderCreatedAt);
+        }
         if ($search = $request->get('search')) {
             $query = $query->fullTextSearch($search);
         }
