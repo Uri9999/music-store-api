@@ -17,6 +17,7 @@ use App\Http\Controllers\Manage\TabController as AdminTabController;
 use App\Http\Controllers\Manage\OrderController as AdminOrderController;
 use App\Http\Controllers\Manage\ArticleController as AdminArticleController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Customer\ReviewTabController;
 use App\Http\Controllers\Customer\UserSubscriptionController;
 use App\Http\Controllers\Manage\DashboardController;
 use App\Http\Controllers\Manage\RevenueController;
@@ -62,6 +63,7 @@ Route::middleware('api')->group(function () {
 
 
         Route::get('tabs/get/by-ids', [TabController::class, 'getTabByIds']);
+        Route::post('/tab/{id}/review', [ReviewTabController::class, 'store'])->middleware('canCreateReviewTab');
 
         Route::get('request-tabs/{id}', [RequestTabController::class, 'show']); // thêm middleware chỉ xem của chính mình
         Route::post('request-tabs', [RequestTabController::class, 'store']);

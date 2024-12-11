@@ -38,4 +38,11 @@ class ReviewTabService implements ReviewTabServiceInterface
     {
         $this->repository->update(['status' => ReviewTab::STATUS_ENABLE], $id);
     }
+
+    public function store(array $attrs): ReviewTab
+    {
+        $review = $this->repository->create($attrs);
+
+        return $review;
+    }
 }
