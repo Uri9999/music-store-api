@@ -71,6 +71,19 @@ class ArticleService implements ArticleServiceInterface
         return $article;
     }
 
+    public function getDetailArticle(int $id): ?Article
+    {
+        $query = $this->repository->with([
+            'user:id,name',
+            'user.media' => function ($query) {
+                $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
+            }
+        ]);
+        $article = $query->where('type', Article::TYPE_ARTICLE)->where('status', Article::STATUS_PUBLIC)->find($id);
+
+        return $article;
+    }
+
     public function delete(int $id): void
     {
         $this->repository->delete($id);
