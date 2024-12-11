@@ -26,7 +26,9 @@ class StoreRequest extends FormRequest
                     /** @var OrderItemRepositoryInterface $orderItemRepository */
                     $orderItemRepository = app(OrderItemRepositoryInterface::class);
                     $userId = Auth::user()->id;
-                    $orderItem = $orderItemRepository->where('user_id', $userId)->where('tab_id', $value)->first();
+                    $orderItem = $orderItemRepository->where('tab_id', $value)->whereHas('order', function ($query) use ($userId) {
+                        $query->where('user_id', $userId);
+                    })->first();
                     if ($orderItem) {
                         $tabName = $orderItem->meta['name'] ?? '';
                         return $fail("Bài tab '$tabName' đã được mua hoặc đang trong quá trình xét duyệt thanh toán");

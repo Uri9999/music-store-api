@@ -57,7 +57,7 @@ Route::middleware('api')->group(function () {
         Route::delete('carts/{id}', [CartController::class, 'destroy'])->middleware('checkIsMyCart');
         Route::post('carts', [CartController::class, 'store']);
 
-        Route::post('orders', [OrderController::class, 'store'])->middleware('canCreateOrder');
+        Route::post('orders', [OrderController::class, 'store']);
         Route::get('orders/created-by-me', [OrderController::class, 'getMyOrder']);
         Route::get('orders/{id}', [OrderController::class, 'show'])->middleware('checkIsMyOrder');
 
