@@ -16,6 +16,7 @@ use App\Http\Controllers\Manage\RequestTabController as AdminRequestTabControlle
 use App\Http\Controllers\Manage\TabController as AdminTabController;
 use App\Http\Controllers\Manage\OrderController as AdminOrderController;
 use App\Http\Controllers\Manage\ArticleController as AdminArticleController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Customer\UserSubscriptionController;
 use App\Http\Controllers\Manage\DashboardController;
 use App\Http\Controllers\Manage\RevenueController;
@@ -36,6 +37,8 @@ Route::middleware('api')->group(function () {
     Route::get('tutorial', [AdminArticleController::class, 'getTutorial']);
     Route::get('subscriptions', [SubscriptionController::class, 'index']);
     Route::get('banners/list', [BannerController::class, 'getList']);
+
+    Route::get('articles', [ArticleController::class, 'getArticle']);
     // Category
     // Route::get('categories', [CategoryController::class, 'index']);
     // Route::get('categories/{id}', [CategoryController::class, 'show']);
@@ -114,7 +117,7 @@ Route::middleware('api')->group(function () {
             Route::get('articles', [AdminArticleController::class, 'index']);
             Route::get('articles/{id}', [AdminArticleController::class, 'show']);
             Route::post('articles', [AdminArticleController::class, 'store']);
-            Route::put('articles/{id}', [AdminArticleController::class, 'update'])->middleware('canUpdateArticle');
+            Route::post('articles/{id}', [AdminArticleController::class, 'update'])->middleware('canUpdateArticle');
             Route::delete('articles/{id}', [AdminArticleController::class, 'destroy'])->middleware('canDeleteArticle');
 
             Route::post('media/upload', [MediaController::class, 'upload']);

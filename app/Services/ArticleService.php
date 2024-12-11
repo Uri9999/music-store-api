@@ -29,6 +29,22 @@ class ArticleService implements ArticleServiceInterface
         return $articles;
     }
 
+    public function getArticle(Request $request): LengthAwarePaginator
+    {
+        $query = $this->repository->with([
+            'user:id,name',
+            'user.media' => function ($query) {
+                $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
+            }
+        ]);
+        if ($search = $request->get('search')) {
+            $query = $query->fullTextSearch($search);
+        }
+        $articles = $query->where('type', Article::TYPE_ARTICLE)->where('status', Article::STATUS_PUBLIC)->paginate(10);
+
+        return $articles;
+    }
+
     public function store(array $attrs): Article
     {
         $article = $this->repository->create($attrs);

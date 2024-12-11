@@ -15,4 +15,5 @@ interface ArticleServiceInterface
     public function delete(int $id): void;
     public function getPolicy(): ?Article;
     public function getTutorial(): ?Article;
+    public function getArticle(Request $request): LengthAwarePaginator;
 }
