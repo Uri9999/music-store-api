@@ -42,4 +42,9 @@ class Tab extends Model  implements HasMedia
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function reviewTabs()
+    {
+        return $this->hasMany(ReviewTab::class);
+    }
 }

@@ -36,6 +36,9 @@ class TabResource extends JsonResource
             $array['images_url'] = MediaResource::collection($tab->getMedia(Tab::MEDIA_TAB_IMAGE));
             $array['pdf'] = new MediaResource($tab->getMedia(Tab::MEDIA_TAB_PDF)->last());
         }
+        if ($tab->relationLoaded('reviewTabs')) {
+            $array['reviewTabs'] = ReviewTabResource::collection($tab->reviewTabs);
+        }
 
         return $array;
     }

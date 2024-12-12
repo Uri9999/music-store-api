@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interfaces\OrderServiceInterface;
 use Illuminate\Http\Request;
 use App\Http\Requests\Order\StoreRequest;
+use App\Http\Resources\OrderResource;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 
@@ -34,7 +35,8 @@ class OrderController extends Controller
     public function getMyOrder(Request $request)
     {
         $orders = $this->service->getMyOrder($request);
+        $resource = OrderResource::collection($orders);
 
-        return ApiResponseService::success($orders);
+        return ApiResponseService::success($resource);
     }
 }

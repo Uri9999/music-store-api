@@ -83,12 +83,8 @@ class SelectionController extends Controller
 
         $selections['order_status'] = [
             [
-                'label' => 'Khởi tạo',
+                'label' => 'Chờ phê duyệt',
                 'value' => Order::STATUS_CREATED,
-            ],
-            [
-                'label' => 'Thanh toán thành công',
-                'value' => Order::STATUS_PAYMENT_SUCCESS,
             ],
             [
                 'label' => 'Hoàn thành',

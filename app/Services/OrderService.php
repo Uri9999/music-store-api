@@ -100,7 +100,13 @@ class OrderService implements OrderServiceInterface
 
     public function getMyOrder(Request $request)
     {
-        $orders = $this->repository->with('orderItems')->where('user_id', $request->user()->getKey())->orderBy('created_at', 'DESC')->get();
+        $userId = $request->user()->getKey();
+        $orders = $this->repository->with([
+            'orderItems',
+            'orderItems.tab.reviewTabs' => function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            }
+        ])->where('user_id', $userId)->orderBy('created_at', 'DESC')->get();
 
         return $orders;
     }

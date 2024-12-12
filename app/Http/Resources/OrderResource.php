@@ -51,7 +51,7 @@ class OrderResource extends JsonResource
         }
 
         if ($order->relationLoaded('orderItems')) {
-            $array['order_items'] = $order->orderItems;
+            $array['order_items'] = OrderItemResource::collection($order->orderItems);
         }
 
         return $array;
