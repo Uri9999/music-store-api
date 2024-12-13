@@ -52,6 +52,9 @@ Route::middleware('api')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
 
+        Route::get('/auth/info', [AuthController::class, 'getInfo']);
+        Route::post('/auth/update/info', [AuthController::class, 'updateProfile']);
+
         Route::get('carts/get-by-me', [CartController::class, 'getByUserId']);
         Route::get('carts/get-count-by-me', [CartController::class, 'getCountByUserId']);
         Route::delete('carts/{id}', [CartController::class, 'destroy'])->middleware('checkIsMyCart');

@@ -79,6 +79,11 @@ class SelectionController extends Controller
                 'label' => 'Nữ',
                 'value' => User::GENDER_FEMALE,
             ],
+            [
+                'label' => 'Khác',
+                'value' => User::GENDER_OTHER,
+            ],
+            
         ];
 
         $selections['order_status'] = [

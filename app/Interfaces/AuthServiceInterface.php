@@ -4,6 +4,7 @@ namespace App\Interfaces;
 
 use App\Exceptions\CustomException;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 interface AuthServiceInterface
 {
@@ -13,4 +14,5 @@ interface AuthServiceInterface
     public function logout();
     public function forgotPassword(User $user);
     public function resetPassword(User $user, string $token);
+    public function updateProfile(Request $request): void;
 }

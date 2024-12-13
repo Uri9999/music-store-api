@@ -73,6 +73,7 @@ class User extends Authenticatable implements HasMedia
         self::STATUS_LOCKED,
     ];
 
+    const GENDER_OTHER = 2;
     const GENDER_MALE = 1;
     const GENDER_FEMALE = 0;
 

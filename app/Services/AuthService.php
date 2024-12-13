@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Mail\ForgotPasswordEmail;
 use Illuminate\Support\Arr;
 use App\Mail\ResetPasswordEmail;
+use Illuminate\Http\Request;
 
 class AuthService implements AuthServiceInterface
 {
@@ -160,4 +161,15 @@ class AuthService implements AuthServiceInterface
         return $randomString . $lowercase . $digits . $uppercase . $special;
     }
 
+
+    public function updateProfile(Request $request): void
+    {
+        /** @var UserRepositoryInterface $userRepository */
+        $userRepository = app(UserRepositoryInterface::class);
+        $user = $userRepository->update($request->only(['name', 'gender', 'dob']), $request->user()->getKey());
+        if ($request->file('media_avatar')) {
+            $user->clearMediaCollection(User::MEDIA_AVATAR);
+            $media = $user->addMediaFromRequest('media_avatar')->toMediaCollection(User::MEDIA_AVATAR);
+        }
+    }
 }

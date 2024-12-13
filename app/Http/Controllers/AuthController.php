@@ -13,7 +13,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\VerifyUserRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Http\Requests\Auth\UpdateProfileRequest;
+use App\Http\Resources\AuthResource;
 use App\Http\Resources\LoginResource;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -31,7 +34,7 @@ class AuthController extends Controller
         return ApiResponseService::item($user, 'Đăng ký tài khoản thành công, hãy kiểm tra email của bạn (trong khoảng 10p mà không có email, xin hãy liên hệ với admin).', 201);
     }
 
-    public function verifyUser(VerifyUserRequest $request)
+    public function verifyUser(VerifyUserRequest $request): JsonResponse
     {
         $user = $this->authService->verifyUser($request->get('email'), $request->get('token'));
 
@@ -57,7 +60,7 @@ class AuthController extends Controller
         return ApiResponseService::success(null, 'Đăng xuất thành công.');
     }
 
-    public function forgotPassword(ForgotPasswordRequest $request)
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
         /** @var UserRepositoryInterface $userRepository */
         $userRepository = app(UserRepositoryInterface::class);
@@ -67,7 +70,7 @@ class AuthController extends Controller
         return ApiResponseService::success(null, 'Chúng tôi đã gửi email xác nhận quên mật khẩu đến bạn. Vui lòng kiểm tra email (trong khoảng 10p mà không có email, xin hãy liên hệ với admin).');
     }
 
-    public function resetPassword(ResetPasswordRequest $request)
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
         /** @var UserRepositoryInterface $userRepository */
         $userRepository = app(UserRepositoryInterface::class);
@@ -75,5 +78,25 @@ class AuthController extends Controller
         $this->authService->resetPassword($user, $request->get('token'));
 
         return ApiResponseService::success(null, 'Thay đổi mật khẩu thành công, vui lòng kiểm tra email (trong khoảng 10p mà không có email, xin hãy liên hệ với admin).');
+    }
+
+    public function getInfo(Request $request): JsonResponse
+    {
+        $user = $request->user()->load([
+            'media' => function ($query) {
+                $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
+            }
+        ]);
+
+        $resource = new AuthResource($user);
+
+        return ApiResponseService::success($resource);
+    }
+
+    public function updateProfile(UpdateProfileRequest $request): JsonResponse
+    {
+        $this->authService->updateProfile($request);
+
+        return ApiResponseService::success(null, 'Cập nhật thành công.');
     }
 }
