@@ -72,6 +72,9 @@ Route::middleware('api')->group(function () {
         Route::delete('request-tabs/{id}', [RequestTabController::class, 'destroy'])->middleware('checkIsMyRequestTab');
 
         Route::post('subscription/register', [UserSubscriptionController::class, 'register'])->middleware('canRegisterSubscription');
+        Route::post('subscription/{id}', [UserSubscriptionController::class, 'showSubscription']);
+        Route::get('subscription/list', [UserSubscriptionController::class, 'listSubscription']);
+        Route::get('user-subscriptions', [UserSubscriptionController::class, 'getMyUserSubscription']);
 
         Route::prefix('manage')->middleware(['role:Admin,Affiliate'])->group(function () {
             Route::get('request-tabs/by-receiver/{id}', [RequestTabController::class, 'getByReceiverId']);

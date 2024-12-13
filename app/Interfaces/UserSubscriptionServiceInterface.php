@@ -12,4 +12,5 @@ interface UserSubscriptionServiceInterface
     public function index(Request $request): LengthAwarePaginator;
     public function approve(int $id, int $approverId): void;
     public function reject(int $id, int $rejectorId): void;
+    public function getMyUserSubscription(int $userId): LengthAwarePaginator;
 }

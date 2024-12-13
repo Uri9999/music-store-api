@@ -37,13 +37,13 @@ class CartController extends Controller
         $attrs['user_id'] = $request->user()->getKey();
         $cart = $this->service->store($attrs);
 
-        return ApiResponseService::success($cart);
+        return ApiResponseService::success($cart, 'Đã thêm sản phẩm vào giỏ hàng.');
     }
 
     public function destroy(int $id): JsonResponse
     {
         $this->service->delete($id);
 
-        return ApiResponseService::success();
+        return ApiResponseService::success(null, 'Xóa thành công.');
     }
 }

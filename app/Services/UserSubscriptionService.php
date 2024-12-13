@@ -104,4 +104,11 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
             'rejector_id' => $rejectorId,
         ], $id);
     }
+
+    public function getMyUserSubscription(int $userId): LengthAwarePaginator
+    {
+        $subs = $this->repository->with('subscription')->where('user_id', $userId)->orderBy('created_at', 'DESC')->paginate(10);
+
+        return $subs;
+    }
 }
