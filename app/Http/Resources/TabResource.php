@@ -38,6 +38,11 @@ class TabResource extends JsonResource
         }
         if ($tab->relationLoaded('reviewTabs')) {
             $array['reviewTabs'] = ReviewTabResource::collection($tab->reviewTabs);
+            $array['reviewTabsAvg'] = round($tab->reviewTabs()->avg('rating'), 1);
+            $array['reviewTabsCount'] = $tab->reviewTabs()->count();
+        }
+        if ($tab->relationLoaded('user')) {
+            $array['user'] = new UserResource($tab->user);
         }
 
         return $array;

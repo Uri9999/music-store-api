@@ -45,6 +45,6 @@ class Tab extends Model  implements HasMedia
 
     public function reviewTabs()
     {
-        return $this->hasMany(ReviewTab::class);
+        return $this->hasMany(ReviewTab::class, 'tab_id');
     }
 }

@@ -6,6 +6,7 @@ use App\Interfaces\OrderItemServiceInterface;
 use App\Interfaces\TabServiceInterface;
 use App\Interfaces\TabRepositoryInterface;
 use App\Models\Tab;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -92,7 +93,11 @@ class TabService implements TabServiceInterface
             'category:id,name',
             'media' => function ($query) use ($collectFile) {
                 $query->whereIn('collection_name', $collectFile);
-            }
+            },
+            'user.media' => function ($query) {
+                $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
+            },
+            'reviewTabs'
         ])->find($id);
 
         return $tab;
