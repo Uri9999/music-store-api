@@ -16,6 +16,10 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function getUserByEmail(string $email)
     {
-        return User::where('email', $email)->first();
+        return User::with([
+            'media' => function ($q) {
+                $q->where('collection_name', User::MEDIA_AVATAR);
+            }
+        ])->where('email', $email)->first();
     }
 }
