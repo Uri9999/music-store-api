@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Laravel App container
+  app:
+    build:
+      context: ./docker/app # Đường dẫn tới thư mục chứa Dockerfile
+    container_name: laravel-app
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    networks:
+      - app-network
+    depends_on:
+      - mysql # Chỉ phụ thuộc vào MySQL, không phụ thuộc vào Nginx
+
+  # Nginx container
+  nginx:
+    image: nginx:latest
+    container_name: laravel-nginx
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/html
+    ports:
+      - 80:80
+    networks:
+      - app-network
+    # Không cần "depends_on" ở đây nữa
+
+    # MySQL container
+  mysql:
+    image: mysql:8
+    container_name: laravel-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: laravel
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306" 
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+
+
+networks:
+  app-network:
+    driver: bridge
