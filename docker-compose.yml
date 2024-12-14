@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/var/www/html
     networks:
-      - app-network
+      - backend-network
     depends_on:
       - mysql # Chỉ phụ thuộc vào MySQL, không phụ thuộc vào Nginx
 
@@ -24,7 +24,7 @@ services:
     ports:
       - 80:80
     networks:
-      - app-network
+      - backend-network
     # Không cần "depends_on" ở đây nữa
 
     # MySQL container
@@ -39,12 +39,12 @@ services:
     ports:
       - "3306:3306" 
     networks:
-      - app-network
+      - backend-network
 
 volumes:
   mysql-data:
 
 
 networks:
-  app-network:
+  backend-network:
     driver: bridge
