@@ -13,29 +13,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Prepare SSH environment
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          ssh-keyscan -H 116.118.50.110 >> ~/.ssh/known_hosts
-
-      - name: Deploy to VPS
+      - name: Copy SSH key
         env:
-          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
         run: |
-          echo "$SSH_KEY" > /tmp/ssh_key
-          chmod 600 /tmp/ssh_key
+          mkdir -p ~/.ssh  # Tạo thư mục .ssh nếu chưa tồn tại
+          echo "$VPS_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
 
-          # Pull code về
-          ssh -i /tmp/ssh_key root@116.118.50.110 "
-              cd /root/projects/music-store-api &&
-              git pull origin main
-          "
-          # Restart Docker container để áp dụng các thay đổi
-          ssh -i /tmp/ssh_key root@116.118.50.110 "
-            cd /root/projects/music-store-api &&
-            docker-compose exec app bash &&
-            composer install &&
-            php artisan config:cache &&
-            php artisan migrate &&
-          "
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no root@116.118.50.110 << 'EOF'
+            cd /root/projects/music-store-api  # Thay thế bằng thư mục chứa ứng dụng Laravel trên EC2
+            git pull origin main   # Pull code mới từ GitHub
+            docker-compose exec app bash
+            composer install
+            php artisan config:cache
+            php artisan migrate
+          EOF
