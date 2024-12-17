@@ -41,9 +41,9 @@ services:
     networks:
       - backend-network
 
-volumes:
-  mysql-data:
-    driver: local # Sử dụng driver local để dữ liệu được lưu trữ bên ngoài container
+# volumes:
+#   mysql-data:
+#     driver: local # Sử dụng driver local để dữ liệu được lưu trữ bên ngoài container
 
 networks:
   backend-network:
