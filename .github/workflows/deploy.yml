@@ -30,8 +30,7 @@ jobs:
             git pull origin main   # Pull code mới từ GitHub
             docker-compose down
             docker-compose up --build -d
-            docker-compose exec app bash
-            composer install
-            php artisan config:cache
-            php artisan migrate
+            docker-compose run --rm app composer install
+            docker-compose run --rm app php artisan config:cache
+            docker-compose run --rm app php artisan migrate
           EOF
