@@ -27,7 +27,7 @@ services:
       - backend-network
     # Không cần "depends_on" ở đây nữa
 
-    # MySQL container
+  # MySQL container
   mysql:
     image: mysql:8
     container_name: laravel-mysql
@@ -37,13 +37,13 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
-      - "3306:3306" 
+      - "3306:3306"
     networks:
       - backend-network
 
 volumes:
   mysql-data:
-
+    driver: local # Sử dụng driver local để dữ liệu được lưu trữ bên ngoài container
 
 networks:
   backend-network:
