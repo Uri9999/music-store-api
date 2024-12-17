@@ -20,6 +20,8 @@ jobs:
           mkdir -p ~/.ssh  # Tạo thư mục .ssh nếu chưa tồn tại
           echo "$VPS_SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          # Thêm ssh key vào danh sách known_hosts để tránh lỗi xác thực host mới
+          ssh-keyscan -H 116.118.50.110 >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
         run: |
