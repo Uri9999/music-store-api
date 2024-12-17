@@ -31,7 +31,7 @@ class TabController extends Controller
     {
         $tab = $this->service->create($request);
 
-        return ApiResponseService::success($tab, 'Tạo thành công.', 201);
+        return ApiResponseService::success($tab, 'Tạo tab thành công.', 201);
     }
 
     public function update(TabUpdateRequest $request, int $id): JsonResponse
