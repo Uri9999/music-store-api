@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: Deploy
 
 on:
   push:
@@ -23,10 +23,10 @@ jobs:
           # Thêm ssh key vào danh sách known_hosts để tránh lỗi xác thực host mới
           ssh-keyscan -H 116.118.50.110 >> ~/.ssh/known_hosts
 
-      - name: Deploy to EC2
+      - name: Deploy
         run: |
           ssh -o StrictHostKeyChecking=no root@116.118.50.110 << 'EOF'
-            cd /root/projects/music-store-api  # Thay thế bằng thư mục chứa ứng dụng Laravel trên EC2
+            cd /root/projects/music-store-api
             git pull origin main   # Pull code mới từ GitHub
             docker-compose down
             docker-compose up --build -d
