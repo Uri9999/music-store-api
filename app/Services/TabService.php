@@ -39,7 +39,7 @@ class TabService implements TabServiceInterface
             $query = $query->fullTextSearch($search);
         }
 
-        return $query->orderBy('created_at', 'DESC')->paginate(config('app.paginate'));
+        return $query->orderBy('created_at', 'DESC')->paginate(8);
     }
 
     public function getNewTab(): Collection
@@ -49,7 +49,7 @@ class TabService implements TabServiceInterface
             'media' => function ($q) {
                 $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
             }
-        ])->orderBy('created_at', 'DESC')->take(12)->get();
+        ])->orderBy('created_at', 'DESC')->take(9)->get();
     }
 
     public function getRandomTab(): Collection
