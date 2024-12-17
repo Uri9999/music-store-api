@@ -33,9 +33,12 @@ services:
     container_name: laravel-mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
       MYSQL_DATABASE: laravel
+      MYSQL_USER: root
+      SERVICE_NAME: mysql
     volumes:
-      - mysql-data:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     ports:
       - "3306:3306"
     networks:
