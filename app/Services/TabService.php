@@ -95,13 +95,13 @@ class TabService implements TabServiceInterface
         $tab = $this->tabRepository->with([
             'user:id,name',
             'category:id,name',
+            'reviewTabs.user.media',
             'media' => function ($query) use ($collectFile) {
                 $query->whereIn('collection_name', $collectFile);
             },
             'user.media' => function ($query) {
                 $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
             },
-            'reviewTabs'
         ])->find($id);
 
         return $tab;
