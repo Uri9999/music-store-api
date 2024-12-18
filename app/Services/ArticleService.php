@@ -7,6 +7,7 @@ use App\Interfaces\ArticleServiceInterface;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class ArticleService implements ArticleServiceInterface
@@ -101,5 +102,18 @@ class ArticleService implements ArticleServiceInterface
         $article = $this->repository->where('type', Article::TYPE_TUTORIAL)->first();
 
         return $article;
+    }
+
+    public function getRandomArticle(): Collection
+    {
+        $query = $this->repository->with([
+            'user:id,name',
+            'user.media' => function ($query) {
+                $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
+            }
+        ]);
+        $articles = $query->where('type', Article::TYPE_ARTICLE)->where('status', Article::STATUS_PUBLIC)->inRandomOrder()->take(10)->get();
+
+        return $articles;
     }
 }

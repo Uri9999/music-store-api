@@ -21,14 +21,22 @@ class ArticleController extends Controller
     {
         $paginator = $this->service->getArticle($request);
 
-        return ApiResponseService::paginate($paginator , 'success', 200, ArticleResource::class);
+        return ApiResponseService::paginate($paginator, 'success', 200, ArticleResource::class);
     }
 
     public function getDetailArticle(int $id): JsonResponse
     {
         $article = $this->service->getDetailArticle($id);
         $resource = new ArticleResource($article);
-        
+
+        return ApiResponseService::success($resource);
+    }
+
+    public function getRandomArticle(): JsonResponse
+    {
+        $articles = $this->service->getRandomArticle();
+        $resource = ArticleResource::collection($articles);
+
         return ApiResponseService::success($resource);
     }
 }

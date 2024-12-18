@@ -4,6 +4,7 @@ namespace App\Interfaces;
 
 use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 interface ArticleServiceInterface
@@ -17,4 +18,5 @@ interface ArticleServiceInterface
     public function getTutorial(): ?Article;
     public function getArticle(Request $request): LengthAwarePaginator;
     public function getDetailArticle(int $id): ?Article;
+    public function getRandomArticle(): Collection;
 }
