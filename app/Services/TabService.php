@@ -78,6 +78,7 @@ class TabService implements TabServiceInterface
     {
         $collectFile = [Tab::MEDIA_TAB_IMAGE];
         $boughtStatus = false;
+        $checkSubscription = false;
         /** @var OrderItemServiceInterface $orderItemSerice */
         $orderItemSerice = app(OrderItemServiceInterface::class);
         $user = $request->user();
