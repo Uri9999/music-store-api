@@ -1,10 +1,9 @@
 version: '3.8'
 
 services:
-  # Laravel App container
   app:
     build:
-      context: ./docker/app # Đường dẫn tới thư mục chứa Dockerfile
+      context: ./docker/app
     container_name: laravel-app
     working_dir: /var/www/html
     volumes:
@@ -12,12 +11,12 @@ services:
     networks:
       - backend-network
     depends_on:
-      - mysql # Chỉ phụ thuộc vào MySQL, không phụ thuộc vào Nginx
+      - mysql
 
-  # Nginx container
   nginx:
     image: nginx:latest
     container_name: laravel-nginx
+    # restart: always
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - .:/var/www/html
@@ -25,9 +24,10 @@ services:
       - "8080:80"
     networks:
       - backend-network
-    # Không cần "depends_on" ở đây nữa
+    depends_on:
+      - mysql
+      - app
 
-  # MySQL container
   mysql:
     image: mysql:8
     container_name: laravel-mysql
@@ -45,7 +45,7 @@ services:
 
 volumes:
   mysql:
-    driver: local # Sử dụng driver local để dữ liệu được lưu trữ bên ngoài container
+    driver: local
 
 networks:
   backend-network:
