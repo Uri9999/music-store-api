@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\OrderItemRepositoryInterface;
 use App\Interfaces\OrderItemServiceInterface;
+use App\Models\Order;
 
 class OrderItemService implements OrderItemServiceInterface
 {
@@ -16,14 +17,10 @@ class OrderItemService implements OrderItemServiceInterface
 
     public function checkBoughtTab(int $tabId, int $userId): bool
     {
-        $boughtStatus = false;
         $orderItem = $this->repository->where('tab_id', $tabId)->whereHas('order', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })->first();
-        if ($orderItem) {
-            $boughtStatus = true;
-        }
+            $query->where('user_id', $userId)->where('status', Order::STATUS_COMPLETED);
+        })->exists();
 
-        return $boughtStatus;
+        return $orderItem;
     }
 }

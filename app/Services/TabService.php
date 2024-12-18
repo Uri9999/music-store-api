@@ -5,11 +5,11 @@ namespace App\Services;
 use App\Interfaces\OrderItemServiceInterface;
 use App\Interfaces\TabServiceInterface;
 use App\Interfaces\TabRepositoryInterface;
+use App\Interfaces\UserSubscriptionServiceInterface;
 use App\Models\Tab;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class TabService implements TabServiceInterface
 {
@@ -83,8 +83,12 @@ class TabService implements TabServiceInterface
         $user = $request->user();
         if ($user) {
             $boughtStatus = $orderItemSerice->checkBoughtTab($id, $user->getKey());
+
+            /** @var UserSubscriptionServiceInterface $userSubscriptionService */
+            $userSubscriptionService = app(UserSubscriptionServiceInterface::class);
+            $checkSubscription = $userSubscriptionService->checkSubscriptionValid($user->getKey());
         }
-        if ($boughtStatus) {
+        if ($boughtStatus || $checkSubscription) {
             $collectFile = [Tab::MEDIA_TAB_IMAGE, Tab::MEDIA_TAB_PDF];
         }
 

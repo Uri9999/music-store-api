@@ -13,4 +13,5 @@ interface UserSubscriptionServiceInterface
     public function approve(int $id, int $approverId): void;
     public function reject(int $id, int $rejectorId): void;
     public function getMyUserSubscription(int $userId): LengthAwarePaginator;
+    public function checkSubscriptionValid(int $userId): bool;
 }

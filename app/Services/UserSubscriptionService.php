@@ -111,4 +111,16 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
 
         return $subs;
     }
+
+    public function checkSubscriptionValid(int $userId): bool
+    {
+        $now = Carbon::today()->toDateString();
+        $valid = $this->repository->where('status', UserSubscription::STATUS_APPROVED)
+            ->where('user_id', $userId)
+            ->whereDate('start_date', '<=', $now)
+            ->whereDate('end_date', '>=', $now)
+            ->exists();
+
+        return $valid;
+    }
 }
