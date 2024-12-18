@@ -59,7 +59,7 @@ Route::middleware('api')->group(function () {
         Route::get('carts/get-by-me', [CartController::class, 'getByUserId']);
         Route::get('carts/get-count-by-me', [CartController::class, 'getCountByUserId']);
         Route::delete('carts/{id}', [CartController::class, 'destroy'])->middleware('checkIsMyCart');
-        Route::post('carts', [CartController::class, 'store']);
+        Route::post('carts', [CartController::class, 'store'])->middleware('canAddToCart');
 
         Route::post('orders', [OrderController::class, 'store']);
         Route::get('orders/created-by-me', [OrderController::class, 'getMyOrder']);

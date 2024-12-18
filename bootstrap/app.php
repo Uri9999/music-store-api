@@ -10,6 +10,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use App\Exceptions\CustomException;
+use App\Http\Middleware\CanAddToCart;
 use App\Http\Middleware\CanCreateReviewTab;
 use App\Http\Middleware\CanDeleteArticle;
 use App\Http\Middleware\CanLockUser;
@@ -40,6 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'canUpdateArticle' => CanUpdateArticle::class,
             'canRegisterSubscription' => CanRegisterSubscription::class,
             'canCreateReviewTab' => CanCreateReviewTab::class,
+            'canAddToCart' => CanAddToCart::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
