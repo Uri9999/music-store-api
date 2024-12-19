@@ -29,6 +29,7 @@ use App\Interfaces\CartRepositoryInterface;
 use App\Interfaces\DashboardServiceInterface;
 use App\Interfaces\DeviceTokenRepositoryInterface;
 use App\Interfaces\DeviceTokenServiceInterface;
+use App\Interfaces\FCMServiceInterface;
 use App\Interfaces\NotificationRepositoryInterface;
 use App\Interfaces\NotificationServiceInterface;
 use App\Repositories\CartRepository;
@@ -55,6 +56,7 @@ use App\Repositories\UserSubscriptionRepository;
 use App\Services\ArticleService;
 use App\Services\DashboardService;
 use App\Services\DeviceTokenService;
+use App\Services\FCMService;
 use App\Services\NotificationService;
 use App\Services\OrderItemService;
 use App\Services\OrderService;
@@ -115,6 +117,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(DeviceTokenRepositoryInterface::class, DeviceTokenRepository::class);
         $this->app->bind(DeviceTokenServiceInterface::class, DeviceTokenService::class);
+
+        $this->app->bind(FCMServiceInterface::class, FCMService::class);
     }
 
     /**
