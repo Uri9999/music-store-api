@@ -19,6 +19,7 @@ use App\Http\Controllers\Manage\ArticleController as AdminArticleController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Customer\ReviewTabController;
 use App\Http\Controllers\Customer\UserSubscriptionController;
+use App\Http\Controllers\Customer\DeviceTokenController;
 use App\Http\Controllers\Manage\DashboardController;
 use App\Http\Controllers\Manage\RevenueController;
 use App\Http\Controllers\Manage\UserSubscriptionController as AdminUserSubscriptionController;
@@ -52,6 +53,8 @@ Route::middleware('api')->group(function () {
     Route::get('tabs/{id}', [TabController::class, 'show']);
 
     Route::middleware('auth:sanctum')->group(function () {
+
+        Route::post('device-tokens', [DeviceTokenController::class, 'store']);
 
         Route::get('/auth/info', [AuthController::class, 'getInfo']);
         Route::post('/auth/update/info', [AuthController::class, 'updateProfile']);
