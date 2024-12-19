@@ -27,6 +27,8 @@ use App\Services\CartService;
 use App\Interfaces\CartServiceInterface;
 use App\Interfaces\CartRepositoryInterface;
 use App\Interfaces\DashboardServiceInterface;
+use App\Interfaces\NotificationRepositoryInterface;
+use App\Interfaces\NotificationServiceInterface;
 use App\Repositories\CartRepository;
 use App\Interfaces\OrderServiceInterface;
 use App\Interfaces\OrderRepositoryInterface;
@@ -41,6 +43,7 @@ use App\Interfaces\UserServiceInterface;
 use App\Interfaces\UserSubscriptionRepositoryInterface;
 use App\Interfaces\UserSubscriptionServiceInterface;
 use App\Repositories\ArticleRepository;
+use App\Repositories\NotificationRepository;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ReviewTabRepository;
@@ -48,6 +51,7 @@ use App\Repositories\SubscriptionRepository;
 use App\Repositories\UserSubscriptionRepository;
 use App\Services\ArticleService;
 use App\Services\DashboardService;
+use App\Services\NotificationService;
 use App\Services\OrderItemService;
 use App\Services\OrderService;
 use App\Services\RevenueService;
@@ -101,6 +105,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ReviewTabRepositoryInterface::class, ReviewTabRepository::class);
         $this->app->bind(ReviewTabServiceInterface::class, ReviewTabService::class);
+
+        $this->app->bind(NotificationRepositoryInterface::class, NotificationRepository::class);
+        $this->app->bind(NotificationServiceInterface::class, NotificationService::class);
     }
 
     /**
