@@ -6,6 +6,7 @@ use App\Exceptions\CustomException;
 use App\Exceptions\SpamForgotPasswordException;
 use App\Interfaces\AuthServiceInterface;
 use App\Interfaces\AuthRepositoryInterface;
+use App\Interfaces\DeviceTokenServiceInterface;
 use App\Mail\VerifycationEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
@@ -85,6 +86,10 @@ class AuthService implements AuthServiceInterface
 
     public function logout()
     {
+        /** @var DeviceTokenServiceInterface $deviceTokenService */
+        $deviceTokenService = app(DeviceTokenServiceInterface::class);
+        $deviceTokenService->delete(Auth::user()->id);
+
         Auth::user()->currentAccessToken()->delete();
     }
 

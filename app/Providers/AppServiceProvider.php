@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\NotificationCreated;
 use App\Interfaces\ArticleRepositoryInterface;
 use App\Interfaces\ArticleServiceInterface;
 use App\Interfaces\AuthRepositoryInterface;
@@ -12,6 +13,7 @@ use App\Interfaces\RequestTabRepositoryInterface;
 use App\Interfaces\RequestTabServiceInterface;
 use App\Interfaces\TabRepositoryInterface;
 use App\Interfaces\TabServiceInterface;
+use App\Listeners\PushFCM;
 use App\Repositories\AuthRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\RequestTabRepository;
@@ -65,6 +67,7 @@ use App\Services\ReviewTabService;
 use App\Services\SubscriptionService;
 use App\Services\UserService;
 use App\Services\UserSubscriptionService;
+use Illuminate\Support\Facades\Event;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -126,6 +129,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            NotificationCreated::class,
+            PushFCM::class,
+        );
     }
 }

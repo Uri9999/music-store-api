@@ -52,6 +52,8 @@ Route::middleware('api')->group(function () {
     Route::get('random-tab', [TabController::class, 'getRandomTab']);
     Route::get('tabs/{id}', [TabController::class, 'show']);
 
+    Route::get('device-tokens/send-demo', [DeviceTokenController::class, 'sendDemoToFirstToken']);
+
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('device-tokens', [DeviceTokenController::class, 'store']);
