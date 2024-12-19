@@ -36,7 +36,7 @@ class PushFCM implements ShouldQueue
     public function handle(NotificationCreated $event): void
     {
         $notification = $event->getNotification();
-        $deviceToken = $this->deviceTokenService->getByUserId($notification->receiver_id);
+        $deviceToken = $this->deviceTokenService->getByUserId($notification->user_id);
         if (!$deviceToken) {
             return;
         }

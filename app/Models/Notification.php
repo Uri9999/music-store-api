@@ -26,7 +26,7 @@ class Notification extends Model
         'meta' => 'json',
     ];
 
-    const TYPE_1 = 1;
+    const TYPE_CREATE_ORDER = 1;
     const TYPE_2 = 2;
     const TYPE_3 = 3;
 

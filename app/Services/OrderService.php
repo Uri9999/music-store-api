@@ -9,6 +9,7 @@ use App\Interfaces\OrderItemRepositoryInterface;
 use App\Interfaces\OrderServiceInterface;
 use App\Interfaces\TabRepositoryInterface;
 use App\Interfaces\OrderRepositoryInterface;
+use App\Jobs\CreateNotification;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -76,6 +77,8 @@ class OrderService implements OrderServiceInterface
 
             $this->orderItemRepository->insert($orderItems);
             $this->cartRepository->deleteByIds($tabIds);
+
+            CreateNotification::createOrder($user, $order);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             throw new OrderException();
