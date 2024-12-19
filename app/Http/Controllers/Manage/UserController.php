@@ -56,9 +56,9 @@ class UserController extends Controller
         return ApiResponseService::success(null, 'Cập nhật thông tin thành công.');
     }
 
-    public function getAllAffiliate(Request $request): JsonResponse
+    public function getManager(Request $request): JsonResponse
     {
-        $users = $this->service->getAllAffiliate($request);
+        $users = $this->service->getManager($request);
 
         return ApiResponseService::collection($users);
     }

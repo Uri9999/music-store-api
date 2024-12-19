@@ -69,9 +69,9 @@ class UserService implements UserServiceInterface
         }
     }
 
-    public function getAllAffiliate(Request $request): Collection
+    public function getManager(Request $request): Collection
     {
-        $query = $this->repository->where('role_id', Role::ROLE_AFFILIATE);
+        $query = $this->repository->whereIn('role_id', [Role::ROLE_AFFILIATE, Role::ROLE_ADMIN, ROLE::ROLE_STAFF]);
         if ($search = $request->get('search')) {
             $query = $query->fullTextSearch($search);
         }

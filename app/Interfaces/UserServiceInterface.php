@@ -14,5 +14,5 @@ interface UserServiceInterface
     public function unlock($id): void;
     public function show(int $id): ?User;
     public function update(int $id, Request $request): void;
-    public function getAllAffiliate(Request $request): Collection;
+    public function getManager(Request $request): Collection;
 }
