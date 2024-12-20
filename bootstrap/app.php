@@ -20,6 +20,7 @@ use App\Http\Middleware\CanUpdateRequestTabReceiver;
 use App\Http\Middleware\CheckIsMyOrder;
 use App\Http\Middleware\CheckIsMyCart;
 use App\Http\Middleware\CheckIsMyRequestTab;
+use App\Http\Middleware\DatabaseTransaction;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -42,6 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'canRegisterSubscription' => CanRegisterSubscription::class,
             'canCreateReviewTab' => CanCreateReviewTab::class,
             'canAddToCart' => CanAddToCart::class,
+            'DBTransaction' => DatabaseTransaction::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
