@@ -25,6 +25,7 @@ use App\Http\Controllers\Manage\RevenueController;
 use App\Http\Controllers\Manage\UserSubscriptionController as AdminUserSubscriptionController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Manage\ReviewTabController as AdminReviewTabController;
+use App\Http\Controllers\Customer\UserController as CustomerUserController;
 
 Route::middleware('api')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -51,6 +52,8 @@ Route::middleware('api')->group(function () {
     Route::get('new-tab', [TabController::class, 'getNewTab']);
     Route::get('random-tab', [TabController::class, 'getRandomTab']);
     Route::get('tabs/{id}', [TabController::class, 'show']);
+    Route::get('tabs/by-user-id/{id}', [TabController::class, 'getTabByUserId']);
+    Route::get('user/info/{id}', [CustomerUserController::class, 'show']);
 
     Route::get('device-tokens/send-demo', [DeviceTokenController::class, 'sendDemoToFirstToken']);
 
@@ -72,6 +75,7 @@ Route::middleware('api')->group(function () {
 
 
         Route::get('tabs/get/by-ids', [TabController::class, 'getTabByIds']);
+        
         Route::post('/tab/{id}/review', [ReviewTabController::class, 'store'])->middleware('canCreateReviewTab');
 
         Route::get('request-tabs/{id}', [RequestTabController::class, 'show']); // thêm middleware chỉ xem của chính mình

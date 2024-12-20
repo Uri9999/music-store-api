@@ -18,4 +18,5 @@ interface TabServiceInterface
     public function delete(int $id);
     public function getTabByIds(array $ids);
     public function removeTabImage(int $tabId, int $mediaId): void;
+    public function getTabByUserId(int $userId);
 }

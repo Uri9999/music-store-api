@@ -28,7 +28,7 @@ class OrderResource extends JsonResource
             'note' => $order->note,
             'approval_date' => $order->approval_date,
             'approver_id' => $order->approver_id,
-            'created_at' => $order->created_at->format('d/m/Y'),
+            'created_at' => $order->created_at,
         ];
         if ($order->relationLoaded('media')) {
             $array['media_bill'] = new MediaResource($order->getMedia(Order::MEDIA_BILL)->last());

@@ -168,4 +168,17 @@ class TabService implements TabServiceInterface
             $media->delete();
         }
     }
+
+    public function getTabByUserId(int $userId)
+    {
+        $tabs = $this->tabRepository->with([
+            'user:id,name',
+            'category:id,name',
+            'media' => function ($q) {
+                $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
+            }
+        ])->where('user_id', $userId)->paginate(8);
+
+        return $tabs;
+    }
 }

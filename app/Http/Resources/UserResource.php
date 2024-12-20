@@ -28,6 +28,7 @@ class UserResource extends JsonResource
             'dob' => $user->dob,
             'commission_rate' => $user->commission_rate,
             'referral_code' => $user->referral_code,
+            'created_at' => $user->created_at,
         ];
         if ($user->relationLoaded('media')) {
             $array['avatar'] = new MediaResource($user->getMedia(User::MEDIA_AVATAR)->last());

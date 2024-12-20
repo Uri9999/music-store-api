@@ -57,4 +57,11 @@ class TabController extends Controller
 
         return ApiResponseService::success($tabs);
     }
+
+    public function getTabByUserId(int $id): JsonResponse
+    {
+        $tabs = $this->tabService->getTabByUserId($id);
+
+        return ApiResponseService::paginate($tabs, 'Success', 200, TabResource::class);
+    }
 }
