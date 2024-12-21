@@ -8,6 +8,7 @@ use App\Interfaces\NotificationServiceInterface;
 use App\Models\Notification;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class NotificationService implements NotificationServiceInterface
 {
@@ -45,11 +46,20 @@ class NotificationService implements NotificationServiceInterface
 
     public function updateToSent(Notification $notification)
     {
-        $this->repository->update(['status' => Notification::STATUS_SENT], $notification->getKey());
+        $this->repository->update(['status' => Notification::STATUS_SENT, 'send_at' => Carbon::now()], $notification->getKey());
     }
 
     public function countNotReadYet(Request $request): int
     {
-        return $this->repository->where('receiver_id', $request->user()->getKey())->count();
+        return $this->repository->where('user_id', $request->user()->getKey())->count();
+    }
+
+    public function getMyNotify(Request $request): LengthAwarePaginator
+    {
+        $notices = $this->repository->where('user_id', $request->user()->getKey())
+            ->orderByRaw("FIELD(status, 1, 2)")
+            ->paginate(5);
+
+        return $notices;
     }
 }

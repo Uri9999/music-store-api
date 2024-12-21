@@ -20,6 +20,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Customer\ReviewTabController;
 use App\Http\Controllers\Customer\UserSubscriptionController;
 use App\Http\Controllers\Customer\DeviceTokenController;
+use App\Http\Controllers\Customer\NotificationController;
 use App\Http\Controllers\Manage\DashboardController;
 use App\Http\Controllers\Manage\RevenueController;
 use App\Http\Controllers\Manage\UserSubscriptionController as AdminUserSubscriptionController;
@@ -60,6 +61,8 @@ Route::middleware('api')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('device-tokens', [DeviceTokenController::class, 'store']);
+        Route::get('notifications/my', [NotificationController::class, 'getMyNotify']);
+        Route::get('notifications/count-not-read', [NotificationController::class, 'countNotReadYet']);
 
         Route::get('/auth/info', [AuthController::class, 'getInfo']);
         Route::post('/auth/update/info', [AuthController::class, 'updateProfile']);
