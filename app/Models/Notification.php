@@ -38,4 +38,9 @@ class Notification extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function isStatusSent(): bool
+    {
+        return $this->status == self::STATUS_SENT;
+    }
 }

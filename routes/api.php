@@ -61,8 +61,11 @@ Route::middleware('api')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('device-tokens', [DeviceTokenController::class, 'store']);
+
+        Route::get('notifications', [NotificationController::class, 'index']);
         Route::get('notifications/my', [NotificationController::class, 'getMyNotify']);
         Route::get('notifications/count-not-read', [NotificationController::class, 'countNotReadYet']);
+        Route::get('notifications/{id}', [NotificationController::class, 'show']);
 
         Route::get('/auth/info', [AuthController::class, 'getInfo']);
         Route::post('/auth/update/info', [AuthController::class, 'updateProfile']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Notification\NotificationIndexRequest;
 use App\Interfaces\NotificationServiceInterface;
 use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +17,20 @@ class NotificationController extends Controller
     public function __construct(NotificationServiceInterface $service)
     {
         $this->service = $service;
+    }
+
+    public function index(NotificationIndexRequest $request): JsonResponse
+    {
+        $notices = $this->service->index($request);
+
+        return ApiResponseService::paginate($notices, 'Đánh giá thành công.', 200, NotificationResource::class);
+    }
+
+    public function show(Request $request, int $id): JsonResponse
+    {
+        $notice = $this->service->show($id, $request->user()->getKey());
+
+        return ApiResponseService::success($notice);
     }
 
     public function getMyNotify(Request $request): JsonResponse

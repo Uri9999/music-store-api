@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\RequestTab;
 use App\Models\Role;
@@ -143,6 +144,24 @@ class SelectionController extends Controller
             [
                 'label' => 'Đã hủy',
                 'value' => UserSubscription::STATUS_REJECTED,
+            ],
+        ];
+
+        $selections['notification_status'] = [
+            [
+                'label' => 'Chưa đọc',
+                'value' => Notification::STATUS_SENT,
+            ],
+            [
+                'label' => 'Đã đọc',
+                'value' => Notification::STATUS_READ,
+            ],
+        ];
+
+        $selections['notification_type'] = [
+            [
+                'label' => 'Tạo đơn hàng',
+                'value' => Notification::TYPE_CREATE_ORDER,
             ],
         ];
 

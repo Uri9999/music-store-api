@@ -19,22 +19,6 @@ class NotificationService implements NotificationServiceInterface
         $this->repository = $repository;
     }
 
-    public function index(Request $reqeust): LengthAwarePaginator
-    {
-        $query = $this->repository;
-        if ($status = $reqeust->get('status')) {
-            $query->where('status', $status);
-        }
-        if ($type = $reqeust->get('type')) {
-            $query->where('type', $type);
-        }
-        $query->orderBy('created_at', 'desc');
-
-        $notices = $query->paginate(10);
-
-        return $notices;
-    }
-
     public function store(array $attrs): Notification
     {
         $notice = $this->repository->create($attrs);
@@ -59,6 +43,32 @@ class NotificationService implements NotificationServiceInterface
         $notices = $this->repository->where('user_id', $request->user()->getKey())
             ->orderByRaw("FIELD(status, 1, 2)")
             ->paginate(5);
+
+        return $notices;
+    }
+
+    public function show(int $id, int $userId): ?Notification
+    {
+        $notice = $this->repository->where('user_id', $userId)->find($id);
+        if ($notice->isStatusSent()) {
+            $notice->update(['status' => Notification::STATUS_READ]);
+        }
+
+        return $notice;
+    }
+
+    public function index(Request $request): LengthAwarePaginator
+    {
+        $query = $this->repository->where('user_id', $request->user()->getKey());
+
+        if ($status = $request->get('status')) {
+            $query = $query->whereIn('status', $status);
+        }
+        if ($types = $request->get('types')) {
+            $query = $query->whereIn('type', $types);
+        }
+
+        $notices = $query->orderBy('created_at', 'DESC')->paginate(10);
 
         return $notices;
     }

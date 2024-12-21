@@ -8,7 +8,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface NotificationServiceInterface
 {
-    public function index(Request $reqeust): LengthAwarePaginator;
+    public function index(Request $request): LengthAwarePaginator;
+    public function show(int $id, int $userId): ?Notification;
     public function store(array $attrs): Notification;
     public function updateToSent(Notification $notification);
     public function countNotReadYet(Request $request): int;
