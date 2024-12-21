@@ -25,6 +25,8 @@ class AuthResource extends JsonResource
             'dob' => $user->dob,
             'gender' => $user->gender,
             'referral_code' => $user->referral_code,
+            'phone' => $user->phone,
+            'introduce' => $user->introduce,
         ];
         if ($user->relationLoaded('media')) {
             $array['avatar'] = new MediaResource($user->getMedia(User::MEDIA_AVATAR)->last());

@@ -167,7 +167,7 @@ class AuthService implements AuthServiceInterface
     {
         /** @var UserRepositoryInterface $userRepository */
         $userRepository = app(UserRepositoryInterface::class);
-        $user = $userRepository->update($request->only(['name', 'gender', 'dob']), $request->user()->getKey());
+        $user = $userRepository->update($request->only(['name', 'gender', 'dob', 'phone', 'introduce']), $request->user()->getKey());
         if ($request->file('media_avatar')) {
             $user->clearMediaCollection(User::MEDIA_AVATAR);
             $media = $user->addMediaFromRequest('media_avatar')->toMediaCollection(User::MEDIA_AVATAR);

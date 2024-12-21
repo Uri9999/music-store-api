@@ -25,6 +25,8 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => 'bail|string|min:6',
+            'phone' => 'bail|string',
+            'introduce' => 'bail|string',
             'gender' => [Rule::in([User::GENDER_MALE, User::GENDER_FEMALE, User::GENDER_OTHER])],
             'dob' => 'required|date_format:Y-m-d',
             'media_avatar' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
