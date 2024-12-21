@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Traits\FullTextSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Tab extends Model  implements HasMedia
+class Tab extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia, FullTextSearch;
 
@@ -46,5 +47,10 @@ class Tab extends Model  implements HasMedia
     public function reviewTabs()
     {
         return $this->hasMany(ReviewTab::class, 'tab_id');
+    }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class, 'tab_id');
     }
 }

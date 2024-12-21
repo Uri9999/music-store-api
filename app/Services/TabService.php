@@ -28,7 +28,7 @@ class TabService implements TabServiceInterface
             'media' => function ($q) {
                 $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
             }
-        ]);
+        ])->withCount(['orderItems as total_order_items']);
         if ($orderPrice = $request->get('orderPrice')) {
             $query = $query->orderBy('price', $orderPrice);
         }
@@ -49,7 +49,7 @@ class TabService implements TabServiceInterface
             'media' => function ($q) {
                 $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
             }
-        ])->orderBy('created_at', 'DESC')->take(9)->get();
+        ])->withCount(['orderItems as total_order_items'])->orderBy('created_at', 'DESC')->take(9)->get();
     }
 
     public function getRandomTab(): Collection
@@ -59,7 +59,7 @@ class TabService implements TabServiceInterface
             'media' => function ($q) {
                 $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
             }
-        ])->inRandomOrder()->take(12)->get();
+        ])->withCount(['orderItems as total_order_items'])->inRandomOrder()->take(12)->get();
 
     }
 
@@ -71,7 +71,7 @@ class TabService implements TabServiceInterface
             'media' => function ($query) {
                 $query->whereIn('collection_name', [Tab::MEDIA_TAB_IMAGE, Tab::MEDIA_TAB_PDF]);
             }
-        ])->find($id);
+        ])->withCount(['orderItems as total_order_items'])->find($id);
     }
 
     public function showForUser($id, Request $request): ?Tab
@@ -103,7 +103,7 @@ class TabService implements TabServiceInterface
             'user.media' => function ($query) {
                 $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
             },
-        ])->find($id);
+        ])->withCount(['orderItems as total_order_items'])->find($id);
 
         return $tab;
     }
@@ -177,7 +177,7 @@ class TabService implements TabServiceInterface
             'media' => function ($q) {
                 $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
             }
-        ])->where('user_id', $userId)->paginate(8);
+        ])->where('user_id', $userId)->withCount(['orderItems as total_order_items'])->paginate(8);
 
         return $tabs;
     }
