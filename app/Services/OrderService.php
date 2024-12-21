@@ -76,7 +76,7 @@ class OrderService implements OrderServiceInterface
             }
 
             $this->orderItemRepository->insert($orderItems);
-            $this->cartRepository->deleteByIds($tabIds);
+            $this->cartRepository->whereIn('tab_id', $tabIds)->where('user_id', $userId)->delete();
 
             CreateNotification::createOrder($user, $order);
         } catch (\Throwable $th) {
