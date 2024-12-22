@@ -163,6 +163,27 @@ class SelectionController extends Controller
                 'label' => 'Tạo đơn hàng',
                 'value' => Notification::TYPE_CREATE_ORDER,
             ],
+            [
+                'label' => 'Phê duyệt đơn hàng',
+                'value' => Notification::TYPE_APPROVE_ORDER,
+            ],
+            [
+                'label' => 'Hủy đơn hàng',
+                'value' => Notification::TYPE_CANCEL_ORDER,
+            ],
+            [
+                'label' => 'Đăng ký Subscription',
+                'value' => Notification::TYPE_REGISTER_SUBSCRIPTION,
+            ],
+            [
+                'label' => 'Phê duyệt Subscription',
+                'value' => Notification::TYPE_APPROVE_ORDER,
+            ],
+            [
+                'label' => 'Hủy Subscription',
+                'value' => Notification::TYPE_REJECT_ORDER,
+            ],
+            
         ];
 
         return ApiResponseService::success($selections);

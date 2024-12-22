@@ -27,8 +27,11 @@ class Notification extends Model
     ];
 
     const TYPE_CREATE_ORDER = 1;
-    const TYPE_2 = 2;
-    const TYPE_3 = 3;
+    const TYPE_APPROVE_ORDER = 2;
+    const TYPE_CANCEL_ORDER = 3;
+    const TYPE_REGISTER_SUBSCRIPTION = 4;
+    const TYPE_APPROVE_SUBSCRIPTION = 5;
+    const TYPE_REJECT_ORDER = 6;
 
     const STATUS_UNSENT = 0;
     const STATUS_SENT = 1;

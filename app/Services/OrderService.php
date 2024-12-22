@@ -78,7 +78,7 @@ class OrderService implements OrderServiceInterface
             $this->orderItemRepository->insert($orderItems);
             $this->cartRepository->whereIn('tab_id', $tabIds)->where('user_id', $userId)->delete();
 
-            CreateNotification::createOrder($user, $order);
+            CreateNotification::createOrder($order);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             throw new OrderException();
@@ -140,11 +140,15 @@ class OrderService implements OrderServiceInterface
 
     public function approval(int $id, Request $request): void
     {
-        $this->repository->update(['status' => Order::STATUS_COMPLETED, 'approver_id' => $request->user()->getKey(), 'approval_date' => Carbon::today()], $id);
+        $order = $this->repository->update(['status' => Order::STATUS_COMPLETED, 'approver_id' => $request->user()->getKey(), 'approval_date' => Carbon::today()], $id);
+
+        CreateNotification::approvalOrder($order);
     }
 
     public function cancel(int $id, Request $request): void
     {
-        $this->repository->update(['status' => Order::STATUS_CANCEL, 'canceller_id' => $request->user()->getKey()], $id);
+        $order = $this->repository->update(['status' => Order::STATUS_CANCEL, 'canceller_id' => $request->user()->getKey()], $id);
+
+        CreateNotification::cancelOrder($order);
     }
 }

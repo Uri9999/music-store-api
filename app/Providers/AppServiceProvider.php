@@ -129,9 +129,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(
-            NotificationCreated::class,
-            PushFCM::class,
-        );
+        // Event::listen(
+        //     NotificationCreated::class,
+        //     PushFCM::class,
+        // );
     }
 }

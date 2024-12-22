@@ -6,6 +6,7 @@ use App\Interfaces\SubscriptionRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\UserSubscriptionRepositoryInterface;
 use App\Interfaces\UserSubscriptionServiceInterface;
+use App\Jobs\CreateNotification;
 use App\Models\UserSubscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -58,6 +59,8 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
             $userSubscription->addMediaFromRequest('bill')->toMediaCollection(UserSubscription::MEDIA_SUBSCRIPTION_BILL);
         }
 
+        CreateNotification::registerSubscription($userSubscription);
+
         return $userSubscription;
     }
 
@@ -90,19 +93,24 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
 
     public function approve(int $id, int $approverId): void
     {
-        $this->repository->update([
+        $userSubscription = $this->repository->update([
             'status' => UserSubscription::STATUS_APPROVED,
             'approver_id' => $approverId,
             'approval_date' => Carbon::today(),
         ], $id);
+
+        CreateNotification::approveSubscription($userSubscription);
     }
 
     public function reject(int $id, int $rejectorId): void
     {
-        $this->repository->update([
+        $userSubscription = $this->repository->update([
             'status' => UserSubscription::STATUS_REJECTED,
             'rejector_id' => $rejectorId,
         ], $id);
+
+        CreateNotification::rejectSubscription($userSubscription);
+
     }
 
     public function getMyUserSubscription(int $userId): LengthAwarePaginator
