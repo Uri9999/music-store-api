@@ -38,6 +38,9 @@ class TabService implements TabServiceInterface
         if ($search = $request->get('search')) {
             $query = $query->fullTextSearch($search);
         }
+        if ($categories = $request->get('categories')) {
+            $query = $query->whereIn('category_id', $categories);
+        }
 
         return $query->orderBy('created_at', 'DESC')->paginate(8);
     }

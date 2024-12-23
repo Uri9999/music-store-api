@@ -17,6 +17,7 @@ class TabIndexRequest extends FormRequest
         return [
             'orderPrice' => ['nullable', 'string', Rule::in(['asc', 'desc'])],
             'orderCreatedAt' => ['nullable', 'string', Rule::in(['asc', 'desc'])],
+            'categories' => ['array'],
             'search' => 'nullable|string',
         ];
     }
