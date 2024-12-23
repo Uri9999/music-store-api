@@ -64,6 +64,7 @@ Route::middleware('api')->group(function () {
 
         Route::get('notifications', [NotificationController::class, 'index']);
         Route::get('notifications/my', [NotificationController::class, 'getMyNotify']);
+        Route::get('notifications/read-all', [NotificationController::class, 'readAll']);
         Route::get('notifications/count-not-read', [NotificationController::class, 'countNotReadYet']);
         Route::get('notifications/{id}', [NotificationController::class, 'show']);
 

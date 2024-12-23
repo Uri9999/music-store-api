@@ -35,13 +35,14 @@ class NotificationService implements NotificationServiceInterface
 
     public function countNotReadYet(Request $request): int
     {
-        return $this->repository->where('user_id', $request->user()->getKey())->count();
+        return $this->repository->where('user_id', $request->user()->getKey())->where('status', '!=', Notification::STATUS_READ)->count();
     }
 
     public function getMyNotify(Request $request): LengthAwarePaginator
     {
         $notices = $this->repository->where('user_id', $request->user()->getKey())
-            ->orderByRaw("FIELD(status, 1, 2)")
+            ->where('status', '!=', Notification::STATUS_READ)
+            ->orderBy('created_at')
             ->paginate(5);
 
         return $notices;
@@ -71,5 +72,10 @@ class NotificationService implements NotificationServiceInterface
         $notices = $query->orderBy('created_at', 'DESC')->paginate(10);
 
         return $notices;
+    }
+
+    public function readAll(Request $request): void
+    {
+        $this->repository->where('user_id', $request->user()->getKey())->update(['status' => Notification::STATUS_READ]);
     }
 }

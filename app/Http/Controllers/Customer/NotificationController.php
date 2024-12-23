@@ -46,4 +46,11 @@ class NotificationController extends Controller
 
         return ApiResponseService::success($count);
     }
+
+    public function readAll(Request $request): JsonResponse
+    {
+        $this->service->readAll($request);
+
+        return ApiResponseService::success(null, 'Đã đọc hết thông báo.');
+    }
 }
