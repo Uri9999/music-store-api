@@ -28,7 +28,8 @@ jobs:
           ssh -o StrictHostKeyChecking=no root@116.118.50.110 << 'EOF'
             cd /root/projects/music-store-api
             git pull origin main   # Pull code mới từ GitHub
-            docker-compose down
+            docker-compose stop
+            docker-compose rm -f
             docker-compose up --build -d
             docker-compose run --rm app composer install
             docker-compose run --rm app php artisan config:cache
