@@ -31,7 +31,7 @@ class AuthController extends Controller
     {
         $user = $this->authService->register($request->validated());
 
-        return ApiResponseService::item($user, 'Đăng ký tài khoản thành công, hãy kiểm tra email của bạn (trong khoảng 10p mà không có email, xin hãy liên hệ với admin).', 201);
+        return ApiResponseService::item($user, 'Đăng ký tài khoản thành công, chúng tôi đã gửi email xác thực, hãy kiểm tra email của bạn (trong khoảng 10p mà không có email, xin hãy liên hệ với admin).', 201);
     }
 
     public function verifyUser(VerifyUserRequest $request): JsonResponse

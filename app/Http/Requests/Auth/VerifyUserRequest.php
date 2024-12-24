@@ -22,7 +22,7 @@ class VerifyUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|exists:users,email',
+            'email' => 'required|exists:users,email',
             'token' => 'required|string',
         ];
     }
@@ -31,7 +31,6 @@ class VerifyUserRequest extends FormRequest
     {
         return [
             'email.required' => 'Email không được để trống',
-            'email.email' => 'Email không hợp lệ',
             'email.exists' => 'Email không tồn tại',
 
             'token.required' => 'Token không được để trống',
