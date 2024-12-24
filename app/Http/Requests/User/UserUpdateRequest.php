@@ -26,4 +26,27 @@ class UserUpdateRequest extends FormRequest
             'commission_rate' => 'min:0|max:100',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.string' => 'Tên không được để trống',
+            'name.min' => 'Tên tối thiểu 6 ký tự',
+
+            'gender.in' => 'Giới tính không hợp lệ',
+
+            'role_id.in' => 'Cấp bậc không hợp lệ',
+
+            'status.in' => 'Trạng thái không hợp lệ',
+
+            'dob.date_format' => 'Ngày sinh không hợp lệ',
+
+            'media_avatar.image' => 'Ảnh không hợp lệ',
+            'media_avatar.mimes' => 'Ảnh không hợp lệ',
+            'media_avatar.max' => 'Kích thược tối đa 2048 KB',
+
+            'commission_rate.min' => 'Tỉ lệ % hoa hồng tối thiểu 0',
+            'commission_rate.max' => 'Tỉ lệ % hoa hồng tối đa 100',
+        ];
+    }
 }

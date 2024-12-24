@@ -26,4 +26,16 @@ class VerifyUserRequest extends FormRequest
             'token' => 'required|string',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email không hợp lệ',
+            'email.exists' => 'Email không tồn tại',
+
+            'token.required' => 'Token không được để trống',
+            'token.string' => 'Token không hợp lệ',
+        ];
+    }
 }

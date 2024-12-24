@@ -18,4 +18,12 @@ class CartRequest extends FormRequest
             'meta' => 'nullable',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'tab_id.required' => 'Tab không được để trống',
+            'tab_id.exists' => 'Tab không tồn tại',
+        ];
+    }
 }

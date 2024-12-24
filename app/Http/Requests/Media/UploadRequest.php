@@ -20,4 +20,15 @@ class UploadRequest extends FormRequest
             'collection' => ['required', Rule::in([Article::MEDIA_ARTICLE])],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'file.required' => 'File không được để trống',
+            'file.max' => 'Kích thước tối đa 4096 KB',
+
+            'collection.required' => 'Bộ sưu tập không được để trống',
+            'collection.in' => 'Bộ sưu tập không hợp lệ',
+        ];
+    }
 }

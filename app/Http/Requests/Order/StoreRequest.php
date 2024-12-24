@@ -39,4 +39,19 @@ class StoreRequest extends FormRequest
             'bill' => 'bail|nullable|max:2048',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'tab_ids.array' => 'Danh sách tab không hợp lệ',
+            'tab_ids.*.distinct' => 'Tab không hợp lệ',
+            'tab_ids.*.required' => 'Tab không được để trống',
+            'tab_ids.*.exists' => 'Tab đã tồn tại',
+
+            'note.required' => 'Ghi chú không được để trống',
+            'note.string' => 'Ghi chú không hợp lệ',
+
+            'bill.max' => 'Kích thước tối đa 2048 KB',
+        ];
+    }
 }

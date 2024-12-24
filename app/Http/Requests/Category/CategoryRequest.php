@@ -19,4 +19,17 @@ class CategoryRequest extends FormRequest
             'parent_id' => 'nullable|exists:categories,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Tên không được để trống',
+            'name.string' => 'Tên không hợp lệ',
+            'name.max' => 'Tên tối đa 255 ký tự',
+
+            'description.string' => 'Mô tả không hợp lệ',
+
+            'parent_id.exists' => 'Danh mục cha không tồn tại',
+        ];
+    }
 }

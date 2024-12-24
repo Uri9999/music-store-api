@@ -17,4 +17,11 @@ class StatsRequest extends FormRequest
             'year' => 'required',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'year.required' => 'Năm không được để trống',
+        ];
+    }
 }

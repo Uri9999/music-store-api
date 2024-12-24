@@ -19,4 +19,19 @@ class ReviewTabStoreRequest extends FormRequest
             'comment' => 'required|string',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'tab_id.required' => 'Tab không được để trống',
+            'tab_id.exists' => 'Tab không tồn tại',
+
+            'rating.required' => 'Đánh giá không được để trống',
+            'rating.min' => 'Tối thiểu 1',
+            'rating.max' => 'Tối đa 5',
+
+            'comment.required' => 'Bình luận không được để trống',
+            'comment.string' => 'Bình luận không hợp lệ',
+        ];
+    }
 }

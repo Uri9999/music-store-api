@@ -26,10 +26,27 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name' => 'bail|string|min:6',
             'phone' => 'bail|string',
-            'introduce' => 'bail|string',
+            'introduce' => 'nullable|string',
             'gender' => [Rule::in([User::GENDER_MALE, User::GENDER_FEMALE, User::GENDER_OTHER])],
             'dob' => 'required|date_format:Y-m-d',
             'media_avatar' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.string' => 'Tên được để trống',
+            'name.min' => 'Tên tối thiểu 6 ký tự',
+
+            'phone.string' => 'Số điện thoại không được để trống',
+
+            'introduce.string' => 'Giới thiệu không hợp lệ',
+
+            'gender.in' => 'Giới tính không hợp lệ',
+
+            'dob.required' => 'Ngày sinh không hợp để trống',
+            'dob.date_format' => 'Ngày sinh không hợp lệ',
         ];
     }
 }

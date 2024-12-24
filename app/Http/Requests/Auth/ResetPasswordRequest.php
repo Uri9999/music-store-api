@@ -26,4 +26,16 @@ class ResetPasswordRequest extends FormRequest
             'token' => 'required|string',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'token.required' => 'Token được để trống',
+            'token.string' => 'Token không hợp lệ',
+
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email không hợp lệ',
+            'email.exists' => 'Email không hợp lệ',
+        ];
+    }
 }

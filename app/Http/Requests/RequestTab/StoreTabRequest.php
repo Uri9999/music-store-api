@@ -26,4 +26,17 @@ class StoreTabRequest extends FormRequest
             'author' => 'required|string|max:255',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Tên không được để trống',
+            'name.string' => 'Tên không hợp lệ',
+            'name.max' => 'Tên tối đa 255 ký tự',
+
+            'author.required' => 'Tác giả không được để trống',
+            'author.string' => 'Tác giả không hợp lệ',
+            'author.max' => 'Tác giả tối đa 255 ký tự',
+        ];
+    }
 }

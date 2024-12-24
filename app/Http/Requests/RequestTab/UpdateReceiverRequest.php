@@ -25,4 +25,12 @@ class UpdateReceiverRequest extends FormRequest
             'receiver_id' => 'required|exists:users,id',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'receiver_id.required' => 'Người nhận được để trống',
+            'receiver_id.exists' => 'Người nhận không tồn tại',
+        ];
+    }
 }
