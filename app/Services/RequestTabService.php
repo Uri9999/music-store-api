@@ -25,6 +25,9 @@ class RequestTabService implements RequestTabServiceInterface
         if ($status = $request->get('status')) {
             $query = $query->whereIn('status', $status);
         }
+        if ($receiverId = $request->get('user_id')) {
+            $query = $query->where('receiver_id', $receiverId);
+        }
         $requestTabs = $query->paginate(10);
 
         return $requestTabs;

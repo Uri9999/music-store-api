@@ -23,7 +23,10 @@ class CanDeleteArticle
         $article = $articleRepository->find($id);
         $user = $request->user();
         if (!$article->isTypeArticle()) {
-            throw new CustomException('Không thể xóa bài viết.');
+            throw new CustomException('Chỉ Admin mới có quyền thực hiện.');
+        }
+        if ($user->getKey() != $article->user_id) {
+            throw new CustomException('Chỉ tác giả của bài viết mới có thể thực hiện.');
         }
 
         return $next($request);

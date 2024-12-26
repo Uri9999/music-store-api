@@ -21,6 +21,7 @@ use App\Http\Middleware\CheckIsMyOrder;
 use App\Http\Middleware\CheckIsMyCart;
 use App\Http\Middleware\CheckIsMyRequestTab;
 use App\Http\Middleware\DatabaseTransaction;
+use App\Http\Middleware\PrepareRequestAdmin;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -44,6 +45,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'canCreateReviewTab' => CanCreateReviewTab::class,
             'canAddToCart' => CanAddToCart::class,
             'DBTransaction' => DatabaseTransaction::class,
+            'prepareRequestAdmin' => PrepareRequestAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

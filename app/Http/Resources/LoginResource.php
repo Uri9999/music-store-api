@@ -30,6 +30,7 @@ class LoginResource extends JsonResource
             $array['user']['dob'] = $user->dob;
             $array['user']['gender'] = $user->gender;
             $array['user']['role_id'] = $user->role_id;
+            $array['user']['commission_rate'] = $user->commission_rate;
         }
         if ($user->relationLoaded('media')) {
             $array['user']['avatar'] = new MediaResource($user->getMedia(User::MEDIA_AVATAR)->last());

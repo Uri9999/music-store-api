@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Interfaces\OrderItemRepositoryInterface;
 use App\Interfaces\OrderItemServiceInterface;
 use App\Models\Order;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrderItemService implements OrderItemServiceInterface
 {
@@ -22,5 +24,23 @@ class OrderItemService implements OrderItemServiceInterface
         })->exists();
 
         return $orderItem;
+    }
+
+    public function index(Request $request): LengthAwarePaginator
+    {
+        $query = $this->repository->with(['tab', 'user']);
+        if ($userId = $request->get('user_id')) {
+            $query = $query->whereHas('order', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            });
+        }
+        if ($search = $request->get('search')) {
+            $query = $query->whereHas('tab', function ($q) use ($search) {
+                $q->fullTextSearch($search);
+            });
+        }
+        $orderItems = $query->paginate(10);
+
+        return $orderItems;
     }
 }

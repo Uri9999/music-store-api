@@ -25,6 +25,9 @@ class ArticleService implements ArticleServiceInterface
         if ($search = $request->get('search')) {
             $query = $query->fullTextSearch($search);
         }
+        if ($userId = $request->get('user_id')) {
+            $query = $query->where('user_id', $userId);
+        }
         $articles = $query->paginate(10);
 
         return $articles;

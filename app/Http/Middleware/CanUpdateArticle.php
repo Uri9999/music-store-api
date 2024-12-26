@@ -22,8 +22,11 @@ class CanUpdateArticle
         $articleRepository = app(ArticleRepositoryInterface::class);
         $article = $articleRepository->find($id);
         $user = $request->user();
-        if (!$article->isTypeArticle() && !$user->isAdmin()) {
+        if (!$article->isTypeArticle()) {
             throw new CustomException('Chỉ Admin mới có quyền thực hiện.');
+        }
+        if ($user->getKey() != $article->user_id) {
+            throw new CustomException('Chỉ tác giả của bài viết mới có thể thực hiện.');
         }
 
         return $next($request);

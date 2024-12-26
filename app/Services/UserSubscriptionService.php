@@ -79,6 +79,9 @@ class UserSubscriptionService implements UserSubscriptionServiceInterface
         if ($status = $request->get('status')) {
             $query = $query->whereIn('status', $status);
         }
+        if ($introducerId = $request->get('user_id')) {
+            $query = $query->where('introducer_id', $introducerId);
+        }
 
         if ($search = $request->get('search')) {
             $query = $query->whereHas('user', function (Builder $q) use ($search) {

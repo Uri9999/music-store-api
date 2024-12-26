@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Manage\BannerController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Manage\OrderItemController;
 use App\Http\Controllers\MediaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,9 +46,6 @@ Route::middleware('api')->group(function () {
     Route::get('articles', [ArticleController::class, 'getArticle']);
     Route::get('articles/random', [ArticleController::class, 'getRandomArticle']);
     Route::get('articles/{id}', [ArticleController::class, 'getDetailArticle']);
-    // Category
-    // Route::get('categories', [CategoryController::class, 'index']);
-    // Route::get('categories/{id}', [CategoryController::class, 'show']);
 
     Route::get('tabs', [TabController::class, 'index']);
     Route::get('new-tab', [TabController::class, 'getNewTab']);
@@ -82,7 +80,7 @@ Route::middleware('api')->group(function () {
 
 
         Route::get('tabs/get/by-ids', [TabController::class, 'getTabByIds']);
-        
+
         Route::post('/tab/{id}/review', [ReviewTabController::class, 'store'])->middleware('canCreateReviewTab');
 
         Route::get('request-tabs/{id}', [RequestTabController::class, 'show']); // thêm middleware chỉ xem của chính mình
@@ -96,49 +94,61 @@ Route::middleware('api')->group(function () {
         Route::get('subscription/list', [UserSubscriptionController::class, 'listSubscription']);
         Route::get('user-subscriptions', [UserSubscriptionController::class, 'getMyUserSubscription']);
 
-        Route::prefix('manage')->middleware(['role:Admin,Affiliate'])->group(function () {
-            Route::get('request-tabs/by-receiver/{id}', [RequestTabController::class, 'getByReceiverId']);
-        });
+        Route::prefix('admin')->middleware(['role:Admin,Staff,Affiliate'])->group(function () {
+            // Route::get('request-tabs/by-receiver/{id}', [RequestTabController::class, 'getByReceiverId']);
+            // Route::get('/request-tabs', [RequestTabController::class, 'index']);
 
-        Route::prefix('admin')->middleware(['role:Admin'])->group(function () {
-            Route::get('/request-tabs', [RequestTabController::class, 'index']);
+            Route::prefix('categories')->middleware(['role:Admin,Staff'])->group(function () {
+                Route::get('/', [CategoryController::class, 'index']);
+                Route::get('/{id}', [CategoryController::class, 'show']);
+                Route::post('/', action: [CategoryController::class, 'store']);
+                Route::put('/{category}', [CategoryController::class, 'update']);
+                Route::delete('/{category}', [CategoryController::class, 'destroy']);
+            });
 
-            Route::get('categories', [CategoryController::class, 'index']);
-            Route::get('categories/{id}', [CategoryController::class, 'show']);
-            Route::post('categories', [CategoryController::class, 'store']);
-            Route::put('categories/{category}', [CategoryController::class, 'update']);
-            Route::delete('categories/{category}', [CategoryController::class, 'destroy']);
 
-            Route::get('/user', [UserController::class, 'index']);
-            Route::get('/user/manager', [UserController::class, 'getManager']);
+            Route::prefix('user')->middleware(['role:Admin,Staff'])->group(function () {
+                Route::get('/', [UserController::class, 'index']);
+                Route::get('/manager', [UserController::class, 'getManager']);
+                Route::post('/{id}/lock', [UserController::class, 'lock'])->middleware('canLockUser');
+                Route::post('/{id}/unlock', [UserController::class, 'unlock']);
+                Route::get('/{id}', [UserController::class, 'show']);
+                Route::post('/{id}', [UserController::class, 'update']);
+            });
 
-            // only admin
-            Route::post('/user/{id}/lock', [UserController::class, 'lock'])->middleware('canLockUser');
-            Route::post('/user/{id}/unlock', [UserController::class, 'unlock']);
-            Route::get('/user/{id}', [UserController::class, 'show']);
-            Route::post('/user/{id}', [UserController::class, 'update']);
+            // all
+            Route::prefix('')->middleware(['prepareRequestAdmin'])->group(function () {
+                Route::get('request-tabs', [AdminRequestTabController::class, 'index']);
+            });
 
-            Route::get('request-tabs', [AdminRequestTabController::class, 'index']);
-            Route::delete('request-tabs/{id}', [AdminRequestTabController::class, 'destroy']);
-            Route::post('/request-tabs/update-receiver/{requestTab}', [AdminRequestTabController::class, 'updateReceiver'])->middleware('canUpdateRequestTabReceiver');
+            Route::prefix('')->middleware(['role:Admin,Staff'])->group(function () {
+                Route::delete('request-tabs/{id}', [AdminRequestTabController::class, 'destroy']);
+                Route::post('request-tabs/update-receiver/{requestTab}', [AdminRequestTabController::class, 'updateReceiver'])->middleware('canUpdateRequestTabReceiver');
+            });
 
-            Route::get('tabs', [AdminTabController::class, 'index']);
-            Route::post('tabs', [AdminTabController::class, 'store']);
-            Route::get('tabs/{id}', [AdminTabController::class, 'show']);
-            Route::post('tabs/{id}', [AdminTabController::class, 'update']);
-            Route::delete('tabs/{id}', [AdminTabController::class, 'destroy']);
-            Route::delete('tabs/{tabId}/images/{mediaId}', [AdminTabController::class, 'removeTabImage']);
+            Route::prefix('tabs')->middleware(['role:Admin,Staff'])->group(function () {
+                Route::get('/', [AdminTabController::class, 'index']);
+                Route::post('/', [AdminTabController::class, 'store']);
+                Route::get('/{id}', [AdminTabController::class, 'show']);
+                Route::post('/{id}', [AdminTabController::class, 'update']);
+                Route::delete('/{id}', [AdminTabController::class, 'destroy']);
+                Route::delete('/{tabId}/images/{mediaId}', [AdminTabController::class, 'removeTabImage']);
+            });
 
-            Route::get('banners', [BannerController::class, 'index']);
-            Route::get('banners/{id}', [BannerController::class, 'show']);
-            Route::post('banners', [BannerController::class, 'store']);
-            Route::post('banners/{id}', [BannerController::class, 'update']);
-            Route::delete('banners/{id}', [BannerController::class, 'destroy']);
+            Route::prefix('banners')->middleware(['role:Admin,Staff'])->group(function () {
+                Route::get('/', [BannerController::class, 'index']);
+                Route::get('/{id}', [BannerController::class, 'show']);
+                Route::post('/', [BannerController::class, 'store']);
+                Route::post('/{id}', [BannerController::class, 'update']);
+                Route::delete('/{id}', [BannerController::class, 'destroy']);
+            });
 
-            Route::get('orders', [AdminOrderController::class, 'index']);
-            Route::get('orders/{id}', [AdminOrderController::class, 'show']);
-            Route::post('orders/approval/{id}', [AdminOrderController::class, 'approval']);
-            Route::post('orders/cancel/{id}', [AdminOrderController::class, 'cancel']);
+            Route::prefix('orders')->middleware(['role:Admin,Staff'])->group(function () {
+                Route::get('/', [AdminOrderController::class, 'index']);
+                Route::get('/{id}', [AdminOrderController::class, 'show']);
+                Route::post('/approval/{id}', [AdminOrderController::class, 'approval']);
+                Route::post('/cancel/{id}', [AdminOrderController::class, 'cancel']);
+            });
 
             Route::get('articles', [AdminArticleController::class, 'index']);
             Route::get('articles/{id}', [AdminArticleController::class, 'show']);
@@ -148,21 +158,32 @@ Route::middleware('api')->group(function () {
 
             Route::post('media/upload', [MediaController::class, 'upload']);
 
-            Route::get('/user-subscriptions', [AdminUserSubscriptionController::class, 'index']);
-            Route::post('/user-subscriptions/approve/{id}', [AdminUserSubscriptionController::class, 'approve']);
-            Route::post('/user-subscriptions/reject/{id}', [AdminUserSubscriptionController::class, 'reject']);
+            Route::prefix('user-subscriptions')->middleware(['prepareRequestAdmin'])->group(function () {
+                Route::get('/', [AdminUserSubscriptionController::class, 'index']);
+            });
 
-            Route::get('/revenue', [RevenueController::class, 'index']);
-            Route::get('/revenue/{id}', [RevenueController::class, 'show']);
+            Route::prefix('user-subscriptions')->middleware(['role:Admin,Staff'])->group(function () {
+                Route::post('/approve/{id}', [AdminUserSubscriptionController::class, 'approve']);
+                Route::post('/reject/{id}', [AdminUserSubscriptionController::class, 'reject']);
+            });
+
+            Route::prefix('revenue')->middleware(['role:Admin,Staff'])->group(function () {
+                Route::get('/', [RevenueController::class, 'index']);
+                Route::get('/{id}', [RevenueController::class, 'show']);
+            });
 
             Route::get('/dashboard/count', [DashboardController::class, 'getCount']);
             Route::get('/dashboard/user-stats', [DashboardController::class, 'getUserStats']);
             Route::get('/dashboard/order-stats', [DashboardController::class, 'getOrderStats']);
             Route::get('/dashboard/tab-stats', [DashboardController::class, 'getTabStats']);
 
-            Route::get('/review-tab', [AdminReviewTabController::class, 'index']);
-            Route::get('/review-tab/disable/{id}', [AdminReviewTabController::class, 'disable']);
-            Route::get('/review-tab/enable/{id}', [AdminReviewTabController::class, 'enable']);
+            Route::prefix('review-tab')->middleware(['role:Admin,Staff'])->group(function () {
+                Route::get('/', [AdminReviewTabController::class, 'index']);
+                Route::get('/disable/{id}', [AdminReviewTabController::class, 'disable']);
+                Route::get('/enable/{id}', [AdminReviewTabController::class, 'enable']);
+            });
+
+            Route::get('/order-items', [OrderItemController::class, 'index'])->middleware(['prepareRequestAdmin']);
         });
 
     });
