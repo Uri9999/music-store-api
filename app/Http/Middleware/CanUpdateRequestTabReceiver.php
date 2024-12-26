@@ -22,8 +22,8 @@ class CanUpdateRequestTabReceiver
         /** @var UserRepositoryInterface $userRepository */
         $userRepository = app(UserRepositoryInterface::class);
         $user = $userRepository->find($userId);
-        if (!$user->isAffiliate()) {
-            throw new CustomException('Chỉ có thể cập nhật cho người dùng là Affiliate.');
+        if ($user->isUser()) {
+            throw new CustomException('Chỉ có thể cập nhật cho người dùng là Affiliate, Admin, Staff.');
         }
         if (!$user->isStatusActive()) {
             throw new CustomException('Trạng thái người dùng chưa Active.');

@@ -43,11 +43,6 @@ class RequestTabService implements RequestTabServiceInterface
         return $this->requestTabRepository->with('receiver:id,name')->where('user_id', $userId)->get();
     }
 
-    public function getByReceiverId(int $receiverId): LengthAwarePaginator
-    {
-        return $this->requestTabRepository->where('receiver_id', $receiverId)->paginate(config('app.paginate'));
-    }
-
     public function create(array $data): RequestTab
     {
         return $this->requestTabRepository->create($data);
@@ -58,9 +53,9 @@ class RequestTabService implements RequestTabServiceInterface
         return $this->requestTabRepository->update($data, $requestTab->getKey());
     }
 
-    public function statusUpdate(RequestTab $requestTab, int $status): RequestTab
+    public function updateStatus(RequestTab $requestTab, int $status): RequestTab
     {
-        return $this->requestTabRepository->update(['status', $status], $requestTab);
+        return $this->requestTabRepository->update(['status' => $status], $requestTab->getKey());
     }
 
     public function delete(int $id): void

@@ -19,20 +19,6 @@ class RequestTabController extends Controller
         $this->requestTabService = $requestTabService;
     }
 
-    public function index(Request $request): JsonResponse
-    {
-        $paginator = $this->requestTabService->index($request);
-
-        return ApiResponseService::paginate($paginator);
-    }
-
-    public function getByReceiverId(int $receiverId): JsonResponse
-    {
-        $paginator = $this->requestTabService->getByReceiverId($receiverId);
-
-        return ApiResponseService::paginate($paginator);
-    }
-
     public function getCreatedByMy(Request $request): JsonResponse
     {
         $tabs = $this->requestTabService->getCreatedByMy($request->user()->getKey());
@@ -59,13 +45,6 @@ class RequestTabController extends Controller
     public function update(StoreTabRequest $request, RequestTab $requestTab): JsonResponse
     {
         $requestTab = $this->requestTabService->update($requestTab, $request->validated());
-
-        return ApiResponseService::success($requestTab);
-    }
-
-    public function statusUpdate(Request $request, RequestTab $requestTab): JsonResponse
-    {
-        $requestTab = $this->requestTabService->statusUpdate($requestTab, $request->get('status'));
 
         return ApiResponseService::success($requestTab);
     }

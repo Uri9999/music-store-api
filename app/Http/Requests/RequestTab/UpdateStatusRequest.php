@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\RequestTab;
 
+use App\Models\RequestTab;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UpdateReceiverRequest extends FormRequest
+class UpdateStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +24,15 @@ class UpdateReceiverRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'receiver_id' => 'required|exists:users,id',
+            'status' => ['required', Rule::in([RequestTab::STATUS_DEFAULT, RequestTab::STATUS_PROCESSING, RequestTab::STATUS_COMPLETED])],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'receiver_id.required' => 'Người nhận không được để trống',
-            'receiver_id.exists' => 'Người nhận không tồn tại',
+            'status.required' => 'Không được để trống',
+            'status.in' => 'Không hợp lệ',
         ];
     }
 }

@@ -14,13 +14,11 @@ interface RequestTabServiceInterface
 
     public function getCreatedByMy(int $userId);
 
-    public function getByReceiverId(int $receiverId): LengthAwarePaginator;
-
     public function create(array $data): RequestTab;
 
     public function update(RequestTab $requestTab, array $data): RequestTab;
 
-    public function statusUpdate(RequestTab $requestTab, int $status): RequestTab;
+    public function updateStatus(RequestTab $requestTab, int $status): RequestTab;
 
     public function delete(int $id): void;
 }

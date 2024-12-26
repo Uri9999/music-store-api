@@ -120,6 +120,7 @@ Route::middleware('api')->group(function () {
             Route::prefix('')->middleware(['prepareRequestAdmin'])->group(function () {
                 Route::get('request-tabs', [AdminRequestTabController::class, 'index']);
             });
+            Route::post('request-tabs/update-status/{requestTab}', [AdminRequestTabController::class, 'updateStatus']);
 
             Route::prefix('')->middleware(['role:Admin,Staff'])->group(function () {
                 Route::delete('request-tabs/{id}', [AdminRequestTabController::class, 'destroy']);

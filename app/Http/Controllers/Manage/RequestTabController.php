@@ -9,6 +9,7 @@ use App\Services\ApiResponseService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\RequestTab\UpdateReceiverRequest;
+use App\Http\Requests\RequestTab\UpdateStatusRequest;
 
 class RequestTabController extends Controller
 {
@@ -38,5 +39,12 @@ class RequestTabController extends Controller
         $this->requestTabService->delete($id);
 
         return ApiResponseService::success(null, 'Xóa thành công.');
+    }
+
+    public function updateStatus(UpdateStatusRequest $request, RequestTab $requestTab): JsonResponse
+    {
+        $requestTab = $this->requestTabService->updateStatus($requestTab, $request->get('status'));
+
+        return ApiResponseService::success($requestTab, 'Cập nhật thành công.');
     }
 }
