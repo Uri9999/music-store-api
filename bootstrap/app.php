@@ -17,6 +17,7 @@ use App\Http\Middleware\CanLockUser;
 use App\Http\Middleware\CanRegisterSubscription;
 use App\Http\Middleware\CanUpdateArticle;
 use App\Http\Middleware\CanUpdateRequestTabReceiver;
+use App\Http\Middleware\CanUpdateTab;
 use App\Http\Middleware\CheckIsMyOrder;
 use App\Http\Middleware\CheckIsMyCart;
 use App\Http\Middleware\CheckIsMyRequestTab;
@@ -46,6 +47,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'canAddToCart' => CanAddToCart::class,
             'DBTransaction' => DatabaseTransaction::class,
             'prepareRequestAdmin' => PrepareRequestAdmin::class,
+            'canUpdateTab' => CanUpdateTab::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

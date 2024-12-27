@@ -28,9 +28,9 @@ class OrderItemService implements OrderItemServiceInterface
 
     public function index(Request $request): LengthAwarePaginator
     {
-        $query = $this->repository->with(['tab', 'user']);
+        $query = $this->repository->with(['tab', 'user', 'order']);
         if ($userId = $request->get('user_id')) {
-            $query = $query->whereHas('order', function ($q) use ($userId) {
+            $query = $query->whereHas('tab', function ($q) use ($userId) {
                 $q->where('user_id', $userId);
             });
         }

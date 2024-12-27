@@ -25,7 +25,7 @@ class CanDeleteArticle
         if (!$article->isTypeArticle()) {
             throw new CustomException('Chỉ Admin mới có quyền thực hiện.');
         }
-        if ($user->getKey() != $article->user_id) {
+        if ($user->isAffiliate() && $user->getKey() != $article->user_id) {
             throw new CustomException('Chỉ tác giả của bài viết mới có thể thực hiện.');
         }
 

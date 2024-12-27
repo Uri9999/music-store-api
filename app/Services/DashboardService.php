@@ -66,6 +66,9 @@ class DashboardService implements DashboardServiceInterface
         if ($endDate = $request->get('end_date')) {
             $query = $query->whereDate('created_at', '<=', $endDate);
         }
+        if ($userId = $request->get('user_id')) {
+            $query = $query->where('user_id', $userId);
+        }
 
         return $query->count();
     }
@@ -75,6 +78,11 @@ class DashboardService implements DashboardServiceInterface
         $query = $this->orderItemRepository;
         $startDate = $request->get('start_date') ?? null;
         $endDate = $request->get('end_date') ?? null;
+        if ($userId = $request->get('user_id')) {
+            $query = $query->whereHas('tab', function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            });
+        }
         $sum = $query->whereHas('order', function ($query) use ($startDate, $endDate) {
             $query->where('status', Order::STATUS_COMPLETED)
                 ->when($startDate, function ($q, string $startDate) {
@@ -97,6 +105,9 @@ class DashboardService implements DashboardServiceInterface
         }
         if ($endDate = $request->get('end_date')) {
             $query = $query->whereDate('created_at', '<=', $endDate);
+        }
+        if ($userId = $request->get('user_id')) {
+            $query = $query->where('introducer_id', $userId);
         }
 
         $sum = $query->where('status', UserSubscription::STATUS_APPROVED)->sum('price');

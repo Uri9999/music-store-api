@@ -41,6 +41,9 @@ class TabService implements TabServiceInterface
         if ($categories = $request->get('categories')) {
             $query = $query->whereIn('category_id', $categories);
         }
+        if ($userId = $request->get('user_id')) {
+            $query = $query->where('user_id', $userId);
+        }
 
         return $query->orderBy('created_at', 'DESC')->paginate(8);
     }

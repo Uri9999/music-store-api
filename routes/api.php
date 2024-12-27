@@ -107,9 +107,9 @@ Route::middleware('api')->group(function () {
             });
 
 
+            Route::get('user/manager', [UserController::class, 'getManager']);
             Route::prefix('user')->middleware(['role:Admin,Staff'])->group(function () {
                 Route::get('/', [UserController::class, 'index']);
-                Route::get('/manager', [UserController::class, 'getManager']);
                 Route::post('/{id}/lock', [UserController::class, 'lock'])->middleware('canLockUser');
                 Route::post('/{id}/unlock', [UserController::class, 'unlock']);
                 Route::get('/{id}', [UserController::class, 'show']);
@@ -127,12 +127,12 @@ Route::middleware('api')->group(function () {
                 Route::post('request-tabs/update-receiver/{requestTab}', [AdminRequestTabController::class, 'updateReceiver'])->middleware('canUpdateRequestTabReceiver');
             });
 
-            Route::prefix('tabs')->middleware(['role:Admin,Staff'])->group(function () {
-                Route::get('/', [AdminTabController::class, 'index']);
+            Route::prefix('tabs')->group(function () {
+                Route::get('/', [AdminTabController::class, 'index'])->middleware(['prepareRequestAdmin']);
                 Route::post('/', [AdminTabController::class, 'store']);
-                Route::get('/{id}', [AdminTabController::class, 'show']);
-                Route::post('/{id}', [AdminTabController::class, 'update']);
-                Route::delete('/{id}', [AdminTabController::class, 'destroy']);
+                Route::get('/{id}', [AdminTabController::class, 'show'])->middleware('canUpdateTab');
+                Route::post('/{id}', [AdminTabController::class, 'update'])->middleware('canUpdateTab');
+                Route::delete('/{id}', [AdminTabController::class, 'destroy'])->middleware(['role:Admin,Staff']);
                 Route::delete('/{tabId}/images/{mediaId}', [AdminTabController::class, 'removeTabImage']);
             });
 
@@ -173,7 +173,7 @@ Route::middleware('api')->group(function () {
                 Route::get('/{id}', [RevenueController::class, 'show']);
             });
 
-            Route::get('/dashboard/count', [DashboardController::class, 'getCount']);
+            Route::get('/dashboard/count', [DashboardController::class, 'getCount'])->middleware(['prepareRequestAdmin']);
             Route::get('/dashboard/user-stats', [DashboardController::class, 'getUserStats']);
             Route::get('/dashboard/order-stats', [DashboardController::class, 'getOrderStats']);
             Route::get('/dashboard/tab-stats', [DashboardController::class, 'getTabStats']);
