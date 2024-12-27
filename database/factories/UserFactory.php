@@ -55,7 +55,7 @@ class UserFactory extends Factory
     {
         return $this->state(fn(array $attributes) => [
             'name' => 'admin',
-            'email' => 'admin@example.com',
+            'email' => 'zumitabvn@gmail.com',
             'dob' => now(),
             'status' => User::STATUS_ACTIVE,
             'gender' => 1,

@@ -10,14 +10,15 @@ use App\Interfaces\OrderServiceInterface;
 use App\Interfaces\TabRepositoryInterface;
 use App\Interfaces\OrderRepositoryInterface;
 use App\Jobs\CreateNotification;
+use App\Mail\OrderCreatedEmail;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class OrderService implements OrderServiceInterface
 {
@@ -79,6 +80,7 @@ class OrderService implements OrderServiceInterface
             $this->cartRepository->whereIn('tab_id', $tabIds)->where('user_id', $userId)->delete();
 
             CreateNotification::createOrder($order);
+            Mail::to($user->email)->send(new OrderCreatedEmail($user->name, $order->getKey()));
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             throw new OrderException();
