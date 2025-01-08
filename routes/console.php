@@ -11,4 +11,3 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command(SummaryRevenue::class, [])->monthlyOn(1, '01:00');
-Schedule::command(TestCommand::class, [])->hourly();
