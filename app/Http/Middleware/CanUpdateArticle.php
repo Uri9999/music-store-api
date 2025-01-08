@@ -22,7 +22,7 @@ class CanUpdateArticle
         $articleRepository = app(ArticleRepositoryInterface::class);
         $article = $articleRepository->find($id);
         $user = $request->user();
-        if (!$article->isTypeArticle()) {
+        if (!$article->isTypeArticle() && !$user->isAdmin()) {
             throw new CustomException('Chỉ Admin mới có quyền thực hiện.', 403);
         }
         if ($user->isAffiliate() && $user->getKey() != $article->user_id) {
