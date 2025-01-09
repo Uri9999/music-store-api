@@ -50,7 +50,7 @@ Route::middleware('api')->group(function () {
     Route::get('tabs', [TabController::class, 'index']);
     Route::get('new-tab', [TabController::class, 'getNewTab']);
     Route::get('random-tab', [TabController::class, 'getRandomTab']);
-    Route::get('tabs/{id}', [TabController::class, 'show']);
+    Route::get('tabs/{slug}', [TabController::class, 'show']);
     Route::get('tabs/by-user-id/{id}', [TabController::class, 'getTabByUserId']);
     Route::get('user/info/{id}', [CustomerUserController::class, 'show']);
 

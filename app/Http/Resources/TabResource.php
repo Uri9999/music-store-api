@@ -21,6 +21,7 @@ class TabResource extends JsonResource
 
         $array = [
             'id' => $tab->getKey(),
+            'slug' => $tab->slug,
             'name' => $tab->name,
             'description' => $tab->description,
             'user' => $tab?->user,

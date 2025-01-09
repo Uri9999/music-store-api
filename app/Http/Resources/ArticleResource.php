@@ -20,6 +20,7 @@ class ArticleResource extends JsonResource
 
         $array = [
             'id' => $article->getKey(),
+            'slug' => $article->slug,
             'title' => $article->title,
             'content' => $article->content,
             'user_id' => $article->user_id,

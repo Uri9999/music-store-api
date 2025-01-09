@@ -49,5 +49,11 @@ class Article extends Model
         static::creating(function ($article) {
             $article->slug = Str::slug($article->title);
         });
+
+        static::updating(function ($article) {
+            if ($article->isDirty('title')) {
+                $article->slug = Str::slug($article->title);
+            }
+        });
     }
 }

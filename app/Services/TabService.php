@@ -80,7 +80,7 @@ class TabService implements TabServiceInterface
         ])->withCount(['orderItems as total_order_items'])->find($id);
     }
 
-    public function showForUser($id, Request $request): ?Tab
+    public function showForUser(string $slug, Request $request): ?Tab
     {
         $collectFile = [Tab::MEDIA_TAB_IMAGE];
         $boughtStatus = false;
@@ -88,8 +88,10 @@ class TabService implements TabServiceInterface
         /** @var OrderItemServiceInterface $orderItemSerice */
         $orderItemSerice = app(OrderItemServiceInterface::class);
         $user = $request->user();
+        $tab = $this->tabRepository->where('slug', $slug)->firstOrFail();
+        $tabId = $tab->getKey();
         if ($user) {
-            $boughtStatus = $orderItemSerice->checkBoughtTab($id, $user->getKey());
+            $boughtStatus = $orderItemSerice->checkBoughtTab($tabId, $user->getKey());
 
             /** @var UserSubscriptionServiceInterface $userSubscriptionService */
             $userSubscriptionService = app(UserSubscriptionServiceInterface::class);
@@ -109,7 +111,7 @@ class TabService implements TabServiceInterface
             'user.media' => function ($query) {
                 $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
             },
-        ])->withCount(['orderItems as total_order_items'])->find($id);
+        ])->withCount(['orderItems as total_order_items'])->find($tabId);
 
         return $tab;
     }

@@ -43,9 +43,9 @@ class TabController extends Controller
         return ApiResponseService::success($resource); 
     }
 
-    public function show(Request $request, $id): JsonResponse
+    public function show(Request $request, string $slug): JsonResponse
     {
-        $tab = $this->tabService->showForUser($id, $request);
+        $tab = $this->tabService->showForUser($slug, $request);
         $resource = new TabResource($tab);
         
         return ApiResponseService::success($resource);

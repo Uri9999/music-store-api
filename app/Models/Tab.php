@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Support\Str;
 
 class Tab extends Model implements HasMedia
 {
@@ -52,5 +53,20 @@ class Tab extends Model implements HasMedia
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class, 'tab_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($tab) {
+            $tab->slug = Str::slug($tab->name);
+        });
+
+        static::updating(function ($tab) {
+            if ($tab->isDirty('name')) {
+                $tab->slug = Str::slug($tab->name);
+            }
+        });
     }
 }
