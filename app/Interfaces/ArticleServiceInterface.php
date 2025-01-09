@@ -17,6 +17,6 @@ interface ArticleServiceInterface
     public function getPolicy(): ?Article;
     public function getTutorial(): ?Article;
     public function getArticle(Request $request): LengthAwarePaginator;
-    public function getDetailArticle(int $id): ?Article;
+    public function getDetailArticle(string $slug): ?Article;
     public function getRandomArticle(): Collection;
 }

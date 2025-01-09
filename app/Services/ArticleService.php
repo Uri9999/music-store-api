@@ -75,7 +75,7 @@ class ArticleService implements ArticleServiceInterface
         return $article;
     }
 
-    public function getDetailArticle(int $id): ?Article
+    public function getDetailArticle(string $slug): ?Article
     {
         $query = $this->repository->with([
             'user:id,name',
@@ -83,7 +83,7 @@ class ArticleService implements ArticleServiceInterface
                 $query->whereIn('collection_name', [User::MEDIA_AVATAR]);
             }
         ]);
-        $article = $query->where('type', Article::TYPE_ARTICLE)->where('status', Article::STATUS_PUBLIC)->find($id);
+        $article = $query->where('status', Article::STATUS_PUBLIC)->where('slug', $slug)->firstOrFail();
 
         return $article;
     }

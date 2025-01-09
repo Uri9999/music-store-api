@@ -24,9 +24,9 @@ class ArticleController extends Controller
         return ApiResponseService::paginate($paginator, 'success', 200, ArticleResource::class);
     }
 
-    public function getDetailArticle(int $id): JsonResponse
+    public function getDetailArticle(string $slug): JsonResponse
     {
-        $article = $this->service->getDetailArticle($id);
+        $article = $this->service->getDetailArticle($slug);
         $resource = new ArticleResource($article);
 
         return ApiResponseService::success($resource);

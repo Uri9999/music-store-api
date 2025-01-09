@@ -45,7 +45,7 @@ Route::middleware('api')->group(function () {
 
     Route::get('articles', [ArticleController::class, 'getArticle']);
     Route::get('articles/random', [ArticleController::class, 'getRandomArticle']);
-    Route::get('articles/{id}', [ArticleController::class, 'getDetailArticle']);
+    Route::get('articles/{slug}', [ArticleController::class, 'getDetailArticle']);
 
     Route::get('tabs', [TabController::class, 'index']);
     Route::get('new-tab', [TabController::class, 'getNewTab']);
