@@ -9,5 +9,9 @@ class Subscription extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'duration_in_days', 'price', 'description'];
+    protected $fillable = ['name', 'duration_in_days', 'price', 'description', 'feature'];
+
+    protected $casts = [
+        'feature' => 'json',
+    ];
 }
