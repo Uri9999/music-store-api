@@ -15,10 +15,12 @@ class PrepareRequestAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $userId = $request->user()->getKey();
-        $request->merge([
-            'user_id' => $userId,
-        ]);
+        $user = $request->user();
+        if ($user->isAffiliate()) {
+            $request->merge([
+                'user_id' => $user->getKey(),
+            ]);
+        }
 
         return $next($request);
     }
