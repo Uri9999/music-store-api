@@ -95,8 +95,6 @@ Route::middleware('api')->group(function () {
         Route::get('user-subscriptions', [UserSubscriptionController::class, 'getMyUserSubscription']);
 
         Route::prefix('admin')->middleware(['role:Admin,Staff,Affiliate'])->group(function () {
-            // Route::get('request-tabs/by-receiver/{id}', [RequestTabController::class, 'getByReceiverId']);
-            // Route::get('/request-tabs', [RequestTabController::class, 'index']);
 
             Route::prefix('categories')->middleware(['role:Admin,Staff'])->group(function () {
                 Route::get('/', [CategoryController::class, 'index']);
