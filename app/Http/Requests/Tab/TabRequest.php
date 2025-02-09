@@ -23,7 +23,8 @@ class TabRequest extends FormRequest
             'youtube_url' => 'nullable|string',
             'images' => 'required|array|max:5',
             'images.*' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:4096',
-            'pdf' => 'required|mimes:pdf|max:2048'
+            'pdf' => 'required|mimes:pdf|max:2048',
+            'discount_money' => 'nullable|numeric|min:0',
         ];
     }
 
@@ -63,6 +64,9 @@ class TabRequest extends FormRequest
             'pdf.required' => 'File Không được để trống',
             'pdf.mimes' => 'File phải là PDF',
             'pdf.max' => 'Kích thước tối đa 2048 KB',
+
+            'discount_money.numeric' => 'Giá trị không hợp lệ',
+            'discount_money.min' => 'Giá trị không được nhỏ hơn 0',
         ];
     }
 }

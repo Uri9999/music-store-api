@@ -118,7 +118,7 @@ class TabService implements TabServiceInterface
 
     public function create(Request $request): Tab
     {
-        $tab = $this->tabRepository->create(attributes: $request->only(['name', 'description', 'user_id', 'author', 'price', 'category_id', 'youtube_url']));
+        $tab = $this->tabRepository->create(attributes: $request->only(['name', 'description', 'user_id', 'author', 'price', 'category_id', 'youtube_url', 'discount_money']));
         if ($images = $request->file('images')) {
             foreach ($images as $img) {
                 $tab->addMedia($img)
@@ -143,6 +143,7 @@ class TabService implements TabServiceInterface
             'price',
             'category_id',
             'youtube_url',
+            'discount_money'
         ]), $id);
 
         if ($pdf = $request->file('pdf')) {
