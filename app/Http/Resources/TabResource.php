@@ -18,7 +18,8 @@ class TabResource extends JsonResource
     {
         /** @var Tab $tab */
         $tab = $this->resource;
-
+        $discountMoney = $tab->discount_money ?? 0;
+        $priceDiscount = max(0, $tab->price - $discountMoney);
         $array = [
             'id' => $tab->getKey(),
             'slug' => $tab->slug,
@@ -32,7 +33,8 @@ class TabResource extends JsonResource
             'user_id' => $tab->user_id,
             'category_id' => $tab->category_id,
             'total_order_items' => $tab->total_order_items ?? 0,
-            'discount_money' => $tab->discount_money ?? 0,
+            'discount_money' => $discountMoney,
+            'price_discount' => $priceDiscount,
 
         ];
         if ($tab->relationLoaded('media')) {

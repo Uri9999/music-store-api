@@ -54,8 +54,9 @@ class TabController extends Controller
     public function getTabByIds(Request $request): JsonResponse
     {
         $tabs = $this->tabService->getTabByIds($request->get('ids'));
+        $resource = TabResource::collection($tabs);
 
-        return ApiResponseService::success($tabs);
+        return ApiResponseService::success($resource);
     }
 
     public function getTabByUserId(int $id): JsonResponse

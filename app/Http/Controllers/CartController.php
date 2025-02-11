@@ -7,6 +7,7 @@ use App\Services\ApiResponseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\Cart\CartRequest;
+use App\Http\Resources\CartResource;
 
 class CartController extends Controller
 {
@@ -20,8 +21,9 @@ class CartController extends Controller
     public function getByUserId(Request $request): JsonResponse
     {
         $carts = $this->service->getByUserId($request->user()->getKey());
+        $resource = CartResource::collection($carts);
 
-        return ApiResponseService::success($carts);
+        return ApiResponseService::success($resource);
     }
 
     public function getCountByUserId(Request $request): JsonResponse

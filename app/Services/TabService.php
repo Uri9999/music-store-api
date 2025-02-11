@@ -65,7 +65,10 @@ class TabService implements TabServiceInterface
             'media' => function ($q) {
                 $q->where('collection_name', Tab::MEDIA_TAB_IMAGE);
             }
-        ])->withCount(['orderItems as total_order_items'])->inRandomOrder()->take(12)->get();
+        ])
+        ->withCount(['orderItems as total_order_items'])
+        ->orderByDesc('total_order_items')
+        ->take(9)->get();
 
     }
 
@@ -90,6 +93,10 @@ class TabService implements TabServiceInterface
         $user = $request->user();
         $tab = $this->tabRepository->where('slug', $slug)->firstOrFail();
         $tabId = $tab->getKey();
+        $free = false;
+        if ($tab->price <= $tab->discount_money) {
+            $free = true;
+        }
         if ($user) {
             $boughtStatus = $orderItemSerice->checkBoughtTab($tabId, $user->getKey());
 
@@ -97,7 +104,7 @@ class TabService implements TabServiceInterface
             $userSubscriptionService = app(UserSubscriptionServiceInterface::class);
             $checkSubscription = $userSubscriptionService->checkSubscriptionValid($user->getKey());
         }
-        if ($boughtStatus || $checkSubscription) {
+        if ($free || $boughtStatus || $checkSubscription) {
             $collectFile = [Tab::MEDIA_TAB_IMAGE, Tab::MEDIA_TAB_PDF];
         }
 
