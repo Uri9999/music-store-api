@@ -24,7 +24,16 @@ class TabRequest extends FormRequest
             'images' => 'required|array|max:5',
             'images.*' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:4096',
             'pdf' => 'required|mimes:pdf|max:2048',
-            'discount_money' => 'nullable|numeric|min:0',
+            'discount_money' => [
+                'nullable',
+                'numeric',
+                'min:0',
+                function ($attribute, $value, $fail) {
+                    if ($this->get('price') < $value) {
+                        $fail('Giá khuyến mãi không thể nhỏ hơn giá gốc');
+                    }
+                },
+            ],
         ];
     }
 

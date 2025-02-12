@@ -51,13 +51,8 @@ class OrderService implements OrderServiceInterface
             // $totalPrice = $tabs->sum(fn($item) => ($item->price));
             $totalPrice = 0;
             foreach ($tabs as $tab) {
-                $price = $tab->price;
-                $discountMoney = $tab->discount_money;
-                $realPrice = $price - $discountMoney;
-                if ($discountMoney > $price) {
-                    $realPrice = 0;
-                }
-                $totalPrice += $realPrice;
+                $price = $tab->discount_money != null ? $tab->discount_money : $tab->price;
+                $totalPrice += $price;
             }
             $userId = $user->getKey();
             $order = $this->repository->create([
@@ -74,17 +69,15 @@ class OrderService implements OrderServiceInterface
 
             $orderItems = [];
             foreach ($tabs as $tab) {
-                $priceDiscount = max(0, $tab->price - $tab->discount_money);
                 $orderItems[] = [
                     'order_id' => $order->getKey(),
                     'tab_id' => $tab->getKey(),
                     'user_id' => $tab->user_id,
-                    'price' => $priceDiscount,
+                    'price' => $tab->discount_money != null ? $tab->discount_money : $tab->price,
                     'meta' => json_encode([
                         'name' => $tab->name,
                         'price' => $tab->price,
                         'discount_money' => $tab->discount_money,
-                        'price_discount' => $priceDiscount
                     ])
                 ];
             }
